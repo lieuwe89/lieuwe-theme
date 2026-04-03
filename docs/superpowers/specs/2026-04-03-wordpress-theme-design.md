@@ -39,7 +39,7 @@ The site alternates between light (warm cream) and dark (deep warm charcoal) sec
 
 - Generous whitespace throughout.
 - Body content constrained to ~720px max-width for readability.
-- Portfolio grid: 2–3 columns on desktop, 1 on mobile.
+- Portfolio grid: 2 columns on desktop, 1 on mobile.
 - Full-bleed images and hero sections.
 - Light/dark section alternation creates visual rhythm without relying on color complexity.
 
@@ -97,7 +97,7 @@ No content migration required. The theme reads standard WordPress data.
 3. **Portfolio preview** — 3 featured portfolio items in a full-width grid.
 4. **News preview** — 2–3 latest posts in a simple list with date.
 
-The video source is set via a theme option or custom field — switching from image to video requires no code change.
+The video source is set via the WordPress Customizer (a theme setting) — switching from image to video requires no code change.
 
 ### Portfolio Archive (`archive-portfolio.php`)
 
