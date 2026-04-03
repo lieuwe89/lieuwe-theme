@@ -1,0 +1,365 @@
+/*
+Theme Name: Lieuwe Jongsma Custom Theme
+Author: Assistant
+Description: Custom WordPress theme for the personal portfolio of Lieuwe Jongsma — curator, historian, and craftsman.
+Version: 1.0.0
+*/
+
+:root {
+  --color-bg: #F5F0E8;
+  --color-surface: #EDE8DC;
+  --color-bg-dark: #1A1612;
+  --color-text: #1C1917;
+  --color-text-light: #F5F0E8;
+  --color-muted: #6B6560;
+  --color-accent: #C1633A;
+
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+/* CSS Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body, h1, h2, h3, h4, p, figure, blockquote, dl, dd {
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, picture {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--color-accent);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Layout Core */
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.container-wide {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.section-spacing {
+  padding: 6rem 0;
+}
+
+.bg-dark {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-light);
+}
+
+.bg-light {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+.bg-surface {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+}
+
+/* Typography Utilities */
+.small-caps {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.text-muted {
+  color: var(--color-muted);
+}
+
+.bg-dark .text-muted {
+  color: #a39c94;
+}
+
+/* Header & Nav */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  padding: 1.5rem 0;
+  transition: background-color 0.3s ease, padding 0.3s ease;
+  color: var(--color-text-light); /* Default white for hero */
+}
+
+.site-header.scrolled-dark {
+  background-color: rgba(26, 22, 18, 0.95);
+  backdrop-filter: blur(8px);
+  padding: 1rem 0;
+}
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-logo {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.main-nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.main-nav a {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 500;
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .main-nav {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--color-bg-dark);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+  }
+  .main-nav.is-open {
+    display: flex;
+  }
+  .main-nav a {
+    font-size: 1.5rem;
+  }
+  .nav-toggle {
+    display: block;
+    z-index: 101;
+  }
+}
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--color-text-light);
+  overflow: hidden;
+}
+
+.hero-media {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(26, 22, 18, 0.5); /* Dark overlay */
+  z-index: 2;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 3;
+  padding: 0 1.5rem;
+}
+
+.hero-title {
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-style: italic;
+  letter-spacing: 0.02em;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Portfolio Grid */
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.portfolio-card {
+  position: relative;
+  overflow: hidden;
+  height: 60vh;
+  min-height: 400px;
+  background-color: var(--color-bg-dark);
+}
+
+.portfolio-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.portfolio-card:hover img {
+  transform: scale(1.05);
+}
+
+.portfolio-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(26,22,18,0.8) 0%, transparent 50%);
+  display: flex;
+  align-items: flex-end;
+  padding: 3rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.portfolio-card:hover .portfolio-card-overlay {
+  opacity: 1;
+}
+
+.portfolio-card-title {
+  color: var(--color-text-light);
+  font-size: 2rem;
+}
+
+/* Specific inner content layout for WP editor content */
+.entry-content p {
+  margin-bottom: 1.5rem;
+  font-size: 1.125rem;
+}
+.entry-content h2, .entry-content h3 {
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+}
+.entry-content img {
+  margin: 3rem 0;
+  border-radius: 4px;
+}
+
+/* Post list */
+.post-list {
+  list-style: none;
+  padding: 0;
+}
+
+.post-item {
+  padding: 2rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.bg-dark .post-item {
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.post-item-date {
+  font-size: 0.875rem;
+  color: var(--color-accent);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.post-item-title {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+/* Page Headers */
+.page-header {
+  padding: 8rem 0 4rem;
+  text-align: center;
+}
+
+.page-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: 1rem;
+}
+
+/* Blockquote */
+blockquote {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-style: italic;
+  border-left: 4px solid var(--color-accent);
+  padding-left: 1.5rem;
+  margin: 2rem 0;
+}
+
+/* Footer */
+.site-footer {
+  padding: 4rem 0;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.875rem;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
