@@ -48,9 +48,9 @@ Classic WordPress template hierarchy. All styles are in `style.css` (no preproce
 **`functions.php` registers:**
 - Theme support (title-tag, post-thumbnails, html5)
 - Two nav menus: `menu-1` (primary) and `footer`
-- `portfolio` custom post type (slug: `/portfolio/`)
-- Google Fonts + stylesheet + main.js enqueue
-- Customizer section for hero video/image source
+- `portfolio_item` custom post type (URL slug: `/portfolio/`) — note: post type name is `portfolio_item`, not `portfolio`
+- Stylesheet + main.js enqueue; fonts are self-hosted woff2 files in `assets/fonts/`
+- Customizer section delegated to `inc/customizer.php` (hero video/image source)
 
 ## Design system
 

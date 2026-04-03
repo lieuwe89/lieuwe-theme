@@ -46,11 +46,11 @@ add_action( 'wp_enqueue_scripts', 'lieuwe_enqueue_assets' );
  * Skipped if already registered by a plugin (e.g. Elementor Pro).
  */
 function lieuwe_register_portfolio_cpt(): void {
-    if ( post_type_exists( 'portfolio' ) ) {
+    if ( post_type_exists( 'portfolio_item' ) ) {
         return;
     }
 
-    register_post_type( 'portfolio', [
+    register_post_type( 'portfolio_item', [
         'labels' => [
             'name'          => 'Portfolio',
             'singular_name' => 'Portfolio Item',

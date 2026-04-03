@@ -18,7 +18,7 @@
             <div class="entry-content">
                 <?php the_content(); ?>
             </div>
-            <a href="<?php echo esc_url( get_post_type_archive_link( 'portfolio' ) ); ?>" class="back-link">
+            <a href="<?php echo esc_url( get_post_type_archive_link( 'portfolio_item' ) ); ?>" class="back-link">
                 &larr; All work
             </a>
         </div>
