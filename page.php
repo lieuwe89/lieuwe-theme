@@ -1,19 +1,26 @@
 <?php get_header(); ?>
-<main id="primary" class="site-main section-spacing bg-light">
-	<?php while ( have_posts() ) : the_post(); ?>
-		<div class="container page-header">
-			<h1 class="page-title"><?php the_title(); ?></h1>
-		</div>
-		
-		<?php if ( has_post_thumbnail() ) : ?>
-			<div class="container-wide" style="margin-bottom: 3rem;">
-				<?php the_post_thumbnail('full'); ?>
-			</div>
-		<?php endif; ?>
 
-		<div class="container entry-content">
-			<?php the_content(); ?>
-		</div>
-	<?php endwhile; ?>
+<?php while ( have_posts() ) : the_post(); ?>
+
+<main class="static-page">
+    <div class="static-page__header section-dark">
+        <div class="container">
+            <h1 class="static-page__title"><?php the_title(); ?></h1>
+        </div>
+    </div>
+
+    <div class="static-page__content section-light">
+        <div class="container container--narrow">
+            <?php if ( has_post_thumbnail() ) : ?>
+                <?php the_post_thumbnail( 'large', [ 'class' => 'static-page__image' ] ); ?>
+            <?php endif; ?>
+            <div class="entry-content">
+                <?php the_content(); ?>
+            </div>
+        </div>
+    </div>
 </main>
+
+<?php endwhile; ?>
+
 <?php get_footer(); ?>

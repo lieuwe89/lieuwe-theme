@@ -1,29 +1,39 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Mobile navigation toggle
-    const navToggle = document.getElementById('nav-toggle');
-    const mainNav = document.getElementById('site-navigation');
-    
-    if (navToggle && mainNav) {
-        navToggle.addEventListener('click', () => {
-            mainNav.classList.toggle('is-open');
-            const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
-            navToggle.setAttribute('aria-expanded', !isExpanded);
-            navToggle.textContent = mainNav.classList.contains('is-open') ? '✕' : '☰';
-        });
-    }
+(function () {
+  'use strict';
 
-    // Header scroll effect
-    const header = document.getElementById('masthead');
-    const heroSection = document.querySelector('.hero-section');
-    
-    if (header) {
-        window.addEventListener('scroll', () => {
-            // Change bg after 100px scroll
-            if (window.scrollY > 100) {
-                header.classList.add('scrolled-dark');
-            } else {
-                header.classList.remove('scrolled-dark');
-            }
-        });
+  const header = document.getElementById('site-header');
+  const toggle = document.getElementById('nav-toggle');
+  const nav    = document.getElementById('site-nav');
+  const heroEl = document.querySelector('.hero');
+
+  // ── Scroll: add dark background to header once past hero ──────────────────
+  function onScroll() {
+    const threshold = heroEl ? heroEl.offsetHeight * 0.8 : 80;
+    if (window.scrollY > threshold) {
+      header.classList.add('is-scrolled');
+    } else {
+      header.classList.remove('is-scrolled');
     }
-});
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll(); // run once on load
+
+  // ── Mobile nav toggle ──────────────────────────────────────────────────────
+  if (toggle && nav) {
+    toggle.addEventListener('click', function () {
+      const isOpen = nav.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', String(isOpen));
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    // Close nav when a link is clicked
+    nav.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        nav.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      });
+    });
+  }
+}());

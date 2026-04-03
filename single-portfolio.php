@@ -1,29 +1,31 @@
 <?php get_header(); ?>
-<main id="primary" class="site-main">
-	<?php while ( have_posts() ) : the_post(); ?>
-        
-        <?php if ( has_post_thumbnail() ) : ?>
-            <div class="hero-section">
-                <?php the_post_thumbnail('full', array('class' => 'hero-media')); ?>
-                <div class="hero-overlay"></div>
-                <div class="hero-content">
-                    <h1 class="hero-title"><?php the_title(); ?></h1>
-                </div>
-            </div>
-        <?php else : ?>
-            <div class="hero-section bg-dark">
-                <div class="hero-content">
-                    <h1 class="hero-title"><?php the_title(); ?></h1>
-                </div>
-            </div>
-        <?php endif; ?>
 
-		<div class="section-spacing bg-light">
-            <div class="container entry-content">
+<?php while ( have_posts() ) : the_post(); ?>
+
+<main class="single-portfolio">
+
+    <?php if ( has_post_thumbnail() ) : ?>
+        <div class="single-portfolio__hero">
+            <?php the_post_thumbnail( 'full', [ 'class' => 'single-portfolio__hero-image' ] ); ?>
+        </div>
+    <?php else : ?>
+        <div class="single-portfolio__hero single-portfolio__hero--empty section-dark"></div>
+    <?php endif; ?>
+
+    <article class="single-portfolio__content section-light">
+        <div class="container container--narrow">
+            <h1 class="single-portfolio__title"><?php the_title(); ?></h1>
+            <div class="entry-content">
                 <?php the_content(); ?>
             </div>
+            <a href="<?php echo esc_url( get_post_type_archive_link( 'portfolio' ) ); ?>" class="back-link">
+                &larr; All work
+            </a>
         </div>
+    </article>
 
-	<?php endwhile; ?>
 </main>
+
+<?php endwhile; ?>
+
 <?php get_footer(); ?>
