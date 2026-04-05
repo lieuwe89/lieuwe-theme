@@ -72,6 +72,16 @@ Layout utilities: `.container` (720px max), `.container-wide` (1200px max), `.se
 
 The site alternates light and dark sections for visual rhythm. The header is fixed and gains `.scrolled-dark` (dark bg) via JS after 100px of scroll.
 
+## Versioning
+
+The theme version is set in the `Version:` field at the top of `style.css`. **Always bump this before committing and pushing any meaningful change.**
+
+Use semantic versioning:
+- `1.0.0 → 1.1.0` — new features or bug fixes
+- `1.1.0 → 1.1.1` — minor tweaks or copy changes
+
+**Why this matters:** The live site is deployed by downloading a zip from GitHub and uploading it via WordPress admin (Appearance → Themes → Upload Theme). If the version number is unchanged, WordPress will not replace existing theme files — meaning new files will never reach the server.
+
 ## Docs
 
 - `docs/superpowers/specs/2026-04-03-wordpress-theme-design.md` — full visual design spec (colors, typography, layout principles, page-by-page breakdown, edge cases)
