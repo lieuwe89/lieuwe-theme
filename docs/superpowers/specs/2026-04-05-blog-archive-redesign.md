@@ -24,9 +24,10 @@ Each post renders as a `.news-row` flex container:
 ### Image column
 
 - Width: **55%** of the row
-- Aspect ratio: **3 / 2**
-- `object-fit: cover`, no caption
-- If the post has no featured image: render a solid `--color-surface` block at the same dimensions (no alt text placeholder, no icon)
+- Height: natural — the image renders at its intrinsic aspect ratio (`object-fit: contain` or simply `width: 100%; height: auto; display: block`). No fixed aspect ratio is enforced.
+- The text column stretches to match the image height via flexbox (`align-items: stretch`); text is vertically centred within that height
+- No caption
+- If the post has no featured image: render a solid `--color-surface` block at a fallback height of `300px` (no icon, no alt text placeholder)
 
 ### Text column
 
@@ -63,7 +64,7 @@ Unchanged from current: dark band (`.section-dark`, `--color-bg-dark` background
 
 - Rows stack vertically: image on top, text below
 - Alternation is dropped — all rows are image-top, text-bottom
-- Image: full width, aspect ratio 16/9
+- Image: full width, natural aspect ratio preserved (`width: 100%; height: auto`)
 - Text padding: 20px 16px
 - Title font size: 18px
 
