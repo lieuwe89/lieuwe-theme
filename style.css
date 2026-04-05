@@ -150,6 +150,13 @@ p + p {
     max-width: var(--max-width);
 }
 
+.container-wide {
+    width: 100%;
+    max-width: var(--max-width-wide);
+    margin-inline: auto;
+    padding-inline: var(--space-md);
+}
+
 .section-light {
     background-color: var(--color-bg);
     color: var(--color-text);
