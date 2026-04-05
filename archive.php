@@ -18,25 +18,36 @@
     </div>
 
     <div class="section-light">
-        <div class="container">
+        <div class="container-wide">
             <?php if ( have_posts() ) : ?>
-                <ul class="news-list">
-                    <?php while ( have_posts() ) : the_post(); ?>
-                        <li class="news-list__item">
-                            <time class="news-list__date" datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>">
-                                <?php echo esc_html( get_the_date( 'j F Y' ) ); ?>
-                            </time>
-                            <div class="news-list__body">
-                                <a href="<?php the_permalink(); ?>" class="news-list__title">
+                <div class="news-rows">
+                    <?php $i = 0; while ( have_posts() ) : the_post(); ?>
+                        <article class="news-row<?php echo ( $i % 2 !== 0 ) ? ' news-row--reverse' : ''; ?>">
+
+                            <?php if ( has_post_thumbnail() ) : ?>
+                                <?php the_post_thumbnail( 'full', [
+                                    'class' => 'news-row__img',
+                                    'alt'   => esc_attr( get_the_title() ),
+                                ] ); ?>
+                            <?php else : ?>
+                                <div class="news-row__img-placeholder" aria-hidden="true"></div>
+                            <?php endif; ?>
+
+                            <div class="news-row__body">
+                                <time class="news-row__date" datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>">
+                                    <?php echo esc_html( get_the_date( 'j F Y' ) ); ?>
+                                </time>
+                                <a href="<?php the_permalink(); ?>" class="news-row__title">
                                     <?php the_title(); ?>
                                 </a>
-                                <?php if ( has_excerpt() ) : ?>
-                                    <p class="news-list__excerpt"><?php the_excerpt(); ?></p>
-                                <?php endif; ?>
+                                <a href="<?php the_permalink(); ?>" class="news-row__link" aria-hidden="true" tabindex="-1">
+                                    Read &rarr;
+                                </a>
                             </div>
-                        </li>
-                    <?php endwhile; ?>
-                </ul>
+
+                        </article>
+                    <?php $i++; endwhile; ?>
+                </div>
 
                 <div class="archive-pagination">
                     <?php
