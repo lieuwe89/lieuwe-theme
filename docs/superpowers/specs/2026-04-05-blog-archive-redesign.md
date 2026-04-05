@@ -24,10 +24,11 @@ Each post renders as a `.news-row` flex container:
 ### Image column
 
 - Width: **55%** of the row
-- Height: natural — the image renders at its intrinsic aspect ratio (`object-fit: contain` or simply `width: 100%; height: auto; display: block`). No fixed aspect ratio is enforced.
-- The text column stretches to match the image height via flexbox (`align-items: stretch`); text is vertically centred within that height
-- No caption
-- If the post has no featured image: render a solid `--color-surface` block at a fallback height of `300px` (no icon, no alt text placeholder)
+- Height: natural — the image renders at its intrinsic aspect ratio (`width: 100%; height: auto; display: block`). No fixed aspect ratio is enforced.
+- Maximum image height: `500px`. Images taller than this are cropped with `object-fit: cover` so the row doesn't become unwieldy. Wide and square images are unaffected.
+- The text column stretches to match the image height via flexbox (`align-items: stretch`); text is vertically centred within that height.
+- No caption.
+- If the post has no featured image: render a solid `--color-surface` block at a fallback height of `300px` (no icon, no alt text placeholder).
 
 ### Text column
 
