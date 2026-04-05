@@ -2,7 +2,7 @@
 Theme Name: Lieuwe Jongsma Custom Theme
 Author: Lieuwe Jongsma
 Description: Custom portfolio theme for lieuwejongsma.nl — cinematic, editorial, warm.
-Version: 1.1.2
+Version: 1.2.0
 License: GNU General Public License v2 or later
 Text Domain: lieuwe-theme
 */
@@ -389,6 +389,30 @@ p + p {
     display: block;
 }
 
+.home-intro .container--narrow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--space-xl);
+    max-width: 900px;
+    align-items: center;
+}
+
+.home-intro .container--narrow > *:first-child {
+    grid-column: 1;
+    grid-row: 1 / span 10;
+    align-self: start;
+}
+
+.home-intro .container--narrow > *:not(:first-child) {
+    grid-column: 2;
+}
+
+.home-intro .container--narrow > *:first-child img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
 /* Portfolio preview */
 .home-portfolio {
     padding-block: var(--space-xl);
@@ -645,6 +669,7 @@ p + p {
 
 .entry-content p {
     margin-top: var(--space-sm);
+    background-color: transparent !important;
 }
 
 .entry-content img {
@@ -884,13 +909,34 @@ p + p {
 }
 
 .static-page__content .entry-content ul li::before {
-    content: "→";
+    content: "›";
     position: absolute;
     left: 0;
     color: var(--color-accent);
-    font-size: 0.7em;
-    top: 0.45em;
+    font-size: 0.65em;
+    top: 0.4em;
     line-height: 1;
+}
+
+/* About page: Education + Professional experience side by side */
+.page-about .entry-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--space-xl);
+}
+
+.page-about .entry-content > * {
+    grid-column: 1 / -1;
+}
+
+.page-about .entry-content > :nth-last-child(4) { grid-column: 1; grid-row: 100; }
+.page-about .entry-content > :nth-last-child(3) { grid-column: 1; grid-row: 101; }
+.page-about .entry-content > :nth-last-child(2) { grid-column: 2; grid-row: 100; }
+.page-about .entry-content > :nth-last-child(1) { grid-column: 2; grid-row: 101; }
+
+/* Education and Professional ULs: single column internally */
+.page-about .entry-content ul:nth-last-of-type(-n+2) {
+    columns: 1;
 }
 
 /* ==========================================================================

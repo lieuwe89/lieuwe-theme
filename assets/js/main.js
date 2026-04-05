@@ -36,4 +36,34 @@
       });
     });
   }
+  // ── Video thumbnails: capture first frame for cards without featured image ──
+  document.querySelectorAll('.portfolio-card__video-thumb').forEach(function (el) {
+    var videoUrl = el.dataset.video;
+    if ( ! videoUrl ) return;
+
+    var video = document.createElement('video');
+    video.muted      = true;
+    video.preload    = 'metadata';
+    video.crossOrigin = 'anonymous';
+
+    video.addEventListener('loadedmetadata', function () {
+      video.currentTime = 0.001;
+    });
+
+    video.addEventListener('seeked', function () {
+      var canvas  = document.createElement('canvas');
+      canvas.width  = video.videoWidth  || 640;
+      canvas.height = video.videoHeight || 480;
+      canvas.className = 'portfolio-card__image';
+      try {
+        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+        el.replaceWith(canvas);
+      } catch (e) {
+        // CORS or decode error — leave the placeholder div in place
+      }
+    });
+
+    video.src = videoUrl;
+    video.load();
+  });
 }());

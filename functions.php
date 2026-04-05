@@ -68,3 +68,14 @@ function lieuwe_register_portfolio_cpt(): void {
     ] );
 }
 add_action( 'init', 'lieuwe_register_portfolio_cpt' );
+
+/**
+ * Add page-specific body classes.
+ */
+function lieuwe_body_classes( array $classes ): array {
+    if ( is_page( 'about' ) ) {
+        $classes[] = 'page-about';
+    }
+    return $classes;
+}
+add_filter( 'body_class', 'lieuwe_body_classes' );
