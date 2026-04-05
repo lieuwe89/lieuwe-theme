@@ -13,5 +13,8 @@
 wp-config.php
 wp-content/uploads/
 
+# Brainstorming sessions
+.superpowers/
+
 # Docker
 docker-compose.override.yml
