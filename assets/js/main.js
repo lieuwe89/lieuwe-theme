@@ -6,6 +6,11 @@
   const nav    = document.getElementById('site-nav');
   const heroEl = document.querySelector('.hero');
 
+  // ── Mark hero pages so CSS can hide the site name until scrolled ──────────
+  if (heroEl) {
+    header.classList.add('hero-page');
+  }
+
   // ── Scroll: add dark background to header once past hero ──────────────────
   function onScroll() {
     const threshold = heroEl ? heroEl.offsetHeight * 0.8 : 80;
