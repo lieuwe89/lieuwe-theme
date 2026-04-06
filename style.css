@@ -2,7 +2,7 @@
 Theme Name: Lieuwe Jongsma Custom Theme
 Author: Lieuwe Jongsma
 Description: Custom portfolio theme for lieuwejongsma.nl — cinematic, editorial, warm.
-Version: 1.2.0
+Version: 1.2.2
 License: GNU General Public License v2 or later
 Text Domain: lieuwe-theme
 */
@@ -540,7 +540,7 @@ p + p {
 
 @media (max-width: 768px) {
     .home-portfolio__grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .home-news__item {
@@ -673,9 +673,56 @@ p + p {
 }
 
 .entry-content img {
-    width: 100%;
+    max-width: 100%;
     height: auto;
     margin-block: var(--space-lg);
+}
+
+/* WordPress native gallery block */
+.entry-content .wp-block-gallery {
+    margin-block: var(--space-lg);
+}
+
+.entry-content .wp-block-gallery .wp-block-image img {
+    margin-block: 0;
+}
+
+/* Classic [gallery] shortcode output */
+.entry-content .gallery {
+    display: grid;
+    gap: var(--space-sm);
+    margin-block: var(--space-lg);
+}
+
+.entry-content .gallery-columns-2 { grid-template-columns: repeat(2, 1fr); }
+.entry-content .gallery-columns-3 { grid-template-columns: repeat(3, 1fr); }
+.entry-content .gallery-columns-4 { grid-template-columns: repeat(4, 1fr); }
+
+.entry-content .gallery-item {
+    margin: 0;
+    overflow: hidden;
+}
+
+.entry-content .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin-block: 0;
+    display: block;
+}
+
+.entry-content .gallery-caption {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    text-align: center;
+    margin-top: 0.25rem;
+}
+
+@media (max-width: 600px) {
+    .entry-content .gallery-columns-3,
+    .entry-content .gallery-columns-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 .entry-content a {
