@@ -52,15 +52,25 @@
         <?php
         $portfolio_query = new WP_Query( [
             'post_type'      => 'portfolio_item',
-            'posts_per_page' => 3,
+            'posts_per_page' => 4,
             'no_found_rows'  => true,
         ] );
+        ?>
+
+        <?php
+        // Find the canvas page URL once, before the loop
+        $canvas_pages = get_pages( [
+            'meta_key'   => '_wp_page_template',
+            'meta_value' => 'portfolio-canvas',
+            'number'     => 1,
+        ] );
+        $canvas_url = $canvas_pages ? get_permalink( $canvas_pages[0]->ID ) : '';
         ?>
 
         <?php if ( $portfolio_query->have_posts() ) : ?>
             <div class="home-portfolio__grid">
                 <?php while ( $portfolio_query->have_posts() ) : $portfolio_query->the_post(); ?>
-                    <a href="<?php the_permalink(); ?>" class="portfolio-card">
+                    <a href="<?php echo esc_url( $canvas_url . '#item-' . get_the_ID() ); ?>" class="portfolio-card">
                         <?php if ( has_post_thumbnail() ) : ?>
                             <?php the_post_thumbnail( 'large', [ 'class' => 'portfolio-card__image' ] ); ?>
                         <?php else : ?>
@@ -76,7 +86,7 @@
                 <?php endwhile; ?>
                 <?php wp_reset_postdata(); ?>
             </div>
-            <a href="<?php echo esc_url( get_post_type_archive_link( 'portfolio' ) ); ?>" class="home-section-link">
+            <a href="<?php echo esc_url( $canvas_url ); ?>" class="home-section-link">
                 View all work
             </a>
         <?php else : ?>
