@@ -16,14 +16,9 @@
                             <?php if ( has_post_thumbnail() ) : ?>
                                 <?php the_post_thumbnail( 'large', [ 'class' => 'portfolio-card__image' ] ); ?>
                             <?php else : ?>
-                                <?php
-                                $video_url = get_post_meta( get_the_ID(), 'portfolio_video', true );
-                                $thumb_url = ( $video_url && function_exists( 'portfolio_canvas_video_thumbnail' ) )
-                                    ? portfolio_canvas_video_thumbnail( $video_url )
-                                    : '';
-                                ?>
-                                <?php if ( $thumb_url ) : ?>
-                                    <img src="<?php echo esc_url( $thumb_url ); ?>" class="portfolio-card__image" alt="<?php the_title_attribute(); ?>">
+                                <?php $video_url = get_post_meta( get_the_ID(), 'portfolio_video', true ); ?>
+                                <?php if ( $video_url ) : ?>
+                                    <div class="portfolio-card__image portfolio-card__video-thumb" data-video="<?php echo esc_url( $video_url ); ?>"></div>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <span class="portfolio-card__title"><?php the_title(); ?></span>
