@@ -71,16 +71,7 @@
             <div class="home-portfolio__grid">
                 <?php while ( $portfolio_query->have_posts() ) : $portfolio_query->the_post(); ?>
                     <a href="<?php echo esc_url( $canvas_url . '#item-' . get_the_ID() ); ?>" class="portfolio-card">
-                        <?php if ( has_post_thumbnail() ) : ?>
-                            <?php the_post_thumbnail( 'large', [ 'class' => 'portfolio-card__image' ] ); ?>
-                        <?php else : ?>
-                            <?php $video_url = get_post_meta( get_the_ID(), 'portfolio_video', true ); ?>
-                            <?php if ( $video_url ) : ?>
-                                <div class="portfolio-card__image portfolio-card__video-thumb" data-video="<?php echo esc_url( $video_url ); ?>"></div>
-                            <?php else : ?>
-                                <div class="portfolio-card__image portfolio-card__image--empty"></div>
-                            <?php endif; ?>
-                        <?php endif; ?>
+                        <?php the_post_thumbnail( 'large', [ 'class' => 'portfolio-card__image' ] ); ?>
                         <span class="portfolio-card__title"><?php the_title(); ?></span>
                     </a>
                 <?php endwhile; ?>

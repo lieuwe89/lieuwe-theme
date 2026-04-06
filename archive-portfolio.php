@@ -13,16 +13,7 @@
                 <div class="portfolio-grid">
                     <?php while ( have_posts() ) : the_post(); ?>
                         <a href="<?php the_permalink(); ?>" class="portfolio-card">
-                            <?php if ( has_post_thumbnail() ) : ?>
-                                <?php the_post_thumbnail( 'large', [ 'class' => 'portfolio-card__image' ] ); ?>
-                            <?php else : ?>
-                                <?php $video_url = get_post_meta( get_the_ID(), 'portfolio_video', true ); ?>
-                                <?php if ( $video_url ) : ?>
-                                    <div class="portfolio-card__image portfolio-card__video-thumb" data-video="<?php echo esc_url( $video_url ); ?>"></div>
-                                <?php else : ?>
-                                    <div class="portfolio-card__image portfolio-card__image--empty"></div>
-                                <?php endif; ?>
-                            <?php endif; ?>
+                            <?php the_post_thumbnail( 'large', [ 'class' => 'portfolio-card__image' ] ); ?>
                             <span class="portfolio-card__title"><?php the_title(); ?></span>
                         </a>
                     <?php endwhile; ?>
