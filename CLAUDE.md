@@ -80,7 +80,16 @@ Use semantic versioning:
 - `1.0.0 → 1.1.0` — new features or bug fixes
 - `1.1.0 → 1.1.1` — minor tweaks or copy changes
 
-**Why this matters:** The live site is deployed by downloading a zip from GitHub and uploading it via WordPress admin (Appearance → Themes → Upload Theme). If the version number is unchanged, WordPress will not replace existing theme files — meaning new files will never reach the server.
+**After committing a version bump, always create a matching annotated git tag:**
+
+```bash
+git tag -a v1.2.3 HEAD -m "Release v1.2.3 — short description of changes"
+git push origin main --tags
+```
+
+GitHub creates a downloadable `.zip` for every tag automatically (under Releases → Tags). This is what gets uploaded to WordPress.
+
+**Why this matters:** The live site is deployed by downloading a zip from GitHub and uploading it via WordPress admin (Appearance → Themes → Upload Theme). If the version number is unchanged, WordPress will not replace existing theme files — meaning new files will never reach the server. Tags make each deployable version permanently addressable.
 
 ## Docs
 
