@@ -1,9 +1,5 @@
 <footer class="site-footer section-dark">
     <div class="site-footer__inner container">
-        <span class="site-footer__name">
-            <?php bloginfo( 'name' ); ?>
-        </span>
-
         <?php
         wp_nav_menu( [
             'theme_location' => 'footer',
@@ -15,7 +11,7 @@
 
         <div class="site-footer__right">
             <a
-                href="https://www.instagram.com/lieuwejongsma"
+                href="https://www.instagram.com/lieuwe_jongsma/"
                 class="site-footer__instagram"
                 target="_blank"
                 rel="noopener noreferrer"
