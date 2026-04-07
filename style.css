@@ -2,7 +2,7 @@
 Theme Name: Lieuwe Jongsma Custom Theme
 Author: Lieuwe Jongsma
 Description: Custom portfolio theme for lieuwejongsma.nl — cinematic, editorial, warm.
-Version: 1.3.6
+Version: 1.4.0
 License: GNU General Public License v2 or later
 Text Domain: lieuwe-theme
 */
@@ -1084,6 +1084,44 @@ p + p {
 .site-footer__copy {
     font-size: 0.75rem;
     color: var(--color-muted);
+}
+
+.site-footer__playground {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    transition: color 0.2s ease;
+}
+
+.site-footer__playground:hover {
+    color: var(--color-accent);
+}
+
+/* Playground page */
+.playground-page__header {
+    padding-block: var(--space-xl);
+}
+
+.playground-page__title {
+    margin-bottom: var(--space-xs);
+}
+
+.playground-page__subtitle {
+    color: var(--color-muted);
+    font-size: 1rem;
+    margin: 0;
+}
+
+.playground-page__content {
+    padding-block: var(--space-xl);
+    min-height: 40vh;
+}
+
+.playground-page__empty {
+    color: var(--color-muted);
+    font-style: italic;
 }
 
 @media (max-width: 768px) {
