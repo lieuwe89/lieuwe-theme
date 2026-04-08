@@ -10,7 +10,7 @@
         ?>
 
         <div class="site-footer__right">
-            <a href="<?php echo esc_url( home_url( '/playground/' ) ); ?>" class="site-footer__playground">Playground</a>
+            <a href="https://playground.lieuwejongsma.nl" class="site-footer__playground" target="_blank" rel="noopener noreferrer">Playground</a>
             <a
                 href="https://www.instagram.com/lieuwe_jongsma/"
                 class="site-footer__instagram"
