@@ -11,7 +11,7 @@
 
     <div class="playground-page__content section-light">
         <div class="container">
-            <p class="playground-page__empty">No projects yet — check back soon.</p>
+            <p class="playground-page__intro">Explore my experiments at <a href="https://playground.lieuwejongsma.nl" target="_blank" rel="noopener noreferrer">playground.lieuwejongsma.nl</a>.</p>
         </div>
     </div>
 
