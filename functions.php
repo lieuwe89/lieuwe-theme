@@ -121,8 +121,11 @@ function lieuwe_save_portfolio_meta_box( int $post_id ): void {
         return;
     }
 
-    $featured = isset( $_POST['lieuwe_featured'] ) ? '1' : '0';
-    update_post_meta( $post_id, '_lieuwe_featured', $featured );
+    if ( isset( $_POST['lieuwe_featured'] ) ) {
+        update_post_meta( $post_id, '_lieuwe_featured', '1' );
+    } else {
+        delete_post_meta( $post_id, '_lieuwe_featured' );
+    }
 
     if ( isset( $_POST['portfolio_video'] ) ) {
         update_post_meta( $post_id, 'portfolio_video', esc_url_raw( $_POST['portfolio_video'] ) );

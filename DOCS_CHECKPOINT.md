@@ -6,6 +6,7 @@
   - Implemented a "Feature on Front Page" checkbox to prioritize portfolio items on the landing page.
   - Added a "Portfolio Video URL (MP4)" field to the meta box for easier video management.
   - Updated `front-page.php` query to prioritize featured items while maintaining fallback logic for a full grid (4 items).
+  - Fixed a sorting issue where featured items weren't properly prioritized by refining the `meta_query` and saving logic.
 - **Current State:**
   - Feature is implemented and integrated into the existing portfolio grid.
   - Admin interface now allows direct management of featured items and portfolio video URLs.

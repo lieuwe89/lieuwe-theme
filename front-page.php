@@ -57,7 +57,8 @@
                 'relation' => 'OR',
                 'featured_clause' => [
                     'key'     => '_lieuwe_featured',
-                    'compare' => 'EXISTS',
+                    'value'   => '1',
+                    'compare' => '=',
                 ],
                 'not_featured_clause' => [
                     'key'     => '_lieuwe_featured',
