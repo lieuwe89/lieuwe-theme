@@ -53,6 +53,21 @@
         $portfolio_query = new WP_Query( [
             'post_type'      => 'portfolio_item',
             'posts_per_page' => 4,
+            'meta_query'     => [
+                'relation' => 'OR',
+                'featured_clause' => [
+                    'key'     => '_lieuwe_featured',
+                    'compare' => 'EXISTS',
+                ],
+                'not_featured_clause' => [
+                    'key'     => '_lieuwe_featured',
+                    'compare' => 'NOT EXISTS',
+                ],
+            ],
+            'orderby'        => [
+                'featured_clause' => 'DESC',
+                'date'            => 'DESC',
+            ],
             'no_found_rows'  => true,
         ] );
         ?>
