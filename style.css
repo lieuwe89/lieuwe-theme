@@ -441,7 +441,8 @@ p + p {
 
 .portfolio-card__image {
     width: 100%;
-    aspect-ratio: 3 / 2;
+    height: auto;
+    aspect-ratio: 1 / 1;
     display: block;
     object-fit: cover;
     transition: transform 0.5s ease;
