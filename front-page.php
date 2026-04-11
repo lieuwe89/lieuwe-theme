@@ -54,15 +54,9 @@
             'post_type'      => 'portfolio_item',
             'posts_per_page' => 4,
             'meta_query'     => [
-                'relation' => 'OR',
                 'featured_clause' => [
                     'key'     => '_lieuwe_featured',
-                    'value'   => '1',
-                    'compare' => '=',
-                ],
-                'not_featured_clause' => [
-                    'key'     => '_lieuwe_featured',
-                    'compare' => 'NOT EXISTS',
+                    'compare' => 'EXISTS',
                 ],
             ],
             'orderby'        => [

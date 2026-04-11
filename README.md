@@ -64,6 +64,21 @@ Defined as CSS custom properties in `:root`:
 | `--font-heading` | Playfair Display | H1–H6, hero, blockquotes |
 | `--font-body` | DM Sans | Body, nav, labels |
 
+## Portfolio Management
+
+This theme includes custom support for a `portfolio_item` post type (also supported by the "Portfolio Canvas" plugin).
+
+### Custom Fields (Meta)
+- **Feature on Front Page:** Checkbox in the sidebar of the portfolio editor. Featured items are prioritized in the homepage grid.
+- **Portfolio Video URL (MP4):** Input for a direct MP4 link. If provided, it will be used as a thumbnail or hero video where applicable.
+- **Portfolio Year:** Year of the project (managed by the plugin).
+- **Portfolio Category:** Taxonomy for filtering (managed by the plugin).
+
+### Homepage Grid
+The homepage displays a grid of 4 portfolio items. It follows this logic:
+1. Show up to 4 items marked as "Featured".
+2. If fewer than 4 are featured, fill the remaining slots with the most recent non-featured items.
+
 ## Docs
 
 - [`docs/superpowers/specs/2026-04-03-wordpress-theme-design.md`](docs/superpowers/specs/2026-04-03-wordpress-theme-design.md) — full visual design spec

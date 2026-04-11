@@ -67,7 +67,7 @@ function lieuwe_register_portfolio_cpt(): void {
         'menu_icon'    => 'dashicons-portfolio',
     ] );
 }
-add_action( 'init', 'lieuwe_register_portfolio_cpt' );
+add_action( 'init', 'lieuwe_register_portfolio_cpt', 5 );
 
 /**
  * Add meta box for Portfolio Items.
