@@ -2,7 +2,7 @@
 Theme Name: Lieuwe Jongsma Custom Theme
 Author: Lieuwe Jongsma
 Description: Custom portfolio theme for lieuwejongsma.nl — cinematic, editorial, warm.
-Version: 1.5.3
+Version: 1.5.4
 License: GNU General Public License v2 or later
 Text Domain: lieuwe-theme
 */
@@ -998,60 +998,54 @@ p + p {
     margin-top: 0;
 }
 
-/* CF7 puts each field in a <p>; normalise margin */
+/* CF7 wraps the input inside the label (<label>text<br><span><input/></span></label>).
+   So the <label> IS the row — we make it a 2-column grid. */
+
+/* Each <p> is just a block wrapper, no layout of its own */
 .page-contact .entry-content form p {
-    margin: 0;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
 }
 
-/* ── Each field row ───────────────────────────────────────────────────────── */
-
-.page-contact .entry-content form p:not(:has(input[type="submit"])):not(:has(button[type="submit"])) {
-    display: flex;
-    align-items: flex-start;
-    gap: 2rem;
-    border-top: 1px solid rgba(28, 25, 23, 0.13);
-    padding: 1.75rem 0;
-    margin: 0;
-}
-
-/* Top border on first field row */
-.page-contact .entry-content form p:first-of-type {
-    border-top: 1px solid rgba(28, 25, 23, 0.13);
-}
-
-/* Bottom border on last non-submit row */
-.page-contact .entry-content form p:not(:has(input[type="submit"])):not(:has(button[type="submit"])):last-of-type {
-    border-bottom: 1px solid rgba(28, 25, 23, 0.13);
-}
-
-/* Focus: accent the top border of the active row */
-.page-contact .entry-content form p:focus-within {
-    border-top-color: var(--color-accent);
-}
-
-/* ── Label — left column, sticky while scrolling tall textareas ──────────── */
+/* ── Each label IS the row: left = field name, right = input ─────────────── */
 
 .page-contact .entry-content form label {
-    flex: 0 0 130px;
-    padding-top: 0.15rem;
+    display: grid !important;
+    grid-template-columns: 130px 1fr !important;
+    align-items: start !important;
+    gap: 2rem !important;
+    width: 100% !important;
+    border-top: 1px solid rgba(28, 25, 23, 0.13) !important;
+    padding: 1.75rem 0 !important;
+    box-sizing: border-box !important;
     font-family: var(--font-body) !important;
     font-size: 0.6875rem !important;
-    font-weight: 500;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-    color: var(--color-muted);
-    position: sticky;
-    top: calc(var(--nav-height) + 1.75rem);
-    background: transparent;
-    margin: 0;
+    font-weight: 500 !important;
+    letter-spacing: 0.13em !important;
+    text-transform: uppercase !important;
+    color: var(--color-muted) !important;
+    cursor: text !important;
+    margin: 0 !important;
+    position: static !important;
 }
 
-/* ── CF7's control-wrap span stretches to fill right column ─────────────── */
+/* Focus: top border turns terracotta */
+.page-contact .entry-content form label:focus-within {
+    border-top-color: var(--color-accent) !important;
+}
+
+/* Hide the <br> CF7 places between label text and input span */
+.page-contact .entry-content form label br {
+    display: none !important;
+}
+
+/* ── CF7's control-wrap span: second grid column ─────────────────────────── */
 
 .page-contact .entry-content form .wpcf7-form-control-wrap {
-    flex: 1;
-    display: block;
-    width: 100%;
+    display: block !important;
+    width: 100% !important;
 }
 
 /* ── All text-like inputs ────────────────────────────────────────────────── */
@@ -1177,18 +1171,13 @@ p + p {
     background: transparent !important;
 }
 
-/* ── Mobile: stack label above input ─────────────────────────────────────── */
+/* ── Mobile: collapse to single column ───────────────────────────────────── */
 
 @media (max-width: 600px) {
-    .page-contact .entry-content form p:not(:has(input[type="submit"])):not(:has(button[type="submit"])) {
-        flex-direction: column;
-        gap: 0.375rem;
-        padding: 1.25rem 0;
-    }
-
     .page-contact .entry-content form label {
-        flex: none;
-        position: static;
+        grid-template-columns: 1fr !important;
+        gap: 0.375rem !important;
+        padding: 1.25rem 0 !important;
         font-size: 0.625rem !important;
     }
 
