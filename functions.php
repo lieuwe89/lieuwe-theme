@@ -140,6 +140,9 @@ function lieuwe_body_classes( array $classes ): array {
     if ( is_page( 'about' ) ) {
         $classes[] = 'page-about';
     }
+    if ( is_page( 'contact' ) || is_page( 'kontakt' ) ) {
+        $classes[] = 'page-contact';
+    }
     return $classes;
 }
 add_filter( 'body_class', 'lieuwe_body_classes' );
