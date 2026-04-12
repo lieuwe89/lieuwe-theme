@@ -2,7 +2,7 @@
 Theme Name: Lieuwe Jongsma Custom Theme
 Author: Lieuwe Jongsma
 Description: Custom portfolio theme for lieuwejongsma.nl — cinematic, editorial, warm.
-Version: 1.5.4
+Version: 1.5.5
 License: GNU General Public License v2 or later
 Text Domain: lieuwe-theme
 */
@@ -1017,7 +1017,7 @@ p + p {
     align-items: start !important;
     gap: 2rem !important;
     width: 100% !important;
-    border-top: 1px solid rgba(28, 25, 23, 0.13) !important;
+    border-bottom: 1px solid rgba(28, 25, 23, 0.13) !important;
     padding: 1.75rem 0 !important;
     box-sizing: border-box !important;
     font-family: var(--font-body) !important;
@@ -1033,7 +1033,7 @@ p + p {
 
 /* Focus: top border turns terracotta */
 .page-contact .entry-content form label:focus-within {
-    border-top-color: var(--color-accent) !important;
+    border-bottom-color: var(--color-accent) !important;
 }
 
 /* Hide the <br> CF7 places between label text and input span */
