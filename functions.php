@@ -24,18 +24,20 @@ add_action( 'after_setup_theme', 'lieuwe_setup' );
  * Enqueue styles and scripts.
  */
 function lieuwe_enqueue_assets(): void {
+    $version = wp_get_theme()->get( 'Version' );
+
     wp_enqueue_style(
         'lieuwe-theme',
         get_stylesheet_uri(),
         [],
-        '1.0.0'
+        $version
     );
 
     wp_enqueue_script(
         'lieuwe-main',
         get_template_directory_uri() . '/assets/js/main.js',
         [],
-        '1.0.0',
+        $version,
         true
     );
 }
