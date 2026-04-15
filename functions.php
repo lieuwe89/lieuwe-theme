@@ -146,6 +146,14 @@ function lieuwe_cf7_load_on_contact_only(): void {
 }
 add_action( 'wp_enqueue_scripts', 'lieuwe_cf7_load_on_contact_only', 1 );
 
+function lieuwe_dequeue_recaptcha_sitewide(): void {
+    if ( ! is_page( 'contact' ) && ! is_page( 'kontakt' ) ) {
+        wp_dequeue_script( 'google-recaptcha' );
+        wp_deregister_script( 'google-recaptcha' );
+    }
+}
+add_action( 'wp_enqueue_scripts', 'lieuwe_dequeue_recaptcha_sitewide', 99 );
+
 /**
  * Add page-specific body classes.
  */
