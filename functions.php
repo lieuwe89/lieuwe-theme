@@ -136,6 +136,17 @@ function lieuwe_save_portfolio_meta_box( int $post_id ): void {
 add_action( 'save_post_portfolio_item', 'lieuwe_save_portfolio_meta_box' );
 
 /**
+ * Load CF7 scripts/styles only on the contact page, not sitewide.
+ */
+function lieuwe_cf7_load_on_contact_only(): void {
+    if ( ! is_page( 'contact' ) && ! is_page( 'kontakt' ) ) {
+        add_filter( 'wpcf7_load_js',  '__return_false' );
+        add_filter( 'wpcf7_load_css', '__return_false' );
+    }
+}
+add_action( 'wp_enqueue_scripts', 'lieuwe_cf7_load_on_contact_only', 1 );
+
+/**
  * Add page-specific body classes.
  */
 function lieuwe_body_classes( array $classes ): array {
