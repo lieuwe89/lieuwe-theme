@@ -189,6 +189,26 @@ p + p {
     color: var(--color-text);
 }
 
+/* Non-hero pages: opaque cream nav from the start */
+.site-header:not(.hero-page) {
+    background-color: var(--color-bg);
+    box-shadow: 0 1px 0 var(--color-surface);
+}
+
+.site-header:not(.hero-page) .site-header__name,
+.site-header:not(.hero-page) .site-nav__list a {
+    color: var(--color-text);
+}
+
+.site-header:not(.hero-page) .site-nav__list a:hover {
+    color: var(--color-accent);
+    opacity: 1;
+}
+
+.site-header:not(.hero-page) .nav-toggle__bar {
+    background-color: var(--color-text);
+}
+
 /* On hero pages, hide the name until scrolled past hero or nav is open */
 .hero-page .site-header__name {
     opacity: 0;
