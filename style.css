@@ -2,70 +2,38 @@
 Theme Name: Lieuwe Jongsma Custom Theme
 Author: Lieuwe Jongsma
 Description: Custom portfolio theme for lieuwejongsma.nl — cinematic, editorial, warm.
-Version: 1.5.8
+Version: 1.6.0
 License: GNU General Public License v2 or later
 Text Domain: lieuwe-theme
 */
 
 /* ==========================================================================
-   Fonts (self-hosted woff2 — place files in assets/fonts/)
+   Fonts
+   Sorts Mill Goudy: Frederic Goudy's old-style serif, early 20th century
+   Jost: Futura-influenced 1920s geometric sans
+   (Replace @import with self-hosted @font-face for production)
    ========================================================================== */
 
-@font-face {
-    font-family: 'Playfair Display';
-    src: url('assets/fonts/PlayfairDisplay-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Playfair Display';
-    src: url('assets/fonts/PlayfairDisplay-Italic.woff2') format('woff2');
-    font-weight: 400;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Playfair Display';
-    src: url('assets/fonts/PlayfairDisplay-Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'DM Sans';
-    src: url('assets/fonts/DMSans-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'DM Sans';
-    src: url('assets/fonts/DMSans-Medium.woff2') format('woff2');
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-}
+@import url('https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy:ital@0;1&family=Jost:wght@300;400;500&display=swap');
 
 /* ==========================================================================
    Design System
    ========================================================================== */
 
 :root {
-    --color-bg:         #F5F0E8;
-    --color-surface:    #EDE8DC;
-    --color-bg-dark:    #1A1612;
-    --color-text:       #1C1917;
-    --color-text-light: #F5F0E8;
-    --color-muted:      #6B6560;
-    --color-accent:     #C1633A;
+    /* Warm tonal palette — all sections live in the light */
+    --color-bg:         oklch(96% 0.012 79);   /* natural linen */
+    --color-surface:    oklch(93% 0.016 72);   /* ochre-tinted surface */
+    --color-warm:       oklch(89% 0.022 67);   /* dusty ochre */
+    --color-blush:      oklch(92% 0.020 52);   /* terracotta wash */
+    --color-hero-empty: oklch(28% 0.018 65);   /* warm dark for empty hero */
+    --color-text:       oklch(22% 0.012 68);   /* warm dark brown */
+    --color-text-light: oklch(96% 0.012 79);   /* cream — for text on dark surfaces */
+    --color-muted:      oklch(56% 0.014 72);   /* warm medium */
+    --color-accent:     oklch(55% 0.12 48);    /* terracotta */
 
-    --font-display: 'Playfair Display', Georgia, serif;
-    --font-body:    'DM Sans', system-ui, sans-serif;
+    --font-display: 'Sorts Mill Goudy', Georgia, serif;
+    --font-body:    'Jost', system-ui, sans-serif;
 
     --max-width:      720px;
     --max-width-wide: 1200px;
@@ -123,11 +91,12 @@ ul {
 
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    font-weight: 700;
+    font-weight: 400;
     line-height: 1.15;
+    font-kerning: normal;
 }
 
-h1 { font-size: clamp(2.5rem, 6vw, 5rem); }
+h1 { font-size: clamp(2.5rem, 6vw, 5rem); letter-spacing: 0.01em; }
 h2 { font-size: clamp(1.75rem, 4vw, 3rem); }
 h3 { font-size: clamp(1.25rem, 3vw, 2rem); }
 
@@ -157,13 +126,23 @@ p + p {
     padding-inline: var(--space-md);
 }
 
+/* ==========================================================================
+   Section Utilities
+   ========================================================================== */
+
 .section-light {
     background-color: var(--color-bg);
     color: var(--color-text);
 }
 
+/* section-dark: now the warm tonal default — no more charcoal */
 .section-dark {
-    background-color: var(--color-bg-dark);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+}
+
+.section-terracotta {
+    background-color: var(--color-accent);
     color: var(--color-text-light);
 }
 
@@ -178,11 +157,12 @@ p + p {
     right: 0;
     z-index: 100;
     height: var(--nav-height);
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .site-header.is-scrolled {
-    background-color: var(--color-bg-dark);
+    background-color: var(--color-bg);
+    box-shadow: 0 1px 0 oklch(89% 0.022 67);
 }
 
 .site-header__inner {
@@ -198,11 +178,15 @@ p + p {
 .site-header__name {
     font-family: var(--font-display);
     font-size: 1.1rem;
-    font-weight: 700;
+    font-weight: 400;
     color: var(--color-text-light);
     letter-spacing: 0.02em;
     white-space: nowrap;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.4s ease, color 0.3s ease;
+}
+
+.site-header.is-scrolled .site-header__name {
+    color: var(--color-text);
 }
 
 /* On hero pages, hide the name until scrolled past hero or nav is open */
@@ -227,15 +211,24 @@ p + p {
 .site-nav__list a {
     font-family: var(--font-body);
     font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
+    font-weight: 400;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--color-text-light);
-    transition: color 0.2s ease;
+    transition: color 0.2s ease, opacity 0.2s ease;
 }
 
 .site-nav__list a:hover {
+    opacity: 0.65;
+}
+
+.site-header.is-scrolled .site-nav__list a {
+    color: var(--color-text);
+}
+
+.site-header.is-scrolled .site-nav__list a:hover {
     color: var(--color-accent);
+    opacity: 1;
 }
 
 /* Hamburger button */
@@ -255,9 +248,13 @@ p + p {
 .nav-toggle__bar {
     display: block;
     width: 100%;
-    height: 2px;
+    height: 1.5px;
     background-color: var(--color-text-light);
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+}
+
+.site-header.is-scrolled .nav-toggle__bar {
+    background-color: var(--color-text);
 }
 
 /* Hamburger open state */
@@ -282,7 +279,7 @@ p + p {
     .site-nav {
         position: fixed;
         inset: 0;
-        background-color: var(--color-bg-dark);
+        background-color: var(--color-accent);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -305,7 +302,12 @@ p + p {
 
     .site-nav__list a {
         font-size: 1rem;
-        letter-spacing: 0.15em;
+        letter-spacing: 0.18em;
+        color: var(--color-text-light);
+    }
+
+    .site-nav__list a:hover {
+        opacity: 0.65;
     }
 }
 
@@ -340,13 +342,13 @@ p + p {
 }
 
 .hero__image--empty {
-    background-color: var(--color-bg-dark);
+    background-color: var(--color-hero-empty);
 }
 
 .hero__overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.45);
+    background: oklch(0% 0 0 / 0.42);
 }
 
 .hero__content {
@@ -360,20 +362,20 @@ p + p {
 .hero__title {
     font-family: var(--font-display);
     font-size: clamp(3rem, 8vw, 7rem);
-    font-weight: 700;
+    font-weight: 400;
     color: var(--color-text-light);
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
     line-height: 1.05;
 }
 
 .hero__tagline {
     margin-top: var(--space-sm);
     font-family: var(--font-body);
-    font-size: clamp(0.875rem, 2vw, 1.125rem);
-    font-weight: 400;
-    letter-spacing: 0.2em;
+    font-size: clamp(0.75rem, 1.5vw, 0.9375rem);
+    font-weight: 300;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: rgba(245, 240, 232, 0.75);
+    color: oklch(96% 0.012 79 / 0.7);
 }
 
 /* ==========================================================================
@@ -408,15 +410,18 @@ p + p {
     display: block;
 }
 
-/* Portfolio preview */
+/* Portfolio preview — warmer ochre section */
 .home-portfolio {
     padding-block: var(--space-xl);
+    background-color: var(--color-warm);
+    color: var(--color-text);
 }
 
 .home-portfolio__heading,
 .home-news__heading {
     font-family: var(--font-display);
     font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 400;
     margin-bottom: var(--space-lg);
     color: inherit;
 }
@@ -445,7 +450,7 @@ p + p {
     aspect-ratio: 1 / 1;
     display: block;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .portfolio-card:hover .portfolio-card__image {
@@ -458,11 +463,12 @@ p + p {
     left: 0;
     right: 0;
     padding: var(--space-sm);
-    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    background: linear-gradient(to top, oklch(0% 0 0 / 0.65), transparent);
     color: var(--color-text-light);
     font-family: var(--font-display);
     font-size: 1rem;
     font-weight: 400;
+    font-style: italic;
     opacity: 0;
     transform: translateY(4px);
     transition: opacity 0.3s ease, transform 0.3s ease;
@@ -493,11 +499,12 @@ p + p {
 
 .home-news__date {
     flex-shrink: 0;
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--color-muted);
     min-width: 130px;
+    font-weight: 400;
 }
 
 .home-news__title {
@@ -515,9 +522,9 @@ p + p {
 /* Shared: section link + empty state */
 .home-section-link {
     display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--color-accent);
     border-bottom: 1px solid currentColor;
@@ -526,7 +533,7 @@ p + p {
 }
 
 .home-section-link:hover {
-    opacity: 0.7;
+    opacity: 0.65;
 }
 
 .home-empty {
@@ -556,11 +563,13 @@ p + p {
 .portfolio-archive__header {
     padding-block: var(--space-xl);
     padding-top: calc(var(--nav-height) + var(--space-xl));
+    background-color: var(--color-warm);
+    color: var(--color-text);
 }
 
 .portfolio-archive__title {
     font-size: clamp(2.5rem, 6vw, 5rem);
-    color: var(--color-text-light);
+    color: var(--color-text);
 }
 
 .portfolio-grid {
@@ -578,7 +587,7 @@ p + p {
 
 .archive-pagination .page-numbers {
     font-size: 0.875rem;
-    font-weight: 500;
+    font-weight: 400;
     color: var(--color-muted);
     transition: color 0.2s ease;
 }
@@ -613,6 +622,7 @@ p + p {
 
 .single-portfolio__hero--empty {
     display: flex;
+    background-color: var(--color-warm);
 }
 
 .single-portfolio__hero-image {
@@ -635,9 +645,9 @@ p + p {
 .back-link {
     display: inline-block;
     margin-top: var(--space-lg);
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--color-muted);
     transition: color 0.2s ease;
@@ -761,9 +771,13 @@ p + p {
 
 .entry-content blockquote {
     margin-block: var(--space-lg);
-    padding-left: var(--space-md);
-    border-left: 3px solid var(--color-accent);
+    padding-block: var(--space-md);
+    border-top: 1px solid var(--color-surface);
+    border-bottom: 1px solid var(--color-surface);
+    font-family: var(--font-display);
     font-style: italic;
+    font-size: 1.25em;
+    line-height: 1.5;
     color: var(--color-muted);
 }
 
@@ -774,14 +788,16 @@ p + p {
 .news-archive__header {
     padding-block: var(--space-xl);
     padding-top: calc(var(--nav-height) + var(--space-xl));
+    background-color: var(--color-blush);
+    color: var(--color-text);
 }
 
 .news-archive__title {
     font-size: clamp(2.5rem, 6vw, 5rem);
-    color: var(--color-text-light);
+    color: var(--color-text);
 }
 
-/* --- Staggered rows (replaces .news-list) --- */
+/* --- Staggered rows --- */
 
 .news-rows {
     padding-block: var(--space-md);
@@ -827,15 +843,16 @@ p + p {
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--color-accent);
+    font-weight: 400;
 }
 
 .news-row__title {
     display: block;
     font-family: var(--font-display);
-    font-size: 1.25rem;
+    font-size: 1.375rem;
     font-weight: 400;
     color: var(--color-text);
-    line-height: 1.4;
+    line-height: 1.35;
     transition: color 0.2s ease;
 }
 
@@ -846,9 +863,10 @@ p + p {
 .news-row__link {
     display: block;
     font-size: 0.6875rem;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--color-accent);
+    font-weight: 400;
 }
 
 @media (max-width: 1024px) {
@@ -914,16 +932,17 @@ p + p {
 
 .single-post__date {
     display: block;
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--color-muted);
+    color: var(--color-accent);
+    font-weight: 400;
     margin-bottom: var(--space-sm);
 }
 
 .single-post__title {
     font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 700;
+    font-weight: 400;
     color: var(--color-text);
     line-height: 1.1;
 }
@@ -941,11 +960,13 @@ p + p {
 .static-page__header {
     padding-block: var(--space-xl);
     padding-top: calc(var(--nav-height) + var(--space-xl));
+    background-color: var(--color-warm);
+    color: var(--color-text);
 }
 
 .static-page__title {
     font-size: clamp(2.5rem, 6vw, 5rem);
-    color: var(--color-text-light);
+    color: var(--color-text);
 }
 
 .static-page__content {
@@ -982,15 +1003,9 @@ p + p {
     line-height: 1;
 }
 
-
 /* ==========================================================================
-   Contact Page — row layout inspired by eva-habermann.com
-   Scoped to body.page-contact (auto-applied by functions.php for slug
-   "contact" or "kontakt" — no template assignment required).
-   Targets CF7, WPForms, Gravity Forms and plain HTML forms.
+   Contact Page
    ========================================================================== */
-
-/* ── Wrapper: remove plugin default margins/padding ─────────────────────── */
 
 .page-contact .entry-content .wpcf7,
 .page-contact .entry-content .wpforms-container,
@@ -998,10 +1013,6 @@ p + p {
     margin-top: 0;
 }
 
-/* CF7 wraps the input inside the label (<label>text<br><span><input/></span></label>).
-   So the <label> IS the row — we make it a 2-column grid. */
-
-/* Each <p> is just a block wrapper, no layout of its own */
 .page-contact .entry-content form p {
     display: block !important;
     margin: 0 !important;
@@ -1009,21 +1020,19 @@ p + p {
     border: none !important;
 }
 
-/* ── Each label IS the row: left = field name, right = input ─────────────── */
-
 .page-contact .entry-content form label {
     display: grid !important;
     grid-template-columns: 130px 1fr !important;
     align-items: start !important;
     gap: 2rem !important;
     width: 100% !important;
-    border-bottom: 1px solid rgba(28, 25, 23, 0.13) !important;
+    border-bottom: 1px solid oklch(22% 0.012 68 / 0.13) !important;
     padding: 1.75rem 0 !important;
     box-sizing: border-box !important;
     font-family: var(--font-body) !important;
     font-size: 0.6875rem !important;
-    font-weight: 500 !important;
-    letter-spacing: 0.13em !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.14em !important;
     text-transform: uppercase !important;
     color: var(--color-muted) !important;
     cursor: text !important;
@@ -1031,24 +1040,18 @@ p + p {
     position: static !important;
 }
 
-/* Focus: top border turns terracotta */
 .page-contact .entry-content form label:focus-within {
     border-bottom-color: var(--color-accent) !important;
 }
 
-/* Hide the <br> CF7 places between label text and input span */
 .page-contact .entry-content form label br {
     display: none !important;
 }
-
-/* ── CF7's control-wrap span: second grid column ─────────────────────────── */
 
 .page-contact .entry-content form .wpcf7-form-control-wrap {
     display: block !important;
     width: 100% !important;
 }
-
-/* ── All text-like inputs ────────────────────────────────────────────────── */
 
 .page-contact .entry-content form input[type="text"],
 .page-contact .entry-content form input[type="email"],
@@ -1073,8 +1076,6 @@ p + p {
     box-sizing: border-box;
 }
 
-/* ── Textarea ────────────────────────────────────────────────────────────── */
-
 .page-contact .entry-content form textarea {
     display: block !important;
     width: 100% !important;
@@ -1095,20 +1096,16 @@ p + p {
     box-sizing: border-box;
 }
 
-/* ── Placeholder in terracotta italic ────────────────────────────────────── */
-
 .page-contact .entry-content form input::placeholder,
 .page-contact .entry-content form textarea::placeholder {
     color: var(--color-accent) !important;
-    opacity: 0.6;
+    opacity: 0.55;
     font-style: italic;
 }
 
-/* ── Validation ──────────────────────────────────────────────────────────── */
-
 .page-contact .entry-content form input.wpcf7-not-valid,
 .page-contact .entry-content form textarea.wpcf7-not-valid {
-    color: #c0392b !important;
+    color: oklch(45% 0.15 25) !important;
 }
 
 .page-contact .entry-content .wpcf7-not-valid-tip {
@@ -1116,10 +1113,8 @@ p + p {
     margin-top: 0.375rem;
     font-size: 0.6875rem;
     letter-spacing: 0.06em;
-    color: #c0392b;
+    color: oklch(45% 0.15 25);
 }
-
-/* ── Submit row ──────────────────────────────────────────────────────────── */
 
 .page-contact .entry-content form p:has(input[type="submit"]),
 .page-contact .entry-content form p:has(button[type="submit"]) {
@@ -1134,9 +1129,9 @@ p + p {
     display: inline-block !important;
     padding: 1rem 3rem !important;
     font-family: var(--font-body) !important;
-    font-size: 0.8125rem !important;
-    font-weight: 500;
-    letter-spacing: 0.14em;
+    font-size: 0.75rem !important;
+    font-weight: 400;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--color-bg) !important;
     background: var(--color-text) !important;
@@ -1155,8 +1150,6 @@ p + p {
     background: var(--color-accent) !important;
 }
 
-/* ── CF7 response message ────────────────────────────────────────────────── */
-
 .page-contact .entry-content .wpcf7-spinner {
     vertical-align: middle;
     margin-left: 0.75rem;
@@ -1167,11 +1160,9 @@ p + p {
     padding: 0.75rem 0 !important;
     font-size: 0.875rem;
     border: none !important;
-    border-top: 2px solid var(--color-accent) !important;
+    border-top: 1px solid var(--color-accent) !important;
     background: transparent !important;
 }
-
-/* ── Mobile: collapse to single column ───────────────────────────────────── */
 
 @media (max-width: 600px) {
     .page-contact .entry-content form label {
@@ -1204,11 +1195,13 @@ p + p {
 .search-page__header {
     padding-block: var(--space-xl);
     padding-top: calc(var(--nav-height) + var(--space-xl));
+    background-color: var(--color-surface);
+    color: var(--color-text);
 }
 
 .search-page__title {
     font-size: clamp(1.5rem, 4vw, 3rem);
-    color: var(--color-text-light);
+    color: var(--color-text);
     font-weight: 400;
 }
 
@@ -1226,6 +1219,8 @@ p + p {
     display: flex;
     align-items: center;
     padding-top: var(--nav-height);
+    background-color: var(--color-warm);
+    color: var(--color-text);
 }
 
 .error-404__inner {
@@ -1238,15 +1233,15 @@ p + p {
 .error-404__number {
     font-family: var(--font-display);
     font-size: clamp(6rem, 20vw, 16rem);
-    font-weight: 700;
-    color: var(--color-text-light);
+    font-weight: 400;
+    color: var(--color-text);
     line-height: 1;
-    opacity: 0.15;
+    opacity: 0.12;
 }
 
 .error-404__message {
     font-size: 1.25rem;
-    color: var(--color-text-light);
+    color: var(--color-text);
     margin-top: calc(-1 * var(--space-xl));
 }
 
@@ -1270,7 +1265,7 @@ p + p {
 .site-footer__name {
     font-family: var(--font-display);
     font-size: 1.1rem;
-    font-weight: 700;
+    font-weight: 400;
     color: var(--color-text-light);
 }
 
@@ -1281,16 +1276,16 @@ p + p {
 }
 
 .site-footer__nav a {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--color-muted);
+    color: oklch(96% 0.012 79 / 0.6);
     transition: color 0.2s ease;
 }
 
 .site-footer__nav a:hover {
-    color: var(--color-accent);
+    color: var(--color-text-light);
 }
 
 .site-footer__right {
@@ -1301,39 +1296,42 @@ p + p {
 }
 
 .site-footer__instagram {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--color-accent);
+    color: var(--color-text-light);
     transition: opacity 0.2s ease;
 }
 
 .site-footer__instagram:hover {
-    opacity: 0.75;
+    opacity: 0.65;
 }
 
 .site-footer__copy {
-    font-size: 0.75rem;
-    color: var(--color-muted);
+    font-size: 0.6875rem;
+    color: oklch(96% 0.012 79 / 0.5);
 }
 
 .site-footer__playground {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--color-muted);
+    color: oklch(96% 0.012 79 / 0.6);
     transition: color 0.2s ease;
 }
 
 .site-footer__playground:hover {
-    color: var(--color-accent);
+    color: var(--color-text-light);
 }
 
 /* Playground page */
 .playground-page__header {
     padding-block: var(--space-xl);
+    padding-top: calc(var(--nav-height) + var(--space-xl));
+    background-color: var(--color-surface);
+    color: var(--color-text);
 }
 
 .playground-page__title {
@@ -1408,4 +1406,12 @@ a:focus-visible,
 button:focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 3px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
 }

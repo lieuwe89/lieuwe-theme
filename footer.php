@@ -1,4 +1,4 @@
-<footer class="site-footer section-dark">
+<footer class="site-footer section-terracotta">
     <div class="site-footer__inner container">
         <?php
         wp_nav_menu( [
