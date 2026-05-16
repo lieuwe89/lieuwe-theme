@@ -167,3 +167,17 @@ function lieuwe_body_classes( array $classes ): array {
     return $classes;
 }
 add_filter( 'body_class', 'lieuwe_body_classes' );
+
+/**
+ * Add security headers.
+ */
+function lieuwe_add_security_headers(): void {
+    if ( ! is_admin() ) {
+        header( 'X-Content-Type-Options: nosniff' );
+        header( 'X-Frame-Options: SAMEORIGIN' );
+        header( 'X-XSS-Protection: 1; mode=block' );
+        header( 'Strict-Transport-Security: max-age=31536000; includeSubDomains' );
+        header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+    }
+}
+add_action( 'send_headers', 'lieuwe_add_security_headers' );
