@@ -181,3 +181,8 @@ function lieuwe_add_security_headers(): void {
     }
 }
 add_action( 'send_headers', 'lieuwe_add_security_headers' );
+
+/**
+ * Security: Disable XML-RPC to mitigate brute-force and DDoS attacks.
+ */
+add_filter( 'xmlrpc_enabled', '__return_false' );
