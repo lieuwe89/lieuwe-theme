@@ -1,4 +1,7 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly.
+}
 
 require_once get_template_directory() . '/inc/customizer.php';
 
@@ -502,3 +505,9 @@ function lieuwe_disable_rest_endpoints( array $endpoints ): array {
     return $endpoints;
 }
 add_filter( 'rest_endpoints', 'lieuwe_disable_rest_endpoints' );
+
+/**
+ * Security: Remove WordPress version generation to prevent version leakage.
+ */
+remove_action( 'wp_head', 'wp_generator' );
+add_filter( 'the_generator', '__return_empty_string' );
