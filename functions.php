@@ -502,3 +502,16 @@ function lieuwe_disable_rest_endpoints( array $endpoints ): array {
     return $endpoints;
 }
 add_filter( 'rest_endpoints', 'lieuwe_disable_rest_endpoints' );
+
+/**
+ * Security: Obscure login errors to prevent user enumeration.
+ */
+add_filter( 'login_errors', function() {
+    return '<strong>ERROR</strong>: Incorrect username or password.';
+} );
+
+/**
+ * Security: Remove WordPress version from head and RSS feeds.
+ */
+add_filter( 'the_generator', '__return_empty_string' );
+remove_action( 'wp_head', 'wp_generator' );
