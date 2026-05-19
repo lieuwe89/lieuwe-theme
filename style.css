@@ -2,7 +2,7 @@
 Theme Name: Lieuwe Jongsma Custom Theme
 Author: Lieuwe Jongsma
 Description: Custom portfolio theme for lieuwejongsma.nl — cinematic, editorial, warm.
-Version: 1.6.1
+Version: 1.7.0
 License: GNU General Public License v2 or later
 Text Domain: lieuwe-theme
 */
@@ -1021,6 +1021,302 @@ p + p {
     font-size: 0.65em;
     top: 0.4em;
     line-height: 1;
+}
+
+/* ==========================================================================
+   Services Page
+   ========================================================================== */
+
+.services-page .static-page__header {
+    position: relative;
+    overflow: hidden;
+}
+
+.services-page .static-page__header::after {
+    content: "";
+    position: absolute;
+    left: var(--space-md);
+    bottom: calc(var(--space-xl) - 1px);
+    width: 80px;
+    height: 1px;
+    background: var(--color-accent);
+    opacity: 0.6;
+}
+
+.services-page .static-page__title {
+    font-size: 7rem;
+    letter-spacing: 0;
+    line-height: 0.95;
+}
+
+.services-page .static-page__title em {
+    color: var(--color-accent);
+    font-style: italic;
+}
+
+.services-page .static-page__subtitle {
+    max-width: 38ch;
+    margin-top: var(--space-md);
+    color: var(--color-muted);
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+.services-intro p:first-of-type::first-letter {
+    float: left;
+    margin: 0.05em 0.14em -0.05em 0;
+    color: var(--color-accent);
+    font-family: var(--font-display);
+    font-size: 5.5em;
+    font-style: italic;
+    line-height: 0.78;
+}
+
+.services-section {
+    padding-block: var(--space-xl) 0;
+}
+
+.services-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.service {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--space-lg);
+    row-gap: var(--space-md);
+    position: relative;
+    padding-block: var(--space-xl);
+}
+
+.services-page.has-service-reveal .service {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+        opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.services-page.has-service-reveal .service:nth-child(odd) {
+    transform: translate(-32px, 28px);
+}
+
+.services-page.has-service-reveal .service:nth-child(even) {
+    transform: translate(32px, 28px);
+}
+
+.services-page.has-service-reveal .service.is-visible {
+    opacity: 1;
+    transform: translate(0, 0);
+}
+
+.service:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    right: 8%;
+    bottom: 0;
+    left: 8%;
+    height: 1px;
+    background: var(--color-surface);
+}
+
+.service:not(:last-child)::after {
+    content: "\2042";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    z-index: 1;
+    padding: 0 1.4rem;
+    transform: translate(-50%, 50%);
+    background: var(--color-bg);
+    color: var(--color-accent);
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-style: italic;
+    line-height: 1;
+}
+
+.service:nth-child(even) .service__media {
+    order: 2;
+}
+
+.service:nth-child(even) .service__text {
+    order: 1;
+}
+
+.service__media {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.service__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 5 / 4;
+    height: auto;
+    object-fit: cover;
+}
+
+.service__image--empty {
+    background:
+        linear-gradient(135deg, oklch(93% 0.016 72) 0%, oklch(89% 0.022 67) 100%);
+    border: 1px solid oklch(22% 0.012 68 / 0.08);
+}
+
+.service__caption {
+    margin-top: 0.6rem;
+    color: var(--color-muted);
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.service__text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: var(--space-sm);
+}
+
+.service__num {
+    display: block;
+    margin: 0 0 var(--space-xs);
+    color: var(--color-accent);
+    font-family: var(--font-display);
+    font-size: 8rem;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 0.85;
+}
+
+.service__tagline {
+    margin-bottom: var(--space-xs);
+    color: var(--color-muted);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+.service__title {
+    margin: 0 0 var(--space-md);
+    color: var(--color-text);
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 400;
+    line-height: 1.05;
+}
+
+.service__body {
+    color: var(--color-text);
+    font-size: 1.0625rem;
+    line-height: 1.8;
+}
+
+.service__body p + p {
+    margin-top: var(--space-sm);
+}
+
+.service__pullquote {
+    margin: var(--space-md) 0 0;
+    padding: var(--space-sm) 0 0 var(--space-md);
+    border-left: 2px solid var(--color-accent);
+    color: var(--color-text);
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+.service__pullquote p {
+    margin: 0;
+}
+
+.services-coda {
+    padding-block: var(--space-lg) var(--space-xl);
+    color: var(--color-muted);
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-style: italic;
+    text-align: center;
+}
+
+.services-coda__mark {
+    display: block;
+    margin-bottom: var(--space-xs);
+    color: var(--color-accent);
+    font-size: 1.6rem;
+    letter-spacing: 0;
+}
+
+@media (max-width: 900px) {
+    .services-page .static-page__title {
+        font-size: 5rem;
+    }
+
+    .service {
+        grid-template-columns: 1fr;
+        padding-block: var(--space-lg);
+    }
+
+    .service:nth-child(even) .service__media,
+    .service:nth-child(even) .service__text {
+        order: initial;
+    }
+
+    .services-page.has-service-reveal .service:nth-child(odd),
+    .services-page.has-service-reveal .service:nth-child(even) {
+        transform: translate(0, 28px);
+    }
+
+    .services-page.has-service-reveal .service.is-visible {
+        transform: translate(0, 0);
+    }
+
+    .service__num {
+        font-size: 5rem;
+    }
+
+    .service__title {
+        font-size: 2.4rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .services-page .static-page__title {
+        font-size: 3.5rem;
+    }
+
+    .services-page .static-page__subtitle {
+        font-size: 1.15rem;
+    }
+
+    .services-intro p:first-of-type::first-letter {
+        font-size: 4.4em;
+    }
+
+    .service__title {
+        font-size: 2rem;
+    }
+
+    .service__pullquote {
+        font-size: 1.2rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .services-page.has-service-reveal .service,
+    .services-page.has-service-reveal .service:nth-child(odd),
+    .services-page.has-service-reveal .service:nth-child(even) {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
 }
 
 /* ==========================================================================

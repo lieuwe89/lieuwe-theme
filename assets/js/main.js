@@ -41,6 +41,39 @@
       });
     });
   }
+
+  // ── Services page: reveal editorial service rows as they enter view ────────
+  const servicesPage = document.querySelector('.services-page');
+  const serviceItems = document.querySelectorAll('.services-page .service');
+
+  if (servicesPage && serviceItems.length) {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!('IntersectionObserver' in window) || prefersReducedMotion) {
+      serviceItems.forEach(function (item) {
+        item.classList.add('is-visible');
+      });
+    } else {
+      servicesPage.classList.add('has-service-reveal');
+
+      const serviceObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            serviceObserver.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.01,
+        rootMargin: '0px 0px -6% 0px'
+      });
+
+      serviceItems.forEach(function (item) {
+        serviceObserver.observe(item);
+      });
+    }
+  }
+
   // ── Video thumbnails: capture first frame for cards without featured image ──
   document.querySelectorAll('.portfolio-card__video-thumb').forEach(function (el) {
     var videoUrl = el.dataset.video;
