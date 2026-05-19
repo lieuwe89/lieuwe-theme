@@ -454,3 +454,51 @@ function lieuwe_body_classes( array $classes ): array {
     return $classes;
 }
 add_filter( 'body_class', 'lieuwe_body_classes' );
+
+/**
+ * Add security headers.
+ */
+function lieuwe_add_security_headers(): void {
+    if ( ! is_admin() ) {
+        header( 'X-Content-Type-Options: nosniff' );
+        header( 'X-Frame-Options: SAMEORIGIN' );
+        header( 'X-XSS-Protection: 1; mode=block' );
+        header( 'Strict-Transport-Security: max-age=31536000; includeSubDomains' );
+        header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+    }
+}
+add_action( 'send_headers', 'lieuwe_add_security_headers' );
+
+/**
+ * Security: Disable XML-RPC to prevent brute force attacks and DDoS.
+ */
+add_filter( 'xmlrpc_enabled', '__return_false' );
+
+/**
+ * Security: Prevent user enumeration via /?author=N
+ */
+function lieuwe_block_user_enumeration(): void {
+    if ( is_admin() ) {
+        return;
+    }
+
+    // Check if the author query string parameter is set and is numeric
+    if ( isset( $_REQUEST['author'] ) && is_numeric( $_REQUEST['author'] ) ) {
+        wp_die( 'Forbidden', 'Forbidden', [ 'response' => 403 ] );
+    }
+}
+add_action( 'template_redirect', 'lieuwe_block_user_enumeration' );
+
+/**
+ * Security: Disable user endpoint in REST API for non-authenticated users
+ */
+function lieuwe_disable_rest_endpoints( array $endpoints ): array {
+    if ( isset( $endpoints['/wp/v2/users'] ) && ! is_user_logged_in() ) {
+        unset( $endpoints['/wp/v2/users'] );
+    }
+    if ( isset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] ) && ! is_user_logged_in() ) {
+        unset( $endpoints['/wp/v2/users/(?P<id>[\d]+)'] );
+    }
+    return $endpoints;
+}
+add_filter( 'rest_endpoints', 'lieuwe_disable_rest_endpoints' );
