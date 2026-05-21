@@ -329,7 +329,7 @@ function lieuwe_pub_has_pdf( int $post_id ): bool {
         return false;
     }
     $url = wp_get_attachment_url( $id );
-    return $url && str_ends_with( strtolower( $url ), '.pdf' );
+    return $url && '.pdf' === substr( strtolower( $url ), -4 );
 }
 
 /**
