@@ -350,3 +350,57 @@ function lieuwe_publication_year_notice(): void {
     }
 }
 add_action( 'admin_notices', 'lieuwe_publication_year_notice' );
+
+/**
+ * Conditionally enqueue the catalogue CSS + JS + PDF.js on /writing/ and single-publication URLs.
+ */
+function lieuwe_pub_enqueue(): void {
+    if ( ! is_post_type_archive( 'publication' ) && ! is_singular( 'publication' ) ) {
+        return;
+    }
+
+    $ver        = wp_get_theme()->get( 'Version' );
+    $template   = get_template_directory_uri();
+    $worker_url = $template . '/assets/js/vendor/pdf.worker.min.mjs';
+
+    wp_enqueue_style(
+        'lieuwe-publications',
+        $template . '/assets/css/publications.css',
+        [ 'lieuwe-theme' ],
+        $ver
+    );
+
+    wp_enqueue_script_module(
+        'pdfjs',
+        $template . '/assets/js/vendor/pdf.min.mjs',
+        [],
+        '4.7.76'
+    );
+
+    // Bridge: PDF.js v4 ESM exports its global as `pdfjsLib` when loaded as a module
+    // we explicitly import. We import it inline + set the worker source before any
+    // consumer module runs.
+    wp_add_inline_script_module(
+        'lieuwe-publications-pdfjs-bridge',
+        "import * as pdfjsLib from '" . esc_js( $template . '/assets/js/vendor/pdf.min.mjs' ) . "';\n"
+        . "window.pdfjsLib = pdfjsLib;\n"
+        . "pdfjsLib.GlobalWorkerOptions.workerSrc = '" . esc_js( $worker_url ) . "';\n"
+        . "window.dispatchEvent(new CustomEvent('lieuwe-pdfjs-ready'));"
+    );
+
+    wp_enqueue_script(
+        'lieuwe-publications',
+        $template . '/assets/js/publications.js',
+        [],
+        $ver,
+        true
+    );
+    wp_enqueue_script(
+        'lieuwe-publications-reader',
+        $template . '/assets/js/publications-reader.js',
+        [ 'lieuwe-publications' ],
+        $ver,
+        true
+    );
+}
+add_action( 'wp_enqueue_scripts', 'lieuwe_pub_enqueue' );
