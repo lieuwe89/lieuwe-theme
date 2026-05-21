@@ -140,13 +140,31 @@
         root.appendChild(backdrop);
         root.appendChild(grid);
 
+        // ----- mobile: bottom-sheet sidebar toggle + start-collapsed -----
+        var isPhone = function () { return window.matchMedia('(max-width: 639px)').matches; };
+        if (isPhone()) {
+            sidebar.classList.remove('is-open');
+            sidebar.addEventListener('click', function (e) {
+                // tap the drag handle area (top 28px) or eyebrow to toggle
+                var r = sidebar.getBoundingClientRect();
+                if (e.clientY - r.top < 32) {
+                    sidebar.classList.toggle('is-open');
+                }
+            });
+        } else {
+            sidebar.classList.add('is-open');
+        }
+
         // ----- spread rendering -----
         var renderer = window.LieuwePublicationsRender;
         function paint() {
             // Compute target page width to fit the stage.
-            var stageW = stageWrap.clientWidth  || window.innerWidth - 360;
+            var stageW = stageWrap.clientWidth  || window.innerWidth - (isPhone() ? 0 : 360);
             var stageH = stageWrap.clientHeight || window.innerHeight - 220;
-            var pageW  = Math.min(stageW * 0.45, stageH * 0.72, 460);
+            var phone  = isPhone();
+            var pageW  = phone
+                ? Math.min(stageW * 0.92, stageH * 0.72)
+                : Math.min(stageW * 0.45, stageH * 0.72, 460);
 
             if (!renderer) { return; }
             renderer.loadPdf(pub.pdfUrl).then(function (pdf) {
@@ -154,7 +172,15 @@
                 totalSpreads = renderer.spreadCount(totalPages);
                 if (spreadIndex < 0) { spreadIndex = 0; }
                 if (spreadIndex >= totalSpreads) { spreadIndex = totalSpreads - 1; }
-                var pair = renderer.pagesInSpread(spreadIndex, totalPages);
+                var pair;
+                if (phone) {
+                    // Phone: map "spread" 1:1 to PDF pages, cover stays at index 0.
+                    var pageNum = spreadIndex + 1;
+                    pair = [ (pageNum <= totalPages) ? pageNum : null ];
+                    totalSpreads = totalPages;
+                } else {
+                    pair = renderer.pagesInSpread(spreadIndex, totalPages);
+                }
 
                 var newInner = el('div', 'pub-modal__spread-inner');
                 Promise.all(pair.map(function (n) {
@@ -172,7 +198,9 @@
 
                     // labels
                     if (spreadIndex === 0) { stripLabelLeft.textContent = 'Cover'; }
-                    else {
+                    else if (phone) {
+                        stripLabelLeft.textContent = 'Page ' + (pair[0] || spreadIndex + 1);
+                    } else {
                         var lo = pair[0], hi = pair[1] || lo;
                         stripLabelLeft.textContent = 'Pages ' + lo + (hi && hi !== lo ? ' – ' + hi : '');
                     }
