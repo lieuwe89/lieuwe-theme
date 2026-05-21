@@ -35,6 +35,46 @@ function lieuwe_customizer_register( \WP_Customize_Manager $wp_customize ): void
             'mime_type' => 'image',
         ] )
     );
+
+    // Publications page
+    $wp_customize->add_section( 'lieuwe_publications', [
+        'title'    => 'Publications page',
+        'priority' => 35,
+    ] );
+
+    $wp_customize->add_setting( 'pub_hero_title_line1', [
+        'default'           => 'Here are some of',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ] );
+    $wp_customize->add_control( 'pub_hero_title_line1', [
+        'label'   => 'Hero title — line 1 (roman)',
+        'section' => 'lieuwe_publications',
+        'type'    => 'text',
+    ] );
+
+    $wp_customize->add_setting( 'pub_hero_title_line2', [
+        'default'           => 'my recent publications',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'refresh',
+    ] );
+    $wp_customize->add_control( 'pub_hero_title_line2', [
+        'label'       => 'Hero title — line 2 (italic)',
+        'description' => 'Rendered in italic on a new line.',
+        'section'     => 'lieuwe_publications',
+        'type'        => 'text',
+    ] );
+
+    $wp_customize->add_setting( 'pub_hero_intro', [
+        'default'           => 'Catalogues, essays, one slow monograph. Written across museum residencies, magazine commissions, and the bench. Click a title to open it — pages render in place.',
+        'sanitize_callback' => 'sanitize_textarea_field',
+        'transport'         => 'refresh',
+    ] );
+    $wp_customize->add_control( 'pub_hero_intro', [
+        'label'   => 'Hero intro paragraph',
+        'section' => 'lieuwe_publications',
+        'type'    => 'textarea',
+    ] );
 }
 add_action( 'customize_register', 'lieuwe_customizer_register' );
 
@@ -55,4 +95,17 @@ function lieuwe_hero_image_url(): string {
     }
     $url = wp_get_attachment_image_url( $image_id, 'full' );
     return $url ?: '';
+}
+
+/**
+ * Hero copy accessors for the Publications page.
+ */
+function lieuwe_publications_hero_title_line1(): string {
+    return (string) get_theme_mod( 'pub_hero_title_line1', 'Here are some of' );
+}
+function lieuwe_publications_hero_title_line2(): string {
+    return (string) get_theme_mod( 'pub_hero_title_line2', 'my recent publications' );
+}
+function lieuwe_publications_hero_intro(): string {
+    return (string) get_theme_mod( 'pub_hero_intro', 'Catalogues, essays, one slow monograph. Written across museum residencies, magazine commissions, and the bench. Click a title to open it — pages render in place.' );
 }
