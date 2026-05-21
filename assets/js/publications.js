@@ -266,6 +266,18 @@
         });
     }
 
+    // Disable any "Open in reader" CTA if PDF.js never loads within the 8s window.
+    whenPdfjsReady().catch(function () {
+        Array.prototype.forEach.call(document.querySelectorAll('[data-action="open-reader"]'), function (btn) {
+            btn.disabled = true;
+            btn.classList.add('pub-btn--disabled');
+            btn.textContent = 'Reader unavailable';
+        });
+        if (typeof console !== 'undefined') {
+            console.warn('[publications] PDF.js failed to load — reader disabled. Inline downloads still work.');
+        }
+    });
+
     function loadPdf(url) {
         if (!PDF_CACHE.has(url)) {
             PDF_CACHE.set(url, whenPdfjsReady().then(function (lib) {
