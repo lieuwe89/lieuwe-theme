@@ -246,3 +246,107 @@ function lieuwe_publication_admin_enqueue( string $hook ): void {
     wp_enqueue_media();
 }
 add_action( 'admin_enqueue_scripts', 'lieuwe_publication_admin_enqueue' );
+
+/**
+ * Save publication meta box.
+ */
+function lieuwe_save_publication_meta_box( int $post_id ): void {
+    if ( ! isset( $_POST['lieuwe_publication_meta_box_nonce'] )
+         || ! wp_verify_nonce( $_POST['lieuwe_publication_meta_box_nonce'], 'lieuwe_publication_meta_box' ) ) {
+        return;
+    }
+    if ( wp_is_post_revision( $post_id ) || ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) ) {
+        return;
+    }
+    if ( ! current_user_can( 'edit_post', $post_id ) ) {
+        return;
+    }
+
+    $raw = isset( $_POST['lieuwe_pub'] ) && is_array( $_POST['lieuwe_pub'] )
+        ? wp_unslash( $_POST['lieuwe_pub'] )
+        : [];
+
+    // Strings
+    update_post_meta( $post_id, '_pub_subtitle', sanitize_text_field( $raw['subtitle'] ?? '' ) );
+    update_post_meta( $post_id, '_pub_venue',    sanitize_text_field( $raw['venue']    ?? '' ) );
+    update_post_meta( $post_id, '_pub_author',   sanitize_text_field( $raw['author']   ?? '' ) );
+    update_post_meta( $post_id, '_pub_abstract', sanitize_textarea_field( $raw['abstract'] ?? '' ) );
+
+    // Year — empty stays empty so meta_query EXISTS excludes it
+    if ( isset( $raw['year'] ) && '' !== $raw['year'] ) {
+        $year = absint( $raw['year'] );
+        $max  = (int) gmdate( 'Y' ) + 5;
+        if ( $year >= 1900 && $year <= $max ) {
+            update_post_meta( $post_id, '_pub_year', $year );
+        } else {
+            delete_post_meta( $post_id, '_pub_year' );
+        }
+    } else {
+        delete_post_meta( $post_id, '_pub_year' );
+    }
+
+    // Type — whitelist
+    $type    = $raw['type'] ?? '';
+    $allowed = lieuwe_publication_types();
+    if ( in_array( $type, $allowed, true ) ) {
+        update_post_meta( $post_id, '_pub_type', $type );
+    } else {
+        delete_post_meta( $post_id, '_pub_type' );
+    }
+
+    // Pages — int or blank
+    if ( isset( $raw['pages'] ) && '' !== $raw['pages'] ) {
+        update_post_meta( $post_id, '_pub_pages', absint( $raw['pages'] ) );
+    } else {
+        delete_post_meta( $post_id, '_pub_pages' );
+    }
+
+    // PDF attachment
+    $pdf_id = isset( $raw['pdf_id'] ) ? absint( $raw['pdf_id'] ) : 0;
+    if ( $pdf_id > 0 && 'attachment' === get_post_type( $pdf_id ) ) {
+        update_post_meta( $post_id, '_pub_pdf_id', $pdf_id );
+    } else {
+        delete_post_meta( $post_id, '_pub_pdf_id' );
+    }
+
+    // Allow download checkbox (default on when meta missing)
+    update_post_meta( $post_id, '_pub_allow_download', isset( $raw['allow_download'] ) ? '1' : '0' );
+
+    // Colors — sanitize_hex_color returns null for invalid
+    $paper  = sanitize_hex_color( $raw['paper_color']  ?? '' );
+    $accent = sanitize_hex_color( $raw['accent_color'] ?? '' );
+    update_post_meta( $post_id, '_pub_paper_color',  $paper  ?: '#f5ecd9' );
+    update_post_meta( $post_id, '_pub_accent_color', $accent ?: '#3a2a1f' );
+}
+add_action( 'save_post_publication', 'lieuwe_save_publication_meta_box' );
+
+/**
+ * True iff the publication has a valid PDF attachment.
+ */
+function lieuwe_pub_has_pdf( int $post_id ): bool {
+    $id = (int) get_post_meta( $post_id, '_pub_pdf_id', true );
+    if ( $id <= 0 ) {
+        return false;
+    }
+    $url = wp_get_attachment_url( $id );
+    return $url && str_ends_with( strtolower( $url ), '.pdf' );
+}
+
+/**
+ * Admin notice on the publication edit screen when _pub_year is missing.
+ */
+function lieuwe_publication_year_notice(): void {
+    $screen = get_current_screen();
+    if ( ! $screen || 'publication' !== $screen->post_type || 'post' !== $screen->base ) {
+        return;
+    }
+    global $post;
+    if ( ! $post || 'auto-draft' === $post->post_status ) {
+        return;
+    }
+    $year = get_post_meta( $post->ID, '_pub_year', true );
+    if ( '' === $year ) {
+        echo '<div class="notice notice-warning"><p>Set a <strong>Year</strong> for this publication to publish it on the catalogue.</p></div>';
+    }
+}
+add_action( 'admin_notices', 'lieuwe_publication_year_notice' );
