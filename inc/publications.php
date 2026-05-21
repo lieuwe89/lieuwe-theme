@@ -404,3 +404,31 @@ function lieuwe_pub_enqueue(): void {
     );
 }
 add_action( 'wp_enqueue_scripts', 'lieuwe_pub_enqueue' );
+
+/**
+ * If a primary menu is assigned but contains no /writing/ item, append one
+ * automatically — only when the publication archive resolves to a real URL.
+ */
+function lieuwe_publications_menu_fallback( $items, $args ) {
+    if ( ! isset( $args->theme_location ) || 'primary' !== $args->theme_location ) {
+        return $items;
+    }
+
+    $archive_url = get_post_type_archive_link( 'publication' );
+    if ( ! $archive_url ) {
+        return $items;
+    }
+
+    // If the menu already contains /writing/ (any variant), skip.
+    if ( false !== stripos( (string) $items, $archive_url ) ) {
+        return $items;
+    }
+
+    $current = is_post_type_archive( 'publication' ) || is_singular( 'publication' );
+    $li = '<li class="menu-item' . ( $current ? ' current-menu-item' : '' ) . '">'
+        . '<a href="' . esc_url( $archive_url ) . '">Writing</a>'
+        . '</li>';
+
+    return $items . $li;
+}
+add_filter( 'wp_nav_menu_items', 'lieuwe_publications_menu_fallback', 10, 2 );

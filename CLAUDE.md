@@ -91,6 +91,14 @@ GitHub creates a downloadable `.zip` for every tag automatically (under Releases
 
 **Why this matters:** The live site is deployed by downloading a zip from GitHub and uploading it via WordPress admin (Appearance → Themes → Upload Theme). If the version number is unchanged, WordPress will not replace existing theme files — meaning new files will never reach the server. Tags make each deployable version permanently addressable.
 
+## Publications page (`/writing/`)
+
+Theme registers a `publication` CPT (URL slug: `/writing/`). The archive template auto-appends a "Writing" item to the primary menu when an archive URL exists. For full control, add a proper menu item via **Appearance → Menus** once you have publications.
+
+Hero copy is editable via **Appearance → Customize → Publications page** (two title lines + intro paragraph).
+
+PDF previews use self-hosted PDF.js v4.7.76 (`assets/js/vendor/pdf.min.mjs` + worker). They lazy-load on first row expand.
+
 ## Docs
 
 - `docs/superpowers/specs/2026-04-03-wordpress-theme-design.md` — full visual design spec (colors, typography, layout principles, page-by-page breakdown, edge cases)
