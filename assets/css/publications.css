@@ -159,6 +159,9 @@
     gap: 12px;
     align-items: center;
 }
+/* `display: flex` above overrides browser default [hidden]{display:none}.
+   Restore: when the hidden attribute is present, force display:none. */
+.pub-noresults[hidden] { display: none; }
 .pub-noresults__clear {
     appearance: none;
     border: none;

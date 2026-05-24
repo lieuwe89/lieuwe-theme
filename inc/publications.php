@@ -410,7 +410,7 @@ function lieuwe_pub_enqueue(): void {
 
     $ver        = wp_get_theme()->get( 'Version' );
     $template   = get_template_directory_uri();
-    $worker_url = $template . '/assets/js/vendor/pdf.worker.min.mjs';
+    $worker_url = $template . '/assets/js/vendor/pdf.worker.min.js';
 
     wp_enqueue_style(
         'lieuwe-publications',
@@ -426,13 +426,13 @@ function lieuwe_pub_enqueue(): void {
          && function_exists( 'wp_add_inline_script_module' ) ) {
         wp_enqueue_script_module(
             'pdfjs',
-            $template . '/assets/js/vendor/pdf.min.mjs',
+            $template . '/assets/js/vendor/pdf.min.js',
             [],
             '4.7.76'
         );
         wp_add_inline_script_module(
             'lieuwe-publications-pdfjs-bridge',
-            "import * as pdfjsLib from '" . esc_js( $template . '/assets/js/vendor/pdf.min.mjs' ) . "';\n"
+            "import * as pdfjsLib from '" . esc_js( $template . '/assets/js/vendor/pdf.min.js' ) . "';\n"
             . "window.pdfjsLib = pdfjsLib;\n"
             . "pdfjsLib.GlobalWorkerOptions.workerSrc = '" . esc_js( $worker_url ) . "';\n"
             . "window.dispatchEvent(new CustomEvent('lieuwe-pdfjs-ready'));"
@@ -441,7 +441,7 @@ function lieuwe_pub_enqueue(): void {
         // WP < 6.5 fallback — print a module-type script in the footer that imports
         // PDF.js dynamically. The consumer JS waits for the `lieuwe-pdfjs-ready` event.
         add_action( 'wp_footer', function () use ( $template, $worker_url ) {
-            $pdf_url = esc_js( $template . '/assets/js/vendor/pdf.min.mjs' );
+            $pdf_url = esc_js( $template . '/assets/js/vendor/pdf.min.js' );
             $w_url   = esc_js( $worker_url );
             echo "<script type=\"module\">\n"
                . "import * as pdfjsLib from '{$pdf_url}';\n"
