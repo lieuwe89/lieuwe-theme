@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once get_template_directory() . '/inc/customizer.php';
 require_once get_template_directory() . '/inc/publications.php';
+require_once get_template_directory() . '/inc/updater.php';
 
 /**
  * Theme setup.
