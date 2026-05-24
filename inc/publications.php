@@ -203,46 +203,95 @@ function lieuwe_render_publication_meta_box( WP_Post $post ): void {
     </div>
 
     <script>
-    (function ($) {
-        if (!window.wp || !wp.media) { return; }
-        var frame;
-        $('#lieuwe_pub_pdf_pick').on('click', function (e) {
-            e.preventDefault();
-            if (frame) { frame.open(); return; }
-            frame = wp.media({
-                title:    'Select PDF',
-                button:   { text: 'Use this PDF' },
-                library:  { type: 'application/pdf' },
-                multiple: false
+    (function () {
+        function init($) {
+            var pickBtn  = document.getElementById('lieuwe_pub_pdf_pick');
+            var clearBtn = document.getElementById('lieuwe_pub_pdf_clear');
+            var idInput  = document.getElementById('lieuwe_pub_pdf_id');
+            var urlInput = document.getElementById('lieuwe_pub_pdf_url');
+            if (!pickBtn || !clearBtn || !idInput || !urlInput) {
+                if (window.console) { console.warn('[lieuwe-publications] PDF picker DOM not found'); }
+                return;
+            }
+            var frame = null;
+
+            pickBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                if (!window.wp || !wp.media) {
+                    if (window.console) {
+                        console.error('[lieuwe-publications] wp.media missing — wp_enqueue_media() did not fire on this screen. Reload the editor; if it persists check admin_enqueue_scripts.');
+                    }
+                    alert('Media library not loaded. Reload the page and try again — if it persists, see browser console.');
+                    return;
+                }
+                if (frame) { frame.open(); return; }
+                frame = wp.media({
+                    title:    'Select PDF',
+                    button:   { text: 'Use this PDF' },
+                    library:  { type: 'application/pdf' },
+                    multiple: false
+                });
+                frame.on('select', function () {
+                    var att = frame.state().get('selection').first().toJSON();
+                    idInput.value  = att.id;
+                    urlInput.value = att.url;
+                });
+                frame.open();
             });
-            frame.on('select', function () {
-                var att = frame.state().get('selection').first().toJSON();
-                $('#lieuwe_pub_pdf_id').val(att.id);
-                $('#lieuwe_pub_pdf_url').val(att.url);
+
+            clearBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                idInput.value  = '';
+                urlInput.value = '';
             });
-            frame.open();
-        });
-        $('#lieuwe_pub_pdf_clear').on('click', function (e) {
-            e.preventDefault();
-            $('#lieuwe_pub_pdf_id').val('');
-            $('#lieuwe_pub_pdf_url').val('');
-        });
-    })(jQuery);
+        }
+
+        // Run after DOM is parsed past this script; meta boxes render in body
+        // so the buttons exist by the time this runs. Wrap in DOMContentLoaded
+        // fallback for safety.
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function () { init(window.jQuery); });
+        } else {
+            init(window.jQuery);
+        }
+    })();
     </script>
     <?php
 }
 
 /**
  * Ensure the Media Library JS is available on the publication editor.
+ *
+ * Detects the post type from multiple sources because get_current_screen()
+ * may be unavailable or return an unexpected shape under the block editor
+ * and certain admin entry paths.
  */
 function lieuwe_publication_admin_enqueue( string $hook ): void {
     if ( ! in_array( $hook, [ 'post.php', 'post-new.php' ], true ) ) {
         return;
     }
-    $screen = get_current_screen();
-    if ( ! $screen || 'publication' !== $screen->post_type ) {
+
+    $post_type = '';
+
+    if ( function_exists( 'get_current_screen' ) ) {
+        $screen = get_current_screen();
+        if ( $screen && ! empty( $screen->post_type ) ) {
+            $post_type = $screen->post_type;
+        }
+    }
+
+    if ( '' === $post_type && isset( $_GET['post_type'] ) ) {
+        $post_type = sanitize_key( wp_unslash( $_GET['post_type'] ) );
+    }
+
+    if ( '' === $post_type && isset( $_GET['post'] ) ) {
+        $post_type = (string) get_post_type( absint( $_GET['post'] ) );
+    }
+
+    if ( 'publication' !== $post_type ) {
         return;
     }
+
     wp_enqueue_media();
 }
 add_action( 'admin_enqueue_scripts', 'lieuwe_publication_admin_enqueue' );
