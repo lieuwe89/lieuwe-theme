@@ -479,16 +479,17 @@ add_action( 'send_headers', 'lieuwe_add_security_headers' );
 add_filter( 'xmlrpc_enabled', '__return_false' );
 
 /**
- * Security: Prevent user enumeration via /?author=N
+ * Security: Prevent user enumeration via /?author=N and /author/username/
  */
 function lieuwe_block_user_enumeration(): void {
     if ( is_admin() ) {
         return;
     }
 
-    // Check if the author query string parameter is set and is numeric
-    if ( isset( $_REQUEST['author'] ) && is_numeric( $_REQUEST['author'] ) ) {
-        wp_die( 'Forbidden', 'Forbidden', [ 'response' => 403 ] );
+    // Block any request that resolves to an author archive
+    if ( is_author() || ( isset( $_REQUEST['author'] ) && is_numeric( $_REQUEST['author'] ) ) ) {
+        wp_redirect( home_url() );
+        exit;
     }
 }
 add_action( 'template_redirect', 'lieuwe_block_user_enumeration' );
