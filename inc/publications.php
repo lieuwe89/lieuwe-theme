@@ -483,8 +483,18 @@ function lieuwe_publications_menu_fallback( $items, $args ) {
         return $items;
     }
 
-    // If the menu already contains /writing/ (any variant), skip.
-    if ( false !== stripos( (string) $items, $archive_url ) ) {
+    // If the menu already contains the archive (any URL variant), skip.
+    // Custom-link menu items may be stored as just "/writing/" (relative) while
+    // get_post_type_archive_link() returns the absolute URL — compare on path.
+    $archive_path = (string) wp_parse_url( $archive_url, PHP_URL_PATH );
+    $path_trimmed = rtrim( $archive_path, '/' );
+    if ( '' !== $path_trimmed && (
+            false !== stripos( (string) $items, $archive_url )
+         || false !== stripos( (string) $items, 'href="' . $path_trimmed . '"' )
+         || false !== stripos( (string) $items, "href='" . $path_trimmed . "'" )
+         || false !== stripos( (string) $items, 'href="' . $path_trimmed . '/"' )
+         || false !== stripos( (string) $items, "href='" . $path_trimmed . "/'" )
+    ) ) {
         return $items;
     }
 
