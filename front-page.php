@@ -50,26 +50,46 @@
         <h2 class="home-portfolio__heading">Portfolio</h2>
 
         <?php
-        $portfolio_query = new WP_Query( [
+        // Featured-first ordering: a single WP_Query with orderby on a named
+        // meta clause silently falls back to date DESC, because WP renders
+        // EXISTS/NOT EXISTS as a subquery (no meta_value column to sort on).
+        // Run two queries and merge so the featured flag actually drives order.
+        $portfolio_limit = 4;
+
+        $featured_query = new WP_Query( [
             'post_type'      => 'portfolio_item',
-            'posts_per_page' => 4,
+            'posts_per_page' => $portfolio_limit,
             'meta_query'     => [
-                'relation' => 'OR',
-                'featured_clause' => [
+                [
                     'key'     => '_lieuwe_featured',
                     'compare' => 'EXISTS',
                 ],
-                'not_featured_clause' => [
-                    'key'     => '_lieuwe_featured',
-                    'compare' => 'NOT EXISTS',
-                ],
             ],
-            'orderby'        => [
-                'featured_clause' => 'DESC',
-                'date'            => 'DESC',
-            ],
+            'orderby'        => 'date',
+            'order'          => 'DESC',
             'no_found_rows'  => true,
         ] );
+
+        $portfolio_posts = $featured_query->posts;
+        $remaining       = $portfolio_limit - count( $portfolio_posts );
+
+        if ( $remaining > 0 ) {
+            $fill_query = new WP_Query( [
+                'post_type'      => 'portfolio_item',
+                'posts_per_page' => $remaining,
+                'post__not_in'   => wp_list_pluck( $portfolio_posts, 'ID' ),
+                'meta_query'     => [
+                    [
+                        'key'     => '_lieuwe_featured',
+                        'compare' => 'NOT EXISTS',
+                    ],
+                ],
+                'orderby'        => 'date',
+                'order'          => 'DESC',
+                'no_found_rows'  => true,
+            ] );
+            $portfolio_posts = array_merge( $portfolio_posts, $fill_query->posts );
+        }
         ?>
 
         <?php
@@ -82,9 +102,9 @@
         $canvas_url = $canvas_pages ? get_permalink( $canvas_pages[0]->ID ) : '';
         ?>
 
-        <?php if ( $portfolio_query->have_posts() ) : ?>
+        <?php if ( ! empty( $portfolio_posts ) ) : ?>
             <div class="home-portfolio__grid">
-                <?php while ( $portfolio_query->have_posts() ) : $portfolio_query->the_post(); ?>
+                <?php global $post; foreach ( $portfolio_posts as $post ) : setup_postdata( $post ); ?>
                     <a href="<?php echo esc_url( $canvas_url . '#item-' . get_the_ID() ); ?>" class="portfolio-card">
                         <?php if ( has_post_thumbnail() ) : ?>
                             <?php the_post_thumbnail( 'large', [ 'class' => 'portfolio-card__image' ] ); ?>
@@ -96,7 +116,7 @@
                         <?php endif; ?>
                         <span class="portfolio-card__title"><?php the_title(); ?></span>
                     </a>
-                <?php endwhile; ?>
+                <?php endforeach; ?>
                 <?php wp_reset_postdata(); ?>
             </div>
             <a href="<?php echo esc_url( $canvas_url ); ?>" class="home-section-link">
