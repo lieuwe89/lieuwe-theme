@@ -482,21 +482,23 @@ add_filter( 'xmlrpc_enabled', '__return_false' );
 /**
  * Security: Prevent user enumeration via /?author=N and /author/username/
  *
- * Why the `get_query_var('author_name')` guard: WP's `is_author()` can return
- * true for URLs that fall back to `?author_name=...` parsing when no other
- * rewrite matches (e.g. a CPT archive slug that collides with a Page slug and
- * has no posts). Without the guard the sentinel would redirect those URLs to
- * home even though they were not enumeration attempts.
+ * Why we check REQUEST_URI directly instead of `is_author()`: WP misparses
+ * unknown single-segment URLs (e.g. a CPT archive slug whose pretty-permalink
+ * rewrite hasn't matched) as `?author_name=...`, which makes `is_author()`
+ * return true even though the visitor never typed `/author/`. Matching the
+ * literal `/author/` path segment blocks real enumeration attempts without
+ * catching legitimate top-level pages and CPT archives.
  */
 function lieuwe_block_user_enumeration(): void {
     if ( is_admin() ) {
         return;
     }
 
+    $request_uri       = isset( $_SERVER['REQUEST_URI'] ) ? (string) $_SERVER['REQUEST_URI'] : '';
     $is_numeric_author = isset( $_REQUEST['author'] ) && is_numeric( $_REQUEST['author'] );
-    $is_author_archive = is_author() && get_query_var( 'author_name' ) !== '';
+    $is_author_path    = (bool) preg_match( '#(^|/)author/[^/]+#i', $request_uri );
 
-    if ( $is_numeric_author || $is_author_archive ) {
+    if ( $is_numeric_author || $is_author_path ) {
         wp_redirect( home_url() );
         exit;
     }
