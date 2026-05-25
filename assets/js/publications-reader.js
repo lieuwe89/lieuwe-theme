@@ -304,17 +304,24 @@
                     pair = renderer.pagesInSpread(spreadIndex, totalPages, pub.coverSide);
                 }
 
+                // Match the blank-half aspect to the partner page so the spread
+                // doesn't look lopsided (e.g. cover-right spread 0 = [null, 1]).
+                var partner = pair[0] || pair[1] || 1;
                 var newInner = el('div', 'pub-modal__spread-inner');
-                Promise.all(pair.map(function (n) {
-                    if (n === null) {
-                        var blank = el('div', 'pub-modal__page-blank');
-                        blank.style.width  = pageW + 'px';
-                        blank.style.height = (pageW / 0.72) + 'px';
-                        blank.style.background = pub.paperColor;
-                        return Promise.resolve(blank);
-                    }
-                    return renderer.renderPdfPage(pub.pdfUrl, n, pageW);
-                })).then(function (els) {
+                pdf.getPage(partner).then(function (partnerPage) {
+                    var pvp     = partnerPage.getViewport({ scale: 1 });
+                    var aspect  = pvp.height / pvp.width;
+                    return Promise.all(pair.map(function (n) {
+                        if (n === null) {
+                            var blank = el('div', 'pub-modal__page-blank');
+                            blank.style.width  = pageW + 'px';
+                            blank.style.height = (pageW * aspect) + 'px';
+                            blank.style.background = pub.paperColor;
+                            return Promise.resolve(blank);
+                        }
+                        return renderer.renderPdfPage(pub.pdfUrl, n, pageW);
+                    }));
+                }).then(function (els) {
                     els.forEach(function (e) { newInner.appendChild(e); });
                     stage.replaceChildren(newInner);
 
