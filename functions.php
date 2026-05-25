@@ -481,14 +481,22 @@ add_filter( 'xmlrpc_enabled', '__return_false' );
 
 /**
  * Security: Prevent user enumeration via /?author=N and /author/username/
+ *
+ * Why the `get_query_var('author_name')` guard: WP's `is_author()` can return
+ * true for URLs that fall back to `?author_name=...` parsing when no other
+ * rewrite matches (e.g. a CPT archive slug that collides with a Page slug and
+ * has no posts). Without the guard the sentinel would redirect those URLs to
+ * home even though they were not enumeration attempts.
  */
 function lieuwe_block_user_enumeration(): void {
     if ( is_admin() ) {
         return;
     }
 
-    // Block any request that resolves to an author archive
-    if ( is_author() || ( isset( $_REQUEST['author'] ) && is_numeric( $_REQUEST['author'] ) ) ) {
+    $is_numeric_author = isset( $_REQUEST['author'] ) && is_numeric( $_REQUEST['author'] );
+    $is_author_archive = is_author() && get_query_var( 'author_name' ) !== '';
+
+    if ( $is_numeric_author || $is_author_archive ) {
         wp_redirect( home_url() );
         exit;
     }
