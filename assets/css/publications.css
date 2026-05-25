@@ -533,6 +533,9 @@
     background: linear-gradient(90deg, transparent 0%, rgba(40,30,20,0.28) 50%, transparent 100%);
     pointer-events: none;
 }
+@media (max-width: 639px) {
+    .pub-modal__spread::after { display: none; }
+}
 .pub-modal__spread-inner { display: flex; align-items: center; gap: 0; }
 .pub-modal__page-blank { display: block; }
 .pub-modal__arrow {
