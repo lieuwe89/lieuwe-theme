@@ -74,6 +74,12 @@
         topbar.appendChild(textBlock(pub.title,                    'pub-modal__title'));
 
         var topRight = el('div', 'pub-modal__topright');
+        var zoomOutBtn = el('button', 'pub-modal__chip pub-modal__chip--icon', { type: 'button', 'aria-label': 'Zoom out' });
+        zoomOutBtn.textContent = '−';
+        var zoomResetBtn = el('button', 'pub-modal__chip', { type: 'button', 'aria-label': 'Reset zoom' });
+        zoomResetBtn.textContent = '100%';
+        var zoomInBtn = el('button', 'pub-modal__chip pub-modal__chip--icon', { type: 'button', 'aria-label': 'Zoom in' });
+        zoomInBtn.textContent = '+';
         var dimBtn = el('button', 'pub-modal__chip', { type: 'button' });
         dimBtn.textContent = 'Dim';
         dimBtn.addEventListener('click', function () {
@@ -84,6 +90,9 @@
         var closeBtn = el('button', 'pub-modal__close', { type: 'button', 'aria-label': 'Close' });
         closeBtn.textContent = '×';
         closeBtn.addEventListener('click', function () { close(); });
+        topRight.appendChild(zoomOutBtn);
+        topRight.appendChild(zoomResetBtn);
+        topRight.appendChild(zoomInBtn);
         topRight.appendChild(dimBtn);
         topRight.appendChild(closeBtn);
         topbar.appendChild(topRight);
@@ -92,7 +101,9 @@
 
         var stageWrap = el('div', 'pub-modal__stage');
         var stage = el('div', 'pub-modal__spread');
-        stage.style.touchAction = 'pinch-zoom';
+        stage.style.touchAction = 'none';
+        stage.style.transformOrigin = '0 0';
+        stage.style.willChange = 'transform';
         stageWrap.appendChild(stage);
 
         var prevBtn = el('button', 'pub-modal__arrow pub-modal__arrow--prev', { type: 'button', 'aria-label': 'Previous spread' });
@@ -156,9 +167,119 @@
             sidebar.classList.add('is-open');
         }
 
+        // ----- zoom + pan -----
+        var ZOOM_MIN = 1, ZOOM_MAX = 5;
+        var scale = 1, tx = 0, ty = 0;
+        var pointers = new Map();
+        var panStart = null;
+        var pinchStart = null;
+
+        function applyTransform() {
+            stage.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')';
+            stage.style.cursor = scale > 1 ? (panStart ? 'grabbing' : 'grab') : '';
+            if (zoomResetBtn) { zoomResetBtn.textContent = Math.round(scale * 100) + '%'; }
+            if (zoomOutBtn)   { zoomOutBtn.disabled  = scale <= ZOOM_MIN + 0.001; }
+            if (zoomInBtn)    { zoomInBtn.disabled   = scale >= ZOOM_MAX - 0.001; }
+        }
+        function resetZoom() { scale = 1; tx = 0; ty = 0; applyTransform(); }
+        function zoomAt(clientX, clientY, newScale) {
+            newScale = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, newScale));
+            // Stage is flex-centered in stageWrap, so anchor math uses stage's
+            // own current rect (which already reflects translate+scale).
+            var rect = stage.getBoundingClientRect();
+            var ix = (clientX - rect.left) / scale;
+            var iy = (clientY - rect.top)  / scale;
+            tx += (clientX - ix * newScale) - rect.left;
+            ty += (clientY - iy * newScale) - rect.top;
+            scale = newScale;
+            if (scale <= ZOOM_MIN + 0.001) { scale = ZOOM_MIN; tx = 0; ty = 0; }
+            applyTransform();
+        }
+        function centerZoom(factor) {
+            var rect = stageWrap.getBoundingClientRect();
+            zoomAt(rect.left + rect.width / 2, rect.top + rect.height / 2, scale * factor);
+        }
+
+        zoomInBtn.addEventListener('click',    function () { centerZoom(1.4); });
+        zoomOutBtn.addEventListener('click',   function () { centerZoom(1 / 1.4); });
+        zoomResetBtn.addEventListener('click', function () { resetZoom(); });
+
+        stageWrap.addEventListener('wheel', function (e) {
+            if (e.target.closest('.pub-modal__arrow')) { return; }
+            e.preventDefault();
+            var factor = Math.exp(-e.deltaY * 0.0015);
+            zoomAt(e.clientX, e.clientY, scale * factor);
+        }, { passive: false });
+
+        stage.addEventListener('dblclick', function (e) {
+            if (e.target.closest('.pub-modal__arrow')) { return; }
+            zoomAt(e.clientX, e.clientY, scale > 1 ? 1 : 2.2);
+        });
+
+        function pinchVals() {
+            var p = Array.from(pointers.values());
+            var dx = p[1].x - p[0].x, dy = p[1].y - p[0].y;
+            return { dist: Math.hypot(dx, dy), cx: (p[0].x + p[1].x) / 2, cy: (p[0].y + p[1].y) / 2 };
+        }
+
+        stage.addEventListener('pointerdown', function (e) {
+            if (e.target.closest('.pub-modal__arrow')) { return; }
+            pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+            try { stage.setPointerCapture(e.pointerId); } catch (_) {}
+            if (pointers.size === 1 && scale > 1) {
+                panStart = { x: e.clientX - tx, y: e.clientY - ty };
+                stage.style.cursor = 'grabbing';
+            } else if (pointers.size === 2) {
+                panStart = null;
+                var p = pinchVals();
+                var srect = stage.getBoundingClientRect();
+                pinchStart = {
+                    dist: p.dist, cx: p.cx, cy: p.cy,
+                    scale: scale, tx: tx, ty: ty,
+                    rectLeft: srect.left, rectTop: srect.top
+                };
+            }
+        });
+        stage.addEventListener('pointermove', function (e) {
+            if (!pointers.has(e.pointerId)) { return; }
+            pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+            if (pointers.size === 1 && panStart) {
+                tx = e.clientX - panStart.x;
+                ty = e.clientY - panStart.y;
+                applyTransform();
+            } else if (pointers.size === 2 && pinchStart) {
+                var cur = pinchVals();
+                var f = cur.dist / pinchStart.dist;
+                var newScale = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, pinchStart.scale * f));
+                // image-space coords of pinch center at gesture start (stage rect at that moment)
+                var bx = (pinchStart.cx - pinchStart.rectLeft) / pinchStart.scale;
+                var by = (pinchStart.cy - pinchStart.rectTop)  / pinchStart.scale;
+                // place stage so cursor center maps to baseline image point
+                tx = pinchStart.tx + (cur.cx - bx * newScale) - (pinchStart.cx - bx * pinchStart.scale);
+                ty = pinchStart.ty + (cur.cy - by * newScale) - (pinchStart.cy - by * pinchStart.scale);
+                scale = newScale;
+                if (scale <= ZOOM_MIN + 0.001) { scale = ZOOM_MIN; tx = 0; ty = 0; }
+                applyTransform();
+            }
+        });
+        function endPointer(e) {
+            pointers.delete(e.pointerId);
+            try { stage.releasePointerCapture(e.pointerId); } catch (_) {}
+            if (pointers.size < 2) { pinchStart = null; }
+            if (pointers.size === 0) {
+                panStart = null;
+                stage.style.cursor = scale > 1 ? 'grab' : '';
+            }
+        }
+        stage.addEventListener('pointerup',     endPointer);
+        stage.addEventListener('pointercancel', endPointer);
+
+        applyTransform();
+
         // ----- spread rendering -----
         var renderer = window.LieuwePublicationsRender;
         function paint() {
+            resetZoom();
             // Compute target page width to fit the stage.
             var stageW = stageWrap.clientWidth  || window.innerWidth - (isPhone() ? 0 : 360);
             var stageH = stageWrap.clientHeight || window.innerHeight - 220;
