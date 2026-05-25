@@ -49,40 +49,17 @@ function lieuwe_enqueue_assets(): void {
 add_action( 'wp_enqueue_scripts', 'lieuwe_enqueue_assets' );
 
 /**
- * Register portfolio custom post type.
- * Skipped if already registered by a plugin (e.g. Elementor Pro).
- */
-function lieuwe_register_portfolio_cpt(): void {
-    if ( post_type_exists( 'portfolio_item' ) ) {
-        return;
-    }
-
-    register_post_type( 'portfolio_item', [
-        'labels' => [
-            'name'          => 'Portfolio',
-            'singular_name' => 'Portfolio Item',
-            'add_new_item'  => 'Add New Portfolio Item',
-            'edit_item'     => 'Edit Portfolio Item',
-            'view_item'     => 'View Portfolio Item',
-            'all_items'     => 'All Portfolio Items',
-        ],
-        'public'       => true,
-        'has_archive'  => true,
-        'supports'     => [ 'title', 'editor', 'thumbnail', 'excerpt' ],
-        'show_in_rest' => true,
-        'rewrite'      => [ 'slug' => 'portfolio' ],
-        'menu_icon'    => 'dashicons-portfolio',
-    ] );
-}
-add_action( 'init', 'lieuwe_register_portfolio_cpt', 5 );
-
-/**
- * Add meta box for Portfolio Items.
+ * Theme-side meta box for portfolio_item posts.
+ *
+ * The Portfolio Canvas plugin owns the portfolio_item CPT and its primary
+ * meta (year, video URL, gallery). The theme only adds the "feature on
+ * front page" flag, which drives ordering in front-page.php's portfolio
+ * preview query.
  */
 function lieuwe_add_portfolio_meta_boxes(): void {
     add_meta_box(
         'lieuwe_portfolio_settings',
-        'Portfolio Settings',
+        'Front Page',
         'lieuwe_render_portfolio_meta_box',
         'portfolio_item',
         'side',
@@ -91,12 +68,8 @@ function lieuwe_add_portfolio_meta_boxes(): void {
 }
 add_action( 'add_meta_boxes', 'lieuwe_add_portfolio_meta_boxes' );
 
-/**
- * Render portfolio meta box.
- */
 function lieuwe_render_portfolio_meta_box( WP_Post $post ): void {
-    $featured  = get_post_meta( $post->ID, '_lieuwe_featured', true );
-    $video_url = get_post_meta( $post->ID, 'portfolio_video', true );
+    $featured = get_post_meta( $post->ID, '_lieuwe_featured', true );
     wp_nonce_field( 'lieuwe_portfolio_meta_box', 'lieuwe_portfolio_meta_box_nonce' );
     ?>
     <p>
@@ -105,16 +78,9 @@ function lieuwe_render_portfolio_meta_box( WP_Post $post ): void {
             <?php esc_html_e( 'Feature on Front Page', 'lieuwe-theme' ); ?>
         </label>
     </p>
-    <p>
-        <label for="portfolio_video" style="display:block; margin-bottom:5px;"><?php esc_html_e( 'Portfolio Video URL (MP4)', 'lieuwe-theme' ); ?></label>
-        <input type="url" id="portfolio_video" name="portfolio_video" value="<?php echo esc_url( $video_url ); ?>" class="widefat">
-    </p>
     <?php
 }
 
-/**
- * Save portfolio meta box data.
- */
 function lieuwe_save_portfolio_meta_box( int $post_id ): void {
     if ( ! isset( $_POST['lieuwe_portfolio_meta_box_nonce'] ) || ! wp_verify_nonce( $_POST['lieuwe_portfolio_meta_box_nonce'], 'lieuwe_portfolio_meta_box' ) ) {
         return;
@@ -132,10 +98,6 @@ function lieuwe_save_portfolio_meta_box( int $post_id ): void {
         update_post_meta( $post_id, '_lieuwe_featured', '1' );
     } else {
         delete_post_meta( $post_id, '_lieuwe_featured' );
-    }
-
-    if ( isset( $_POST['portfolio_video'] ) ) {
-        update_post_meta( $post_id, 'portfolio_video', esc_url_raw( $_POST['portfolio_video'] ) );
     }
 }
 add_action( 'save_post_portfolio_item', 'lieuwe_save_portfolio_meta_box' );
