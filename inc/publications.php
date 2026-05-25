@@ -98,10 +98,12 @@ function lieuwe_render_publication_meta_box( WP_Post $post ): void {
     $allow_download = ( '' === $allow_download ) ? '1' : $allow_download; // default on
     $paper_color    = (string) get_post_meta( $post->ID, '_pub_paper_color', true );
     $accent_color   = (string) get_post_meta( $post->ID, '_pub_accent_color', true );
+    $cover_side     = (string) get_post_meta( $post->ID, '_pub_cover_side', true );
 
     if ( '' === $paper_color )  { $paper_color  = '#f5ecd9'; }
     if ( '' === $accent_color ) { $accent_color = '#3a2a1f'; }
     if ( '' === $author )       { $author       = 'Lieuwe Jongsma'; }
+    if ( ! in_array( $cover_side, [ 'right', 'left' ], true ) ) { $cover_side = 'right'; }
 
     $pdf_url = $pdf_id ? wp_get_attachment_url( $pdf_id ) : '';
 
@@ -177,6 +179,15 @@ function lieuwe_render_publication_meta_box( WP_Post $post ): void {
             Abstract
             <textarea name="lieuwe_pub[abstract]" rows="3"><?php echo esc_textarea( $abstract ); ?></textarea>
             <p class="lieuwe-pub-fields__hint">1–3 sentences. Shown in the row expansion and the reader sidebar.</p>
+        </label>
+
+        <label>
+            First page sits on
+            <select name="lieuwe_pub[cover_side]">
+                <option value="right" <?php selected( $cover_side, 'right' ); ?>>Right (cover page — page 1 is alone, page 2 starts a spread)</option>
+                <option value="left"  <?php selected( $cover_side, 'left' );  ?>>Left (page 1 begins the first spread with page 2)</option>
+            </select>
+            <p class="lieuwe-pub-fields__hint">Use "Left" when the PDF's first page is the left side of an original spread (no separate cover).</p>
         </label>
 
         <label>
@@ -366,6 +377,11 @@ function lieuwe_save_publication_meta_box( int $post_id ): void {
     $accent = sanitize_hex_color( $raw['accent_color'] ?? '' );
     update_post_meta( $post_id, '_pub_paper_color',  $paper  ?: '#f5ecd9' );
     update_post_meta( $post_id, '_pub_accent_color', $accent ?: '#3a2a1f' );
+
+    // Cover side — whitelist, default right
+    $cover_side = $raw['cover_side'] ?? 'right';
+    if ( ! in_array( $cover_side, [ 'right', 'left' ], true ) ) { $cover_side = 'right'; }
+    update_post_meta( $post_id, '_pub_cover_side', $cover_side );
 }
 add_action( 'save_post_publication', 'lieuwe_save_publication_meta_box' );
 

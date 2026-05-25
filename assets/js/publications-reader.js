@@ -20,6 +20,7 @@
             permalink:    el.getAttribute('data-permalink'),
             paperColor:   el.getAttribute('data-paper-color') || '#f5ecd9',
             accentColor:  el.getAttribute('data-accent-color') || '#3a2a1f',
+            coverSide:    el.getAttribute('data-cover-side') === 'left' ? 'left' : 'right',
         };
     }
 
@@ -169,7 +170,7 @@
             if (!renderer) { return; }
             renderer.loadPdf(pub.pdfUrl).then(function (pdf) {
                 totalPages   = pdf.numPages;
-                totalSpreads = renderer.spreadCount(totalPages);
+                totalSpreads = renderer.spreadCount(totalPages, pub.coverSide);
                 if (spreadIndex < 0) { spreadIndex = 0; }
                 if (spreadIndex >= totalSpreads) { spreadIndex = totalSpreads - 1; }
                 var pair;
@@ -179,7 +180,7 @@
                     pair = [ (pageNum <= totalPages) ? pageNum : null ];
                     totalSpreads = totalPages;
                 } else {
-                    pair = renderer.pagesInSpread(spreadIndex, totalPages);
+                    pair = renderer.pagesInSpread(spreadIndex, totalPages, pub.coverSide);
                 }
 
                 var newInner = el('div', 'pub-modal__spread-inner');
@@ -197,11 +198,13 @@
                     stage.replaceChildren(newInner);
 
                     // labels
-                    if (spreadIndex === 0) { stripLabelLeft.textContent = 'Cover'; }
-                    else if (phone) {
+                    if (spreadIndex === 0 && pub.coverSide === 'right') {
+                        stripLabelLeft.textContent = 'Cover';
+                    } else if (phone) {
                         stripLabelLeft.textContent = 'Page ' + (pair[0] || spreadIndex + 1);
                     } else {
-                        var lo = pair[0], hi = pair[1] || lo;
+                        var lo = pair[0] || pair[1];
+                        var hi = pair[1] || pair[0];
                         stripLabelLeft.textContent = 'Pages ' + lo + (hi && hi !== lo ? ' – ' + hi : '');
                     }
                     stripLabelRight.textContent = 'Spread ' + (spreadIndex + 1) + ' / ' + totalSpreads;

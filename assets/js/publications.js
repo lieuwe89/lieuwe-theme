@@ -315,14 +315,30 @@
         return promise;
     }
 
-    /** Total number of spreads for an N-page PDF in the project's spread convention. */
-    function spreadCount(pages) { return Math.ceil((pages + 1) / 2); }
+    /**
+     * Total number of spreads for an N-page PDF.
+     * coverSide === 'left'  -> page 1 sits on the left of spread 0; no leading blank.
+     * coverSide === 'right' (default) -> spread 0 is [blank, page 1]; rest are 2N/2N+1.
+     */
+    function spreadCount(pages, coverSide) {
+        if (coverSide === 'left') { return Math.ceil(pages / 2); }
+        return Math.ceil((pages + 1) / 2);
+    }
 
     /**
-     * Pages in spread (1-indexed), or `null` for the blank cover-left.
-     * Spread 0 -> [null, 1]. Spread N>0 -> [2N, 2N+1].
+     * Pages in spread (1-indexed), or `null` for a blank half.
+     * coverSide='right': Spread 0 -> [null, 1]. Spread N>0 -> [2N, 2N+1].
+     * coverSide='left' : Spread N    -> [2N+1, 2N+2].
      */
-    function pagesInSpread(spreadIndex, totalPages) {
+    function pagesInSpread(spreadIndex, totalPages, coverSide) {
+        if (coverSide === 'left') {
+            var l = 2 * spreadIndex + 1;
+            var r = 2 * spreadIndex + 2;
+            return [
+                (l <= totalPages) ? l : null,
+                (r <= totalPages) ? r : null,
+            ];
+        }
         if (spreadIndex === 0) { return [ null, 1 ]; }
         var left  = 2 * spreadIndex;
         var right = 2 * spreadIndex + 1;
@@ -344,6 +360,8 @@
         var pdfUrl = row.getAttribute('data-pdf-url');
         if (!hasPdf || !pdfUrl) { return; }  // placeholder div is already rendered by PHP
 
+        var coverSide = row.getAttribute('data-cover-side') === 'left' ? 'left' : 'right';
+
         var mount = panel.querySelector('[data-spread-mount]');
         var prev  = panel.querySelector('.pub-panel__nav--prev');
         var next  = panel.querySelector('.pub-panel__nav--next');
@@ -354,7 +372,7 @@
         var totalSpreads = null;
 
         function paint() {
-            renderSpread(mount, pdfUrl, spreadIndex)
+            renderSpread(mount, pdfUrl, spreadIndex, coverSide)
                 .then(function (result) {
                     totalSpreads = result.spreadCount;
                     if (capt) {
@@ -394,10 +412,10 @@
     /**
      * Render a spread into `mount`. Returns { spreadCount, totalPages }.
      */
-    function renderSpread(mount, pdfUrl, spreadIndex) {
+    function renderSpread(mount, pdfUrl, spreadIndex, coverSide) {
         return loadPdf(pdfUrl).then(function (pdf) {
             var pages = pdf.numPages;
-            var pair  = pagesInSpread(spreadIndex, pages);
+            var pair  = pagesInSpread(spreadIndex, pages, coverSide);
 
             var box = document.createElement('div');
             box.className = 'pub-panel__spread-inner';
@@ -424,7 +442,7 @@
                 var existing = mount.querySelector('.pub-panel__spread-inner, .pub-panel__placeholder');
                 if (existing) { existing.replaceWith(box); } else { mount.prepend(box); }
 
-                return { spreadCount: spreadCount(pages), totalPages: pages };
+                return { spreadCount: spreadCount(pages, coverSide), totalPages: pages };
             });
         });
     }

@@ -22,6 +22,8 @@ while ( have_posts() ) :
     $has_pdf  = lieuwe_pub_has_pdf( $post_id );
     $pdf_id   = (int) get_post_meta( $post_id, '_pub_pdf_id', true );
     $pdf_url  = $has_pdf ? wp_get_attachment_url( $pdf_id ) : '';
+    $cover_side = (string) get_post_meta( $post_id, '_pub_cover_side', true );
+    if ( ! in_array( $cover_side, [ 'right', 'left' ], true ) ) { $cover_side = 'right'; }
     $auto_open = isset( $_GET['reader'] ) && '1' === $_GET['reader'] && $has_pdf;
     $slug     = get_post_field( 'post_name', $post_id );
     ?>
@@ -41,6 +43,7 @@ while ( have_posts() ) :
           data-abstract="<?php echo esc_attr( $abstract ); ?>"
           data-paper-color="<?php echo esc_attr( $paper ); ?>"
           data-accent-color="<?php echo esc_attr( $accent ); ?>"
+          data-cover-side="<?php echo esc_attr( $cover_side ); ?>"
           data-permalink="<?php echo esc_url( get_permalink( $post_id ) ); ?>">
 
         <article class="pub-single__article pub-container">

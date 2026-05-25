@@ -124,6 +124,8 @@ $eyebrow = ( $year_first && $year_last )
                 $has_pdf  = lieuwe_pub_has_pdf( $post_id );
                 $pdf_id   = (int) get_post_meta( $post_id, '_pub_pdf_id', true );
                 $pdf_url  = $has_pdf ? wp_get_attachment_url( $pdf_id ) : '';
+                $cover_side = (string) get_post_meta( $post_id, '_pub_cover_side', true );
+                if ( ! in_array( $cover_side, [ 'right', 'left' ], true ) ) { $cover_side = 'right'; }
                 $slug     = get_post_field( 'post_name', $post_id );
 
                 $search_blob = strtolower( trim( implode( ' ', array_filter( [
@@ -159,6 +161,7 @@ $eyebrow = ( $year_first && $year_last )
                     data-abstract="<?php echo esc_attr( $abstract ); ?>"
                     data-paper-color="<?php echo esc_attr( $paper ); ?>"
                     data-accent-color="<?php echo esc_attr( $accent ); ?>"
+                    data-cover-side="<?php echo esc_attr( $cover_side ); ?>"
                     data-permalink="<?php echo esc_url( get_permalink( $post_id ) ); ?>"
                     data-search="<?php echo esc_attr( $search_blob ); ?>"
                     style="--pub-paper: <?php echo esc_attr( $paper ); ?>; --pub-accent-ink: <?php echo esc_attr( $accent ); ?>;">
