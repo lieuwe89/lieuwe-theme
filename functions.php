@@ -432,6 +432,7 @@ function lieuwe_add_security_headers(): void {
         header( 'X-XSS-Protection: 1; mode=block' );
         header( 'Strict-Transport-Security: max-age=31536000; includeSubDomains' );
         header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+        header( 'Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=()' );
     }
 }
 add_action( 'send_headers', 'lieuwe_add_security_headers' );
@@ -486,3 +487,17 @@ add_filter( 'rest_endpoints', 'lieuwe_disable_rest_endpoints' );
  */
 remove_action( 'wp_head', 'wp_generator' );
 add_filter( 'the_generator', '__return_empty_string' );
+
+/**
+ * Security: Remove WordPress version strings from scripts and styles.
+ */
+function lieuwe_remove_wp_version_strings( string $src ): string {
+    global $wp_version;
+    parse_str( (string) parse_url( $src, PHP_URL_QUERY ), $query );
+    if ( ! empty( $query['ver'] ) && $query['ver'] === $wp_version ) {
+        $src = (string) remove_query_arg( 'ver', $src );
+    }
+    return $src;
+}
+add_filter( 'script_loader_src', 'lieuwe_remove_wp_version_strings' );
+add_filter( 'style_loader_src', 'lieuwe_remove_wp_version_strings' );
