@@ -486,3 +486,11 @@ add_filter( 'rest_endpoints', 'lieuwe_disable_rest_endpoints' );
  */
 remove_action( 'wp_head', 'wp_generator' );
 add_filter( 'the_generator', '__return_empty_string' );
+
+/**
+ * Security: Mask login error messages to prevent user enumeration.
+ */
+function lieuwe_mask_login_errors(): string {
+    return '<strong>Error</strong>: Incorrect login details.';
+}
+add_filter( 'login_errors', 'lieuwe_mask_login_errors' );
