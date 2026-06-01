@@ -458,14 +458,25 @@ function lieuwe_block_user_enumeration(): void {
 
     $request_uri       = isset( $_SERVER['REQUEST_URI'] ) ? (string) $_SERVER['REQUEST_URI'] : '';
     $is_numeric_author = isset( $_REQUEST['author'] ) && is_numeric( $_REQUEST['author'] );
+    $is_author_name    = isset( $_REQUEST['author_name'] ) && ! empty( $_REQUEST['author_name'] );
     $is_author_path    = (bool) preg_match( '#(^|/)author/[^/]+#i', $request_uri );
 
-    if ( $is_numeric_author || $is_author_path ) {
+    if ( $is_numeric_author || $is_author_name || $is_author_path ) {
         wp_redirect( home_url() );
         exit;
     }
 }
 add_action( 'template_redirect', 'lieuwe_block_user_enumeration' );
+
+/**
+ * Security: Disable user sitemaps to prevent user enumeration via WP core sitemaps.
+ */
+add_filter( 'wp_sitemaps_add_provider', function ( $provider, $name ) {
+    if ( 'users' === $name ) {
+        return false;
+    }
+    return $provider;
+}, 10, 2 );
 
 /**
  * Security: Disable user endpoint in REST API for non-authenticated users
