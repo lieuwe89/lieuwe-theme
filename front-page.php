@@ -4,24 +4,30 @@
 
 <!-- HERO ----------------------------------------------------------------- -->
 <section class="hero section-dark">
-    <?php $video_url = lieuwe_hero_video_url(); ?>
+    <?php
+    $video_url = lieuwe_hero_video_url();
+    $image_url = lieuwe_hero_image_url();
+    ?>
+
+    <?php if ( $image_url ) : ?>
+        <div
+            class="hero__image"
+            style="background-image: url('<?php echo esc_url( $image_url ); ?>')"
+            role="img"
+            aria-label="<?php esc_attr_e( 'Hero image', 'lieuwe-theme' ); ?>"
+        ></div>
+    <?php else : ?>
+        <div class="hero__image hero__image--empty"></div>
+    <?php endif; ?>
 
     <?php if ( $video_url ) : ?>
-        <video class="hero__video" autoplay muted loop playsinline>
+        <video
+            class="hero__video"
+            autoplay muted loop playsinline preload="auto"
+            <?php if ( $image_url ) : ?>poster="<?php echo esc_url( $image_url ); ?>"<?php endif; ?>
+        >
             <source src="<?php echo esc_url( $video_url ); ?>" type="video/mp4">
         </video>
-    <?php else : ?>
-        <?php $image_url = lieuwe_hero_image_url(); ?>
-        <?php if ( $image_url ) : ?>
-            <div
-                class="hero__image"
-                style="background-image: url('<?php echo esc_url( $image_url ); ?>')"
-                role="img"
-                aria-label="<?php esc_attr_e( 'Hero image', 'lieuwe-theme' ); ?>"
-            ></div>
-        <?php else : ?>
-            <div class="hero__image hero__image--empty"></div>
-        <?php endif; ?>
     <?php endif; ?>
 
     <div class="hero__overlay" aria-hidden="true"></div>
