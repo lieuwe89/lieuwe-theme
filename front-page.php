@@ -151,12 +151,21 @@
             <ul class="home-news__list">
                 <?php while ( $news_query->have_posts() ) : $news_query->the_post(); ?>
                     <li class="home-news__item">
-                        <time class="home-news__date" datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>">
-                            <?php echo esc_html( get_the_date( 'j F Y' ) ); ?>
-                        </time>
-                        <a href="<?php the_permalink(); ?>" class="home-news__title">
-                            <?php the_title(); ?>
-                        </a>
+                        <?php if ( has_post_thumbnail() ) : ?>
+                            <a href="<?php the_permalink(); ?>" class="home-news__thumb" aria-hidden="true" tabindex="-1">
+                                <?php the_post_thumbnail( 'thumbnail' ); ?>
+                            </a>
+                        <?php else : ?>
+                            <div class="home-news__thumb home-news__thumb--placeholder" aria-hidden="true"></div>
+                        <?php endif; ?>
+                        <div class="home-news__text">
+                            <time class="home-news__date" datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>">
+                                <?php echo esc_html( get_the_date( 'j F Y' ) ); ?>
+                            </time>
+                            <a href="<?php the_permalink(); ?>" class="home-news__title">
+                                <?php the_title(); ?>
+                            </a>
+                        </div>
                     </li>
                 <?php endwhile; ?>
                 <?php wp_reset_postdata(); ?>
