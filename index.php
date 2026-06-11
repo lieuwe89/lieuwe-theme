@@ -9,7 +9,7 @@
             <ul class="post-list">
                 <?php while ( have_posts() ) : the_post(); ?>
                     <li class="post-item">
-                        <span class="post-item-date"><?php echo get_the_date(); ?></span>
+                        <span class="post-item-date"><?php echo esc_html( get_the_date() ); ?></span>
                         <h2 class="post-item-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
                         <div class="post-item-excerpt text-muted"><?php the_excerpt(); ?></div>
                     </li>
