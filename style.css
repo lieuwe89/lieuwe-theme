@@ -2,19 +2,72 @@
 Theme Name: Lieuwe Jongsma Custom Theme
 Author: Lieuwe Jongsma
 Description: Custom portfolio theme for lieuwejongsma.nl — cinematic, editorial, warm.
-Version: 1.12.0
+Version: 1.13.0
 License: GNU General Public License v2 or later
 Text Domain: lieuwe-theme
 */
 
 /* ==========================================================================
-   Fonts
-   Sorts Mill Goudy: Frederic Goudy's old-style serif, early 20th century
-   Jost: Futura-influenced 1920s geometric sans
-   (Replace @import with self-hosted @font-face for production)
+   Fonts — self-hosted (no Google CDN: faster first paint + GDPR-safe)
+   Sorts Mill Goudy: Frederic Goudy's old-style serif (static: regular + italic)
+   Jost: Futura-influenced geometric sans (variable weight axis 100–900)
+   Files in assets/fonts/. latin-ext is fetched on demand via unicode-range.
+   Subsets/ranges mirror Google's css2 output.
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy:ital@0;1&family=Jost:wght@300;400;500&display=swap');
+/* Sorts Mill Goudy — Regular */
+@font-face {
+    font-family: 'Sorts Mill Goudy';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('assets/fonts/SortsMillGoudy-Regular.latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+    font-family: 'Sorts Mill Goudy';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('assets/fonts/SortsMillGoudy-Regular.latinext.woff2') format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* Sorts Mill Goudy — Italic */
+@font-face {
+    font-family: 'Sorts Mill Goudy';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url('assets/fonts/SortsMillGoudy-Italic.latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+    font-family: 'Sorts Mill Goudy';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url('assets/fonts/SortsMillGoudy-Italic.latinext.woff2') format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* Jost — variable weight, normal */
+@font-face {
+    font-family: 'Jost';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('assets/fonts/Jost.latin.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+    font-family: 'Jost';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('assets/fonts/Jost.latinext.woff2') format('woff2');
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
 
 /* ==========================================================================
    Design System
@@ -402,15 +455,42 @@ p + p {
    Homepage Sections
    ========================================================================== */
 
-/* Intro */
+/* Intro — refined centered editorial lead.
+   Content comes from the block editor (heading + paragraph + photo), so the
+   spacing below is defensive: empty paragraphs are hidden and author spacers
+   capped, so the rhythm reads as intentional whatever the block structure. */
 .home-intro {
     padding-block: var(--space-xl);
 }
 
+.home-intro p:empty {
+    display: none;
+}
+
+.home-intro .wp-block-spacer {
+    height: var(--space-md) !important;
+}
+
+.home-intro .wp-block-group {
+    align-items: center;
+    text-align: center;
+}
+
+.home-intro h1,
+.home-intro h2 {
+    max-width: 22ch;
+    margin-inline: auto;
+    font-size: clamp(2rem, 4.2vw, 3rem);
+    line-height: 1.1;
+}
+
 .home-intro p {
-    font-size: 1.125rem;
-    line-height: 1.8;
+    max-width: 54ch;
+    margin-inline: auto;
+    font-size: 1.25rem;
+    line-height: 1.7;
     color: var(--color-text);
+    text-align: center;
 }
 
 .home-intro ul {
@@ -424,10 +504,30 @@ p + p {
     display: block;
 }
 
-.home-intro .container--narrow > *:first-child img {
+/* Lead photograph + its caption */
+.home-intro .wp-block-image {
+    margin-top: var(--space-md);
+}
+
+.home-intro figure {
+    margin: 0;
+}
+
+.home-intro figure img {
     width: 100%;
     height: auto;
     display: block;
+}
+
+.home-intro figcaption,
+.home-intro .wp-element-caption {
+    margin-top: 0.85rem;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--color-muted);
+    text-align: center;
 }
 
 /* Portfolio preview — warmer ochre section */
@@ -477,26 +577,21 @@ p + p {
     transform: scale(1.04);
 }
 
+/* Titles are always visible — hover-only hid every piece name on touch
+   devices, where a craft portfolio most needs them. The taller gradient
+   keeps them legible over busy photographs. */
 .portfolio-card__title {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    padding: var(--space-sm);
-    background: linear-gradient(to top, oklch(0% 0 0 / 0.65), transparent);
+    padding: 2.75rem var(--space-sm) var(--space-sm);
+    background: linear-gradient(to top, oklch(0% 0 0 / 0.72), oklch(0% 0 0 / 0));
     color: var(--color-text-light);
     font-family: var(--font-display);
-    font-size: 1rem;
+    font-size: 1.0625rem;
     font-weight: 400;
     font-style: italic;
-    opacity: 0;
-    transform: translateY(4px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.portfolio-card:hover .portfolio-card__title {
-    opacity: 1;
-    transform: translateY(0);
 }
 
 /* News preview */
@@ -610,6 +705,39 @@ p + p {
 
     .home-news__date {
         min-width: 0;
+    }
+}
+
+/* ==========================================================================
+   Homepage scroll-reveal
+   JS adds .home-reveal only when motion is allowed, so no-JS users always
+   see content. Mirrors the services-page reveal.
+   ========================================================================== */
+
+.home-reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+        opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.home-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+/* Gentle stagger within each row */
+.home-portfolio__grid .home-reveal:nth-child(2) { transition-delay: 0.08s; }
+.home-portfolio__grid .home-reveal:nth-child(3) { transition-delay: 0.16s; }
+.home-news__list .home-reveal:nth-child(2) { transition-delay: 0.06s; }
+.home-news__list .home-reveal:nth-child(3) { transition-delay: 0.12s; }
+
+@media (prefers-reduced-motion: reduce) {
+    .home-reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
     }
 }
 
@@ -1632,74 +1760,82 @@ p + p {
 
 .site-footer__inner {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    gap: var(--space-md);
+    gap: var(--space-lg) var(--space-md);
     flex-wrap: wrap;
+}
+
+/* Brand block — anchors the left edge so the footer reads as composed */
+.site-footer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    max-width: 34ch;
 }
 
 .site-footer__name {
     font-family: var(--font-display);
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     font-weight: 400;
     color: var(--color-text-light);
+    transition: opacity 0.2s ease;
+}
+
+.site-footer__name:hover {
+    opacity: 0.7;
+}
+
+.site-footer__tagline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: oklch(96% 0.012 79 / 0.72);
+}
+
+/* Links column — right-aligned on wide screens to fill the width */
+.site-footer__links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    gap: var(--space-sm);
+}
+
+.site-footer__social {
+    display: flex;
+    gap: var(--space-md);
 }
 
 .site-footer__nav {
     display: flex;
     gap: var(--space-md);
     flex-wrap: wrap;
+    justify-content: flex-end;
 }
 
-.site-footer__nav a {
-    font-size: 0.6875rem;
-    font-weight: 400;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: oklch(96% 0.012 79 / 0.6);
-    transition: color 0.2s ease;
-}
-
-.site-footer__nav a:hover {
-    color: var(--color-text-light);
-}
-
-.site-footer__right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: var(--space-xs);
-}
-
-.site-footer__instagram {
-    font-size: 0.6875rem;
-    font-weight: 400;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--color-text-light);
-    transition: opacity 0.2s ease;
-}
-
-.site-footer__instagram:hover {
-    opacity: 0.65;
-}
-
-.site-footer__copy {
-    font-size: 0.6875rem;
-    color: oklch(96% 0.012 79 / 0.5);
-}
-
+.site-footer__nav a,
+.site-footer__instagram,
 .site-footer__playground {
     font-size: 0.6875rem;
     font-weight: 400;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: oklch(96% 0.012 79 / 0.6);
-    transition: color 0.2s ease;
+    color: oklch(96% 0.012 79 / 0.7);
+    transition: color 0.2s ease, opacity 0.2s ease;
 }
 
+.site-footer__nav a:hover,
+.site-footer__instagram:hover,
 .site-footer__playground:hover {
     color: var(--color-text-light);
+    opacity: 1;
+}
+
+.site-footer__copy {
+    font-size: 0.6875rem;
+    color: oklch(96% 0.012 79 / 0.55);
 }
 
 /* Playground page */
@@ -1736,8 +1872,9 @@ p + p {
         align-items: flex-start;
     }
 
-    .site-footer__right {
+    .site-footer__links {
         align-items: flex-start;
+        text-align: left;
     }
 }
 

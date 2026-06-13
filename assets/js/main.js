@@ -74,6 +74,37 @@
     }
   }
 
+  // ── Homepage: reveal sections on scroll (mirrors the services reveal) ──────
+  const homeRevealTargets = document.querySelectorAll(
+    '.home-intro .wp-block-group, .home-intro .wp-block-image, ' +
+    '.home-portfolio__heading, .home-portfolio .portfolio-card, .home-portfolio .home-section-link, ' +
+    '.home-news__heading, .home-news__item, .home-news .home-section-link'
+  );
+
+  if (homeRevealTargets.length) {
+    const reduceMotionHome = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if ('IntersectionObserver' in window && !reduceMotionHome) {
+      const homeObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            homeObserver.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.08,
+        rootMargin: '0px 0px -8% 0px'
+      });
+
+      homeRevealTargets.forEach(function (el) {
+        el.classList.add('home-reveal');
+        homeObserver.observe(el);
+      });
+    }
+    // No IntersectionObserver or reduced motion: leave elements in their natural state.
+  }
+
   // ── Video thumbnails: capture first frame for cards without featured image ──
   document.querySelectorAll('.portfolio-card__video-thumb').forEach(function (el) {
     var videoUrl = el.dataset.video;

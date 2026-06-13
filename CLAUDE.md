@@ -29,48 +29,60 @@ There is no build step — edits to PHP/CSS/JS take effect immediately on page r
 
 ## Architecture
 
-Classic WordPress template hierarchy. All styles are in `style.css` (no preprocessor). One vanilla JS file handles nav toggle and scroll behavior.
+Classic WordPress template hierarchy. All styles are in `style.css` (no preprocessor). One vanilla JS file (`assets/js/main.js`) handles the nav toggle, the header scroll state, and IntersectionObserver scroll-reveal on the homepage and services pages.
 
 **Template → content type mapping:**
 
 | Template | Content |
 |---|---|
 | `front-page.php` | Homepage: video hero, intro, portfolio preview, news preview |
-| `archive-portfolio.php` | Portfolio grid (2-col desktop, 1-col mobile) |
-| `single-portfolio.php` | Single portfolio item |
 | `archive.php` | News/blog listing |
 | `single.php` | Single news/blog post |
+| `archive-publication.php` | Publications listing (`/writing/`) |
+| `single-publication.php` | Single publication |
 | `page.php` | Static pages (About, Contact) |
+| `page-services.php` | Services page |
 | `search.php` | Search results |
 | `404.php` | 404 page |
 | `header.php` / `footer.php` | Sitewide chrome |
 
+> Portfolio (`portfolio_item` CPT) archive and single views are owned by the **Portfolio Canvas plugin**, not the theme — there are no `archive-portfolio.php` / `single-portfolio.php` files. The theme only renders the homepage portfolio *preview* in `front-page.php`.
+
 **`functions.php` registers:**
 - Theme support (title-tag, post-thumbnails, html5)
 - Two nav menus: `menu-1` (primary) and `footer`
-- `portfolio_item` custom post type (URL slug: `/portfolio/`) — note: post type name is `portfolio_item`, not `portfolio`
-- Stylesheet + main.js enqueue; fonts are self-hosted woff2 files in `assets/fonts/`
+- Theme-side meta box for the `portfolio_item` CPT — note: the CPT itself is registered by the **Portfolio Canvas plugin**, not the theme (`functions.php` only adds the meta box). Post type name is `portfolio_item`, not `portfolio`
+- `publication` custom post type (URL slug: `/writing/`) and its archive/single rendering (see `inc/publications.php`)
+- Stylesheet + main.js enqueue; fonts are self-hosted woff2 (Sorts Mill Goudy + Jost) in `assets/fonts/` — no Google Fonts CDN
 - Customizer section delegated to `inc/customizer.php` (hero video/image source)
 
 ## Design system
 
-CSS custom properties (defined in `:root` in `style.css`):
+CSS custom properties (defined in `:root` in `style.css`). The palette is a warm tonal range expressed in **oklch** — everything lives in the light; there is no dark mode:
 
 | Token | Value | Use |
 |---|---|---|
-| `--color-bg` | `#F5F0E8` | Light cream background |
-| `--color-surface` | `#EDE8DC` | Cards, alternate sections |
-| `--color-bg-dark` | `#1A1612` | Dark sections, footer, hero |
-| `--color-text` | `#1C1917` | Body text on light |
-| `--color-text-light` | `#F5F0E8` | Body text on dark |
-| `--color-muted` | `#6B6560` | Secondary text |
-| `--color-accent` | `#C1633A` | Links, dates, decorative |
-| `--font-heading` | Playfair Display | H1–H6, hero title, blockquotes |
-| `--font-body` | DM Sans | Body, nav, labels |
+| `--color-bg` | `oklch(96% 0.012 79)` | Natural linen — page background |
+| `--color-surface` | `oklch(93% 0.016 72)` | Ochre-tinted surface — cards, alt sections |
+| `--color-warm` | `oklch(89% 0.022 67)` | Dusty ochre — portfolio preview, archive headers |
+| `--color-blush` | `oklch(92% 0.020 52)` | Terracotta wash — news archive header |
+| `--color-hero-empty` | `oklch(28% 0.018 65)` | Warm dark — fallback for an empty hero |
+| `--color-text` | `oklch(22% 0.012 68)` | Warm dark brown — body text |
+| `--color-text-light` | `oklch(96% 0.012 79)` | Cream — text on terracotta surfaces |
+| `--color-muted` | `oklch(56% 0.014 72)` | Warm medium — secondary text, captions |
+| `--color-accent` | `oklch(55% 0.12 48)` | Terracotta — links, dates, decorative, footer bg |
+| `--font-display` | Sorts Mill Goudy (serif) | H1–H6, hero title, blockquotes, italic accents |
+| `--font-body` | Jost (geometric sans) | Body, nav, labels |
 
-Layout utilities: `.container` (720px max), `.container-wide` (1200px max), `.section-spacing` (6rem vertical), `.bg-dark`, `.bg-light`, `.bg-surface`.
+Fonts are **self-hosted** (`assets/fonts/`, `@font-face` in `style.css`) — no Google Fonts CDN. Jost is a variable font (weight axis 100–900); Goudy ships static regular + italic.
 
-The site alternates light and dark sections for visual rhythm. The header is fixed and gains `.scrolled-dark` (dark bg) via JS after 100px of scroll.
+Spacing scale: `--space-xs … --space-xl` (0.5 / 1 / 2 / 4 / 8 rem), tightened at the tablet/mobile breakpoints. `--nav-height: 64px`.
+
+Layout & section utilities:
+- `.container` (max **1200px**), `.container--narrow` (max **720px**), `.container-wide` (max 1200px)
+- `.section-light` (bg), `.section-dark` (warm surface — *not* charcoal; "dark" is historical naming), `.section-terracotta` (accent bg, cream text)
+
+The site builds rhythm by alternating warm tones (bg → surface → warm → blush → terracotta), not light-vs-dark. The header is fixed and transparent over the hero; JS adds `.is-scrolled` (cream bg + dark text) once scrolled past ~80% of the hero height (or after 80px on pages without a hero).
 
 ## Versioning
 
