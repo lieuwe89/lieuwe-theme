@@ -85,7 +85,9 @@
 .te-signup__interests { border: 0; padding: 0; margin: 0; display: flex; gap: 18px; flex-wrap: wrap; }
 .te-check { display: inline-flex; align-items: center; gap: 8px; font: 400 14px/1 var(--font-body); color: var(--color-text); }
 .te-check input { width: 17px; height: 17px; accent-color: var(--color-accent); }
-.te-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+/* Honeypot — display:none so browser autofill / password managers skip it
+   (off-screen positioning still gets autofilled, which silently dropped real submissions). */
+.te-hp { display: none !important; }
 .te-form-note { font: 400 12px/1.5 var(--font-body); color: var(--te-faint); margin: 14px 0 0; }
 .te-form-error { font: 400 14px var(--font-body); color: var(--color-accent); margin: 0 0 12px; }
 .te-confirm-inline {
