@@ -12,6 +12,7 @@ services:
       WORDPRESS_DB_NAME: exampledb
     volumes:
       - .:/var/www/html/wp-content/themes/lieuwe-theme
+      - ../lieuwe-teaching:/var/www/html/wp-content/plugins/lieuwe-teaching
     depends_on:
       - db
 
