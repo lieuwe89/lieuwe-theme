@@ -9,21 +9,9 @@
         'general':             'general updates'
     };
 
-    // Resolve a reCAPTCHA v3 token for an action; '' when reCAPTCHA isn't present.
-    function token(action) {
-        return new Promise(function (resolve) {
-            if (!CFG.recaptchaKey || !window.grecaptcha || !window.grecaptcha.execute) {
-                resolve('');
-                return;
-            }
-            window.grecaptcha.ready(function () {
-                window.grecaptcha.execute(CFG.recaptchaKey, { action: action })
-                    .then(resolve)
-                    .catch(function () { resolve(''); });
-            });
-        });
-    }
-
+    // POST the form over fetch. Turnstile (managed mode) injects its own
+    // `cf-turnstile-response` field into the form, so FormData carries the token
+    // automatically — no manual token retrieval needed.
     function postForm(form) {
         var data = new FormData(form);
         data.append('te_ajax', '1');
@@ -40,6 +28,10 @@
             form.parentNode.insertBefore(box, form);
         }
         box.textContent = msg;
+        // Turnstile tokens are single-use; refresh the widget so a retry sends a fresh one.
+        if (window.turnstile && window.turnstile.reset) {
+            try { window.turnstile.reset(); } catch (e) {}
+        }
     }
 
     function interestLine(keys) {
@@ -164,25 +156,21 @@
                 .call(form.querySelectorAll('input[name="te_interests[]"]:checked'))
                 .map(function (i) { return i.value; });
 
-            token('signup').then(function (t) {
-                var field = form.querySelector('.te-token');
-                if (field) { field.value = t; }
-                postForm(form).then(function (res) {
-                    if (res && res.success) {
-                        var data = res.data || {};
-                        var box = document.createElement('div');
-                        box.className = 'te-confirm-inline';
-                        box.setAttribute('role', 'status');
-                        var msg = document.createElement('p');
-                        msg.textContent = "Right, you're on the list. I'll be in touch when new dates go up.";
-                        box.appendChild(msg);
-                        form.parentNode.replaceChild(box, form);
-                        openPopup(data.email || email, data.interests || interests);
-                    } else {
-                        showFormError(form, (res && res.data && res.data.message) || 'Something went wrong. Please try again.');
-                    }
-                }).catch(function () { showFormError(form, 'Network error — please try again.'); });
-            });
+            postForm(form).then(function (res) {
+                if (res && res.success) {
+                    var data = res.data || {};
+                    var box = document.createElement('div');
+                    box.className = 'te-confirm-inline';
+                    box.setAttribute('role', 'status');
+                    var msg = document.createElement('p');
+                    msg.textContent = "Right, you're on the list. I'll be in touch when new dates go up.";
+                    box.appendChild(msg);
+                    form.parentNode.replaceChild(box, form);
+                    openPopup(data.email || email, data.interests || interests);
+                } else {
+                    showFormError(form, (res && res.data && res.data.message) || 'Something went wrong. Please try again.');
+                }
+            }).catch(function () { showFormError(form, 'Network error — please try again.'); });
         });
     }
 
@@ -196,17 +184,13 @@
 
             var name = (form.querySelector('input[name="te_name"]') || {}).value || '';
 
-            token('booking').then(function (t) {
-                var field = form.querySelector('.te-token');
-                if (field) { field.value = t; }
-                postForm(form).then(function (res) {
-                    if (res && res.success) {
-                        swapBookingConfirm(form, (res.data && res.data.name) || name);
-                    } else {
-                        showFormError(form, (res && res.data && res.data.message) || 'Something went wrong. Please try again.');
-                    }
-                }).catch(function () { showFormError(form, 'Network error — please try again.'); });
-            });
+            postForm(form).then(function (res) {
+                if (res && res.success) {
+                    swapBookingConfirm(form, (res.data && res.data.name) || name);
+                } else {
+                    showFormError(form, (res && res.data && res.data.message) || 'Something went wrong. Please try again.');
+                }
+            }).catch(function () { showFormError(form, 'Network error — please try again.'); });
         });
     }
 

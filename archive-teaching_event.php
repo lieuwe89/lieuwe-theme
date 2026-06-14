@@ -58,7 +58,6 @@ $privacy_note = lieuwe_teaching_page_privacy_note();
                         <input type="hidden" name="action" value="lieuwe_teaching_signup">
                         <?php wp_nonce_field( 'lieuwe_teaching_signup', '_te_nonce' ); ?>
                         <input type="text" name="te_hp" class="te-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-                        <input type="hidden" name="te_token" class="te-token" value="">
                         <div class="te-signup__row">
                             <label class="te-field te-field--grow">
                                 <span class="visually-hidden">Email address</span>
@@ -75,6 +74,10 @@ $privacy_note = lieuwe_teaching_page_privacy_note();
                                 </label>
                             <?php endforeach; ?>
                         </fieldset>
+                        <?php $ts_key = function_exists( 'lieuwe_teaching_turnstile_site_key' ) ? lieuwe_teaching_turnstile_site_key() : ''; ?>
+                        <?php if ( $ts_key ) : ?>
+                            <div class="cf-turnstile" data-sitekey="<?php echo esc_attr( $ts_key ); ?>" data-action="signup"></div>
+                        <?php endif; ?>
                         <?php if ( $privacy_note ) : ?>
                             <p class="te-form-note"><?php echo esc_html( $privacy_note ); ?></p>
                         <?php endif; ?>

@@ -101,7 +101,6 @@ while ( have_posts() ) :
                             <input type="hidden" name="te_event_id" value="<?php echo esc_attr( (string) $id ); ?>">
                             <?php wp_nonce_field( 'lieuwe_teaching_booking', '_te_nonce' ); ?>
                             <input type="text" name="te_hp" class="te-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-                            <input type="hidden" name="te_token" class="te-token" value="">
                             <div class="te-book__row">
                                 <label class="te-field">Your name <input type="text" name="te_name" required></label>
                                 <label class="te-field">Email <input type="email" name="te_email" required></label>
@@ -118,6 +117,10 @@ while ( have_posts() ) :
                             </div>
                             <label class="te-field">Dietary needs for lunch (optional) <input type="text" name="te_diet"></label>
                             <label class="te-field">Anything else (optional) <textarea name="te_note" rows="3"></textarea></label>
+                            <?php $ts_key = function_exists( 'lieuwe_teaching_turnstile_site_key' ) ? lieuwe_teaching_turnstile_site_key() : ''; ?>
+                            <?php if ( $ts_key ) : ?>
+                                <div class="cf-turnstile" data-sitekey="<?php echo esc_attr( $ts_key ); ?>" data-action="booking"></div>
+                            <?php endif; ?>
                             <div class="te-book__submit">
                                 <button type="submit" class="te-btn te-btn--primary">Request your spot</button>
                                 <span class="te-book__hint">No payment today · you can change your mind anytime</span>

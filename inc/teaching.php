@@ -38,13 +38,10 @@ function lieuwe_theme_teaching_enqueue(): void {
         true
     );
 
-    $key = function_exists( 'lieuwe_teaching_recaptcha_site_key' )
-        ? lieuwe_teaching_recaptcha_site_key()
-        : '';
-
+    // Turnstile (managed mode) reads its site key from the widget's data-sitekey
+    // attribute, so the JS only needs the AJAX endpoint.
     wp_localize_script( 'lieuwe-teaching', 'lieuweTeaching', [
-        'ajaxUrl'      => admin_url( 'admin-post.php' ),
-        'recaptchaKey' => $key,
+        'ajaxUrl' => admin_url( 'admin-post.php' ),
     ] );
 }
 add_action( 'wp_enqueue_scripts', 'lieuwe_theme_teaching_enqueue' );
