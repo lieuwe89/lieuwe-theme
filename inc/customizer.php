@@ -121,6 +121,31 @@ function lieuwe_customizer_register( \WP_Customize_Manager $wp_customize ): void
             'mime_type' => 'image',
         ] )
     );
+
+    // Business details (footer / legal identification — fill once KvK-registered)
+    $wp_customize->add_section( 'lieuwe_business', [
+        'title'    => 'Business details (footer)',
+        'priority' => 37,
+    ] );
+
+    $business_fields = [
+        'business_name'  => 'Business name',
+        'business_kvk'   => 'KvK number',
+        'business_btw'   => 'BTW / VAT number',
+        'business_email' => 'Contact email',
+    ];
+    foreach ( $business_fields as $id => $label ) {
+        $wp_customize->add_setting( $id, [
+            'default'           => '',
+            'sanitize_callback' => 'sanitize_text_field',
+            'transport'         => 'refresh',
+        ] );
+        $wp_customize->add_control( $id, [
+            'label'   => $label,
+            'section' => 'lieuwe_business',
+            'type'    => 'text',
+        ] );
+    }
 }
 add_action( 'customize_register', 'lieuwe_customizer_register' );
 
@@ -173,4 +198,19 @@ function lieuwe_teaching_page_hero_image_url(): string {
         return '';
     }
     return (string) ( wp_get_attachment_image_url( $id, 'large' ) ?: '' );
+}
+
+/**
+ * Business details for the footer colofon. Returns only the filled fields
+ * (keys: name, kvk, btw, email). Empty until set in Customizer → Business details.
+ *
+ * @return array<string,string>
+ */
+function lieuwe_business_details(): array {
+    return array_filter( [
+        'name'  => (string) get_theme_mod( 'business_name', '' ),
+        'kvk'   => (string) get_theme_mod( 'business_kvk', '' ),
+        'btw'   => (string) get_theme_mod( 'business_btw', '' ),
+        'email' => (string) get_theme_mod( 'business_email', '' ),
+    ] );
 }
