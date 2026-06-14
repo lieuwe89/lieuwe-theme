@@ -78,6 +78,49 @@ function lieuwe_customizer_register( \WP_Customize_Manager $wp_customize ): void
         'section' => 'lieuwe_publications',
         'type'    => 'textarea',
     ] );
+
+    // Teaching page
+    $wp_customize->add_section( 'lieuwe_teaching', [
+        'title'    => 'Teaching page',
+        'priority' => 36,
+    ] );
+
+    $teaching_fields = [
+        'teaching_eyebrow'      => [ 'label' => 'Eyebrow',            'type' => 'text',     'default' => 'Classes & workshops' ],
+        'teaching_title'        => [ 'label' => 'Title',              'type' => 'text',     'default' => 'Teaching' ],
+        'teaching_intro_p1'     => [ 'label' => 'Intro paragraph 1',  'type' => 'textarea', 'default' => 'I teach traditional crafts — spoon carving, leatherwork, Japanese lacquerwork, and now and then sandalmaking — at festivals, at the archives, and at small workshops I host myself.' ],
+        'teaching_intro_p2'     => [ 'label' => 'Intro paragraph 2',  'type' => 'textarea', 'default' => 'Classes are practical and unhurried. Beginners are welcome, and so are people who have been at it longer than I have.' ],
+        'teaching_hero_caption' => [ 'label' => 'Hero caption',       'type' => 'text',     'default' => '' ],
+        'signup_heading'        => [ 'label' => 'Signup heading',     'type' => 'text',     'default' => 'Hear about new classes' ],
+        'signup_intro'          => [ 'label' => 'Signup intro',       'type' => 'textarea', 'default' => 'New dates go up through the year. Leave your email and I will let you know when the next ones are set — no more than a handful of messages a year.' ],
+        'teaching_privacy_note' => [ 'label' => 'Privacy note (under forms)', 'type' => 'text', 'default' => 'Your details are only used to contact you about classes. Nothing else.' ],
+    ];
+
+    foreach ( $teaching_fields as $id => $cfg ) {
+        $wp_customize->add_setting( $id, [
+            'default'           => $cfg['default'],
+            'sanitize_callback' => 'textarea' === $cfg['type'] ? 'sanitize_textarea_field' : 'sanitize_text_field',
+            'transport'         => 'refresh',
+        ] );
+        $wp_customize->add_control( $id, [
+            'label'   => $cfg['label'],
+            'section' => 'lieuwe_teaching',
+            'type'    => $cfg['type'],
+        ] );
+    }
+
+    $wp_customize->add_setting( 'teaching_hero_image', [
+        'default'           => 0,
+        'sanitize_callback' => 'absint',
+        'transport'         => 'refresh',
+    ] );
+    $wp_customize->add_control(
+        new \WP_Customize_Media_Control( $wp_customize, 'teaching_hero_image', [
+            'label'     => 'Hero image',
+            'section'   => 'lieuwe_teaching',
+            'mime_type' => 'image',
+        ] )
+    );
 }
 add_action( 'customize_register', 'lieuwe_customizer_register' );
 
@@ -111,4 +154,23 @@ function lieuwe_publications_hero_title_line2(): string {
 }
 function lieuwe_publications_hero_intro(): string {
     return (string) get_theme_mod( 'pub_hero_intro', 'Catalogues, essays, one slow monograph. Written across museum residencies, magazine commissions, and the bench. Click a title to open it — pages render in place.' );
+}
+
+/**
+ * Teaching page copy accessors (theme side; distinct prefix from the plugin).
+ */
+function lieuwe_teaching_page_eyebrow(): string       { return (string) get_theme_mod( 'teaching_eyebrow', 'Classes & workshops' ); }
+function lieuwe_teaching_page_title(): string         { return (string) get_theme_mod( 'teaching_title', 'Teaching' ); }
+function lieuwe_teaching_page_intro_p1(): string      { return (string) get_theme_mod( 'teaching_intro_p1', '' ); }
+function lieuwe_teaching_page_intro_p2(): string      { return (string) get_theme_mod( 'teaching_intro_p2', '' ); }
+function lieuwe_teaching_page_hero_caption(): string  { return (string) get_theme_mod( 'teaching_hero_caption', '' ); }
+function lieuwe_teaching_page_signup_heading(): string{ return (string) get_theme_mod( 'signup_heading', 'Hear about new classes' ); }
+function lieuwe_teaching_page_signup_intro(): string  { return (string) get_theme_mod( 'signup_intro', '' ); }
+function lieuwe_teaching_page_privacy_note(): string  { return (string) get_theme_mod( 'teaching_privacy_note', '' ); }
+function lieuwe_teaching_page_hero_image_url(): string {
+    $id = (int) get_theme_mod( 'teaching_hero_image', 0 );
+    if ( $id <= 0 ) {
+        return '';
+    }
+    return (string) ( wp_get_attachment_image_url( $id, 'large' ) ?: '' );
 }
