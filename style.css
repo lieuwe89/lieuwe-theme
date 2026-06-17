@@ -2,7 +2,7 @@
 Theme Name: Lieuwe Jongsma Custom Theme
 Author: Lieuwe Jongsma
 Description: Custom portfolio theme for lieuwejongsma.nl — cinematic, editorial, warm.
-Version: 1.16.1
+Version: 1.17.0
 License: GNU General Public License v2 or later
 Text Domain: lieuwe-theme
 */
@@ -988,6 +988,132 @@ p + p {
     font-size: 1.25em;
     line-height: 1.5;
     color: var(--color-muted);
+}
+
+/* --- Tables (wp-block-table) -------------------------------------------------
+   Data tables break out wider than the 720px prose column and scroll
+   horizontally when needed (the shell rules below apply to every table).
+   One opt-in modifier, added to the scoreboard in the editor
+   (block → Advanced → Additional CSS class(es) → "is-scoreboard"):
+   numeric right-align + nowrap on desktop, and a card list on phones instead of
+   sideways scroll. Any table without the class just gets the breakout + scroll
+   shell — which is exactly what the archival source table wants — so forgetting
+   the editor step degrades gracefully rather than breaking.
+   table-layout:auto here also overrides core's has-fixed-layout (higher
+   specificity), so the "Fixed width table cells" toggle is belt-and-suspenders.
+   -------------------------------------------------------------------------- */
+.single-post .entry-content .wp-block-table {
+    width: min(100vw - 2rem, 980px);
+    max-width: calc(100vw - 2rem);
+    margin-block: var(--space-lg);
+    margin-left: 50%;
+    transform: translateX(-50%);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.single-post .entry-content .wp-block-table table {
+    width: 100%;
+    min-width: max-content;
+    table-layout: auto;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    line-height: 1.35;
+}
+
+.single-post .entry-content .wp-block-table :is(th, td) {
+    padding: 0.55rem 0.7rem;
+    vertical-align: top;
+    border-bottom: 1px solid var(--color-surface);
+    text-align: left;
+}
+
+.single-post .entry-content .wp-block-table th {
+    font-family: var(--font-body);
+    font-weight: 600;
+    color: var(--color-muted);
+}
+
+/* Scoreboard — numeric columns (3+) right-aligned and unwrapped on desktop */
+@media (min-width: 601px) {
+    .single-post .entry-content .wp-block-table.is-scoreboard th {
+        white-space: nowrap;
+    }
+    .single-post .entry-content .wp-block-table.is-scoreboard
+        :is(th, td):nth-child(n + 3) {
+        text-align: right;
+        white-space: nowrap;
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+/* Scoreboard — card list on phones (no sideways scroll for the headline table).
+   Labels are hardcoded by column position; this is why the rules are scoped to
+   .is-scoreboard — the column order is known and fixed for this one table. */
+@media (max-width: 600px) {
+    .single-post .entry-content .wp-block-table.is-scoreboard {
+        overflow-x: visible;
+    }
+    .single-post .entry-content .wp-block-table.is-scoreboard table {
+        display: block;
+        min-width: 0;
+    }
+    .single-post .entry-content .wp-block-table.is-scoreboard thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+    }
+    .single-post .entry-content .wp-block-table.is-scoreboard tbody,
+    .single-post .entry-content .wp-block-table.is-scoreboard tr {
+        display: block;
+    }
+    .single-post .entry-content .wp-block-table.is-scoreboard tr {
+        margin-block: var(--space-sm);
+        padding: 0.35rem 0.9rem;
+        border: 1px solid var(--color-surface);
+        border-radius: 6px;
+        background-color: var(--color-bg);
+    }
+    .single-post .entry-content .wp-block-table.is-scoreboard td {
+        display: flex;
+        justify-content: space-between;
+        gap: var(--space-sm);
+        padding: 0.4rem 0;
+        border: 0;
+        border-bottom: 1px solid var(--color-surface);
+        text-align: right;
+        white-space: normal;
+        font-variant-numeric: tabular-nums;
+    }
+    .single-post .entry-content .wp-block-table.is-scoreboard tr td:last-child {
+        border-bottom: 0;
+    }
+    .single-post .entry-content .wp-block-table.is-scoreboard td::before {
+        content: attr(data-label);
+        flex: 0 0 auto;
+        margin-right: var(--space-sm);
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: 0.8rem;
+        text-align: left;
+        color: var(--color-muted);
+    }
+    /* Column labels (Rank | Model | Checkpoint mean | Run range | CER | Outliers) */
+    .single-post .entry-content .wp-block-table.is-scoreboard td:nth-child(1)::before { content: "Rank"; }
+    .single-post .entry-content .wp-block-table.is-scoreboard td:nth-child(2)::before { content: "Model"; }
+    .single-post .entry-content .wp-block-table.is-scoreboard td:nth-child(3)::before { content: "Checkpoint mean"; }
+    .single-post .entry-content .wp-block-table.is-scoreboard td:nth-child(4)::before { content: "Run range"; }
+    .single-post .entry-content .wp-block-table.is-scoreboard td:nth-child(5)::before { content: "CER"; }
+    .single-post .entry-content .wp-block-table.is-scoreboard td:nth-child(6)::before { content: "Outlier pages"; }
+    /* Model name as the card's emphasis line */
+    .single-post .entry-content .wp-block-table.is-scoreboard td:nth-child(2) {
+        font-family: var(--font-display);
+        font-size: 1.05rem;
+        color: var(--color-text);
+    }
 }
 
 /* ==========================================================================
