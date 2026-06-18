@@ -430,9 +430,10 @@ function lieuwe_add_security_headers(): void {
     if ( ! is_admin() ) {
         header( 'X-Content-Type-Options: nosniff' );
         header( 'X-Frame-Options: SAMEORIGIN' );
-        header( 'X-XSS-Protection: 1; mode=block' );
+        header( 'X-XSS-Protection: 0' );
         header( 'Strict-Transport-Security: max-age=31536000; includeSubDomains' );
         header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+        header( 'Permissions-Policy: camera=(), microphone=(), geolocation=()' );
     }
 }
 add_action( 'send_headers', 'lieuwe_add_security_headers' );
@@ -458,10 +459,10 @@ function lieuwe_block_user_enumeration(): void {
     }
 
     $request_uri       = isset( $_SERVER['REQUEST_URI'] ) ? (string) $_SERVER['REQUEST_URI'] : '';
-    $is_numeric_author = isset( $_REQUEST['author'] ) && is_numeric( $_REQUEST['author'] );
+    $is_author_query   = isset( $_REQUEST['author'] ) || isset( $_REQUEST['author_name'] );
     $is_author_path    = (bool) preg_match( '#(^|/)author/[^/]+#i', $request_uri );
 
-    if ( $is_numeric_author || $is_author_path ) {
+    if ( $is_author_query || $is_author_path ) {
         wp_redirect( home_url() );
         exit;
     }
