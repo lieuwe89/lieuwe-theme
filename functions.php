@@ -427,15 +427,15 @@ add_filter( 'body_class', 'lieuwe_body_classes' );
  * Add security headers.
  */
 function lieuwe_add_security_headers(): void {
-    if ( ! is_admin() ) {
-        header( 'X-Content-Type-Options: nosniff' );
-        header( 'X-Frame-Options: SAMEORIGIN' );
-        header( 'X-XSS-Protection: 1; mode=block' );
-        header( 'Strict-Transport-Security: max-age=31536000; includeSubDomains' );
-        header( 'Referrer-Policy: strict-origin-when-cross-origin' );
-    }
+    header( 'X-Content-Type-Options: nosniff' );
+    header( 'X-Frame-Options: SAMEORIGIN' );
+    header( 'X-XSS-Protection: 0' ); // Disabled as it's deprecated and can cause vulnerabilities
+    header( 'Strict-Transport-Security: max-age=31536000; includeSubDomains' );
+    header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+    header( 'Permissions-Policy: geolocation=(), microphone=(), camera=()' );
 }
 add_action( 'send_headers', 'lieuwe_add_security_headers' );
+add_action( 'admin_init', 'lieuwe_add_security_headers' );
 
 /**
  * Security: Disable XML-RPC to prevent brute force attacks and DDoS.
