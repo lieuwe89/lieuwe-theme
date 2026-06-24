@@ -433,6 +433,7 @@ function lieuwe_add_security_headers(): void {
         header( 'X-XSS-Protection: 1; mode=block' );
         header( 'Strict-Transport-Security: max-age=31536000; includeSubDomains' );
         header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+        header( 'Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=()' );
     }
 }
 add_action( 'send_headers', 'lieuwe_add_security_headers' );
