@@ -487,3 +487,17 @@ add_filter( 'rest_endpoints', 'lieuwe_disable_rest_endpoints' );
  */
 remove_action( 'wp_head', 'wp_generator' );
 add_filter( 'the_generator', '__return_empty_string' );
+
+/**
+ * Security: Remove WordPress version from scripts and styles to prevent fingerprinting.
+ */
+function lieuwe_remove_wp_version_strings( $src ) {
+    global $wp_version;
+    parse_str( (string) parse_url( $src, PHP_URL_QUERY ), $query );
+    if ( ! empty( $query['ver'] ) && $query['ver'] === $wp_version ) {
+        $src = remove_query_arg( 'ver', $src );
+    }
+    return $src;
+}
+add_filter( 'script_loader_src', 'lieuwe_remove_wp_version_strings' );
+add_filter( 'style_loader_src', 'lieuwe_remove_wp_version_strings' );

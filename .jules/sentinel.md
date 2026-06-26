@@ -12,3 +12,8 @@
 **Vulnerability:** The previous user enumeration protection in `functions.php` only checked for the `$_REQUEST['author']` parameter and returned a 403 Forbidden. This allowed attackers to bypass the check using permalinks (e.g., `/author/username/`). Furthermore, by returning a 403, it leaked the existence of users (existing users returned 403, while non-existing users returned 404), which is a form of status code leakage.
 **Learning:** Security checks that rely on specific query parameters can easily be bypassed by alternative routing mechanisms (like WP permalinks). Also, responding with a distinct error code (403 vs 404) defeats the purpose of preventing enumeration.
 **Prevention:** Use higher-level WordPress functions like `is_author()` to catch all author-related requests regardless of the URL format. Always respond uniformly (e.g., redirecting to the homepage) so attackers cannot distinguish between existing and non-existing resources.
+
+## 2026-06-15 - [Security Hardening] Prevented WordPress Version Leakage via Static Assets
+**Vulnerability:** Although the `wp_generator` meta tag was previously removed, the WordPress version was still being exposed through the `?ver=` query parameter automatically appended by WordPress to enqueued scripts and stylesheets.
+**Learning:** WordPress automatically appends its core version to all enqueued assets unless a custom version string is specified, allowing attackers to easily fingerprint the WP version and look for known exploits.
+**Prevention:** Added filters for `script_loader_src` and `style_loader_src` in `functions.php` to completely strip the `ver` query parameter when it matches the WordPress core version.
