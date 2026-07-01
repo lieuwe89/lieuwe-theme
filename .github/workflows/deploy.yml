@@ -2,8 +2,9 @@ name: Deploy to VPS
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*'          # deploy only on a version tag (intentional release gate)
+  workflow_dispatch:  # allow a manual re-deploy of the current main from the Actions tab
 
 jobs:
   deploy:
