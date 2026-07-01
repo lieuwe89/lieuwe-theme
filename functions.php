@@ -6,11 +6,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once get_template_directory() . '/inc/customizer.php';
 require_once get_template_directory() . '/inc/publications.php';
 require_once get_template_directory() . '/inc/teaching.php';
-// GitHub PUC updater intentionally disabled: this theme is deployed by the
-// GitHub Actions CI pipeline (.github/workflows/deploy.yml), which pushes
-// `main` straight to the VPS on every commit. The pull-based WP-updates-tab
-// path (inc/updater.php) is redundant against CI and would never fire, so it
-// is not loaded. Re-add this require to switch back to manual WP updates.
+// PUC GitHub updater — this is the REAL path code takes to production: the
+// site is updated by clicking "Update" in WP admin, which this powers. (The
+// GitHub Actions deploy.yml writes to a DEPLOY_PATH that is not the active
+// theme dir, so it does not update the live site.) Do NOT remove this require
+// or the WP-admin update path stops working.
+require_once get_template_directory() . '/inc/updater.php';
 
 /**
  * Theme setup.
@@ -550,15 +551,23 @@ function lieuwe_meta_description(): void {
     }
 
     if ( is_singular() ) {
-        $id   = get_queried_object_id();
-        $desc = has_excerpt( $id )
+        $id  = get_queried_object_id();
+        $raw = has_excerpt( $id )
             ? get_the_excerpt( $id )
-            : wp_trim_words( wp_strip_all_tags( (string) get_post_field( 'post_content', $id ) ), 30, '' );
+            : (string) get_post_field( 'post_content', $id );
+        // Clean before trimming: strip tags, decode entities, then normalise
+        // whitespace (incl. &nbsp; / U+00A0) so the description never starts
+        // with a stray space or shows raw entities. Trim on a word boundary.
+        $raw  = wp_strip_all_tags( $raw );
+        $raw  = html_entity_decode( $raw, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+        $raw  = str_replace( "\xc2\xa0", ' ', $raw );
+        $raw  = trim( (string) preg_replace( '/\s+/u', ' ', $raw ) );
+        $desc = wp_trim_words( $raw, 30, '…' );
     } else {
         $desc = get_bloginfo( 'description' );
     }
 
-    $desc = trim( (string) preg_replace( '/\s+/', ' ', (string) $desc ) );
+    $desc = trim( (string) preg_replace( '/\s+/u', ' ', (string) $desc ) );
     if ( '' === $desc ) {
         return;
     }
