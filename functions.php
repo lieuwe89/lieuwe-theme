@@ -6,7 +6,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once get_template_directory() . '/inc/customizer.php';
 require_once get_template_directory() . '/inc/publications.php';
 require_once get_template_directory() . '/inc/teaching.php';
-require_once get_template_directory() . '/inc/updater.php';
+// GitHub PUC updater intentionally disabled: this theme is deployed by the
+// GitHub Actions CI pipeline (.github/workflows/deploy.yml), which pushes
+// `main` straight to the VPS on every commit. The pull-based WP-updates-tab
+// path (inc/updater.php) is redundant against CI and would never fire, so it
+// is not loaded. Re-add this require to switch back to manual WP updates.
 
 /**
  * Theme setup.
@@ -433,6 +437,30 @@ function lieuwe_add_security_headers(): void {
         header( 'X-XSS-Protection: 1; mode=block' );
         header( 'Strict-Transport-Security: max-age=31536000; includeSubDomains' );
         header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+
+        /*
+         * Content-Security-Policy — Report-Only for now so an unforeseen
+         * violation never breaks the page (esp. reCAPTCHA v3 on the contact
+         * form and Cloudflare Turnstile on the teaching form). Watch the
+         * browser console / any report endpoint, then promote to an enforcing
+         * `Content-Security-Policy` header once the report log is clean.
+         */
+        $csp = implode(
+            '; ',
+            array(
+                "default-src 'self'",
+                "script-src 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://recaptcha.net https://challenges.cloudflare.com",
+                "frame-src https://www.google.com https://recaptcha.net https://challenges.cloudflare.com",
+                "style-src 'self' 'unsafe-inline'",
+                "img-src 'self' data: https://s.w.org",
+                "font-src 'self'",
+                "connect-src 'self' https://www.google.com https://challenges.cloudflare.com",
+                "form-action 'self'",
+                "base-uri 'self'",
+                "object-src 'none'",
+            )
+        );
+        header( 'Content-Security-Policy-Report-Only: ' . $csp );
     }
 }
 add_action( 'send_headers', 'lieuwe_add_security_headers' );
@@ -487,3 +515,54 @@ add_filter( 'rest_endpoints', 'lieuwe_disable_rest_endpoints' );
  */
 remove_action( 'wp_head', 'wp_generator' );
 add_filter( 'the_generator', '__return_empty_string' );
+
+/**
+ * Security: Strip the `?ver=` query string from enqueued styles/scripts.
+ *
+ * WordPress appends its own core version to bundled assets (e.g.
+ * `wp-includes/...css?ver=7.0`), which leaks the exact WP version for
+ * CVE matching. Removing the arg keeps the fingerprint off public asset URLs.
+ * Runs at a late priority so it wins over any earlier version filters.
+ *
+ * @param string $src Asset URL.
+ * @return string
+ */
+function lieuwe_remove_asset_version( $src ) {
+    if ( is_string( $src ) && str_contains( $src, 'ver=' ) ) {
+        $src = remove_query_arg( 'ver', $src );
+    }
+    return $src;
+}
+add_filter( 'style_loader_src', 'lieuwe_remove_asset_version', 9999 );
+add_filter( 'script_loader_src', 'lieuwe_remove_asset_version', 9999 );
+
+/**
+ * SEO: Output a per-page `<meta name="description">`.
+ *
+ * The theme ships no SEO plugin, so search engines and social cards fall back
+ * to scraped page text. This emits an in-voice-neutral description: the manual
+ * excerpt when set, otherwise the first ~30 words of the content, otherwise the
+ * site tagline. Guarded by a filter so a future SEO plugin can short-circuit it.
+ */
+function lieuwe_meta_description(): void {
+    if ( ! apply_filters( 'lieuwe_output_meta_description', true ) ) {
+        return;
+    }
+
+    if ( is_singular() ) {
+        $id   = get_queried_object_id();
+        $desc = has_excerpt( $id )
+            ? get_the_excerpt( $id )
+            : wp_trim_words( wp_strip_all_tags( (string) get_post_field( 'post_content', $id ) ), 30, '' );
+    } else {
+        $desc = get_bloginfo( 'description' );
+    }
+
+    $desc = trim( (string) preg_replace( '/\s+/', ' ', (string) $desc ) );
+    if ( '' === $desc ) {
+        return;
+    }
+
+    echo '<meta name="description" content="' . esc_attr( $desc ) . '">' . "\n";
+}
+add_action( 'wp_head', 'lieuwe_meta_description', 1 );

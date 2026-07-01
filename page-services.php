@@ -44,6 +44,7 @@ get_header(); ?>
                                         class="service__image"
                                         src="<?php echo esc_url( $service['image_url'] ); ?>"
                                         alt="<?php echo esc_attr( $service['image_alt'] ); ?>"
+                                        loading="lazy"
                                     >
                                 <?php else : ?>
                                     <div class="service__image service__image--empty" aria-hidden="true"></div>
