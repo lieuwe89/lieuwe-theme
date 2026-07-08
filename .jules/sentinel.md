@@ -12,3 +12,8 @@
 **Vulnerability:** The previous user enumeration protection in `functions.php` only checked for the `$_REQUEST['author']` parameter and returned a 403 Forbidden. This allowed attackers to bypass the check using permalinks (e.g., `/author/username/`). Furthermore, by returning a 403, it leaked the existence of users (existing users returned 403, while non-existing users returned 404), which is a form of status code leakage.
 **Learning:** Security checks that rely on specific query parameters can easily be bypassed by alternative routing mechanisms (like WP permalinks). Also, responding with a distinct error code (403 vs 404) defeats the purpose of preventing enumeration.
 **Prevention:** Use higher-level WordPress functions like `is_author()` to catch all author-related requests regardless of the URL format. Always respond uniformly (e.g., redirecting to the homepage) so attackers cannot distinguish between existing and non-existing resources.
+
+## 2024-05-24 - [Defense in Depth] Adding Permissions-Policy header
+**Vulnerability:** Browsers grant powerful web features (geolocation, camera, microphone, usb, payment) by default which can be exploited via XSS or third-party iframe injection if left unrestrained.
+**Learning:** Adding a `Permissions-Policy` header acts as a defense-in-depth barrier. It preemptively denies access to features the theme does not require, reducing the attack surface.
+**Prevention:** Include modern security headers in the centralised `lieuwe_add_security_headers` function by default to harden against unintended browser feature access.

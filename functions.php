@@ -438,6 +438,7 @@ function lieuwe_add_security_headers(): void {
         header( 'X-XSS-Protection: 1; mode=block' );
         header( 'Strict-Transport-Security: max-age=31536000; includeSubDomains' );
         header( 'Referrer-Policy: strict-origin-when-cross-origin' );
+        header( 'Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()' );
 
         /*
          * Content-Security-Policy — Report-Only for now so an unforeseen
