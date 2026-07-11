@@ -17,3 +17,8 @@
 **Vulnerability:** Browsers grant powerful web features (geolocation, camera, microphone, usb, payment) by default which can be exploited via XSS or third-party iframe injection if left unrestrained.
 **Learning:** Adding a `Permissions-Policy` header acts as a defense-in-depth barrier. It preemptively denies access to features the theme does not require, reducing the attack surface.
 **Prevention:** Include modern security headers in the centralised `lieuwe_add_security_headers` function by default to harden against unintended browser feature access.
+
+## 2026-06-25 - [Security Hardening] Prevented User Enumeration via XML Sitemaps
+**Vulnerability:** Core WordPress generates a user sitemap (`/wp-sitemap-users-1.xml`) by default since WP 5.5, which exposes user logins and permalinks, creating an often overlooked user enumeration vulnerability.
+**Learning:** Even when REST API endpoints, query strings (`?author=1`), and author permalinks (`/author/name/`) are disabled, WordPress's core XML sitemaps will still expose users.
+**Prevention:** Hook into `wp_sitemaps_add_provider` and return `false` for the `users` provider in `functions.php` to fully seal the enumeration leak.
