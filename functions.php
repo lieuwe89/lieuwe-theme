@@ -513,6 +513,14 @@ function lieuwe_disable_rest_endpoints( array $endpoints ): array {
 add_filter( 'rest_endpoints', 'lieuwe_disable_rest_endpoints' );
 
 /**
+ * Security: Remove users from the XML sitemap to prevent enumeration.
+ */
+function lieuwe_disable_sitemap_users( $provider, $name ) {
+    return ( 'users' === $name ) ? false : $provider;
+}
+add_filter( 'wp_sitemaps_add_provider', 'lieuwe_disable_sitemap_users', 10, 2 );
+
+/**
  * Security: Remove WordPress version generation to prevent version leakage.
  */
 remove_action( 'wp_head', 'wp_generator' );
