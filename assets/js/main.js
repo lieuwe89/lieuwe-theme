@@ -42,67 +42,44 @@
     });
   }
 
-  // ── Services page: reveal editorial service rows as they enter view ────────
+  // ── Scroll-reveal: add .is-visible as targets enter view ──────────────────
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const canReveal = 'IntersectionObserver' in window && !prefersReducedMotion;
+
+  function observeReveal(targets, options) {
+    const observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, options);
+    targets.forEach(function (el) { observer.observe(el); });
+  }
+
+  // Services page: rows start hidden via .has-service-reveal, so without an
+  // observer they must be forced visible.
   const servicesPage = document.querySelector('.services-page');
   const serviceItems = document.querySelectorAll('.services-page .service');
-
   if (servicesPage && serviceItems.length) {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (!('IntersectionObserver' in window) || prefersReducedMotion) {
-      serviceItems.forEach(function (item) {
-        item.classList.add('is-visible');
-      });
-    } else {
+    if (canReveal) {
       servicesPage.classList.add('has-service-reveal');
-
-      const serviceObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            serviceObserver.unobserve(entry.target);
-          }
-        });
-      }, {
-        threshold: 0.01,
-        rootMargin: '0px 0px -6% 0px'
-      });
-
-      serviceItems.forEach(function (item) {
-        serviceObserver.observe(item);
-      });
+      observeReveal(serviceItems, { threshold: 0.01, rootMargin: '0px 0px -6% 0px' });
+    } else {
+      serviceItems.forEach(function (item) { item.classList.add('is-visible'); });
     }
   }
 
-  // ── Homepage: reveal sections on scroll (mirrors the services reveal) ──────
+  // Homepage: .home-reveal is only added when animating, so no fallback needed.
   const homeRevealTargets = document.querySelectorAll(
     '.home-intro .wp-block-group, .home-intro .wp-block-image, ' +
     '.home-portfolio__heading, .home-portfolio .portfolio-card, .home-portfolio .home-section-link, ' +
     '.home-news__heading, .home-news__item, .home-news .home-section-link'
   );
-
-  if (homeRevealTargets.length) {
-    const reduceMotionHome = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if ('IntersectionObserver' in window && !reduceMotionHome) {
-      const homeObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            homeObserver.unobserve(entry.target);
-          }
-        });
-      }, {
-        threshold: 0.08,
-        rootMargin: '0px 0px -8% 0px'
-      });
-
-      homeRevealTargets.forEach(function (el) {
-        el.classList.add('home-reveal');
-        homeObserver.observe(el);
-      });
-    }
-    // No IntersectionObserver or reduced motion: leave elements in their natural state.
+  if (homeRevealTargets.length && canReveal) {
+    homeRevealTargets.forEach(function (el) { el.classList.add('home-reveal'); });
+    observeReveal(homeRevealTargets, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
   }
 
   // ── Video thumbnails: capture first frame for cards without featured image ──

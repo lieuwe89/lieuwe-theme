@@ -16,5 +16,10 @@ wp-content/uploads/
 # Brainstorming sessions
 .superpowers/
 
+# Local agent tooling output
+graphify-out/
+.agents/
+skills-lock.json
+
 # Docker
 docker-compose.override.yml
