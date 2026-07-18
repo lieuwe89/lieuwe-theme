@@ -498,6 +498,17 @@ function lieuwe_block_user_enumeration(): void {
 add_action( 'template_redirect', 'lieuwe_block_user_enumeration' );
 
 /**
+ * Security: Disable user sitemaps to prevent user enumeration.
+ */
+function lieuwe_disable_user_sitemaps( $provider, $name ) {
+    if ( 'users' === $name ) {
+        return false;
+    }
+    return $provider;
+}
+add_filter( 'wp_sitemaps_add_provider', 'lieuwe_disable_user_sitemaps', 10, 2 );
+
+/**
  * Security: Disable user endpoint in REST API for non-authenticated users
  */
 function lieuwe_disable_rest_endpoints( array $endpoints ): array {
