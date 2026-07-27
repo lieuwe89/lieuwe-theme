@@ -583,3 +583,17 @@ function lieuwe_meta_description(): void {
     echo '<meta name="description" content="' . esc_attr( $desc ) . '">' . "\n";
 }
 add_action( 'wp_head', 'lieuwe_meta_description', 1 );
+
+/**
+ * Security: Prevent user enumeration via oEmbed API by stripping author data.
+ */
+function lieuwe_remove_oembed_author_data( $data ) {
+    if ( isset( $data['author_name'] ) ) {
+        unset( $data['author_name'] );
+    }
+    if ( isset( $data['author_url'] ) ) {
+        unset( $data['author_url'] );
+    }
+    return $data;
+}
+add_filter( 'oembed_response_data', 'lieuwe_remove_oembed_author_data' );
