@@ -48,17 +48,6 @@ function lieuwe_publications_flush_rewrites(): void {
 add_action( 'after_switch_theme', 'lieuwe_publications_flush_rewrites' );
 
 /**
- * WP 6.5+ required for wp_enqueue_script_module (used by PDF.js).
- */
-function lieuwe_publications_wp_version_notice(): void {
-    if ( version_compare( get_bloginfo( 'version' ), '6.5', '>=' ) ) {
-        return;
-    }
-    echo '<div class="notice notice-error"><p><strong>Publications catalogue:</strong> requires WordPress 6.5 or later for ES module support. PDF previews will not load on the current version.</p></div>';
-}
-add_action( 'admin_notices', 'lieuwe_publications_wp_version_notice' );
-
-/**
  * Whitelist of valid publication types.
  *
  * @return string[]
@@ -435,22 +424,21 @@ function lieuwe_pub_enqueue(): void {
         $ver
     );
 
-    // PDF.js ships as ES module. wp_enqueue_script_module + wp_add_inline_script_module
-    // require WordPress 6.5+ — enforced by the admin notice in
-    // lieuwe_publications_wp_version_notice(); no fallback for older versions.
-    wp_enqueue_script_module(
-        'pdfjs',
-        $template . '/assets/js/vendor/pdf.min.js',
-        [],
-        '4.7.76'
-    );
-    wp_add_inline_script_module(
-        'lieuwe-publications-pdfjs-bridge',
-        "import * as pdfjsLib from '" . esc_js( $template . '/assets/js/vendor/pdf.min.js' ) . "';\n"
-        . "window.pdfjsLib = pdfjsLib;\n"
-        . "pdfjsLib.GlobalWorkerOptions.workerSrc = '" . esc_js( $worker_url ) . "';\n"
-        . "window.dispatchEvent(new CustomEvent('lieuwe-pdfjs-ready'));"
-    );
+    // PDF.js ships as an ES module. WordPress has wp_enqueue_script_module() (6.5+)
+    // but NO inline-module API — wp_add_inline_script_module() does not exist in
+    // core, so calling it is a fatal. Print the module bridge ourselves; a plain
+    // <script type="module"> needs no core API and works on every WP version.
+    // The consumer (assets/js/publications.js) waits for `lieuwe-pdfjs-ready`.
+    add_action( 'wp_footer', function () use ( $template, $worker_url ) {
+        $pdf_url = esc_js( $template . '/assets/js/vendor/pdf.min.js' );
+        $w_url   = esc_js( $worker_url );
+        echo "<script type=\"module\">\n"
+           . "import * as pdfjsLib from '{$pdf_url}';\n"
+           . "window.pdfjsLib = pdfjsLib;\n"
+           . "pdfjsLib.GlobalWorkerOptions.workerSrc = '{$w_url}';\n"
+           . "window.dispatchEvent(new CustomEvent('lieuwe-pdfjs-ready'));\n"
+           . "</script>\n";
+    }, 5 );
 
     wp_enqueue_script(
         'lieuwe-publications',
