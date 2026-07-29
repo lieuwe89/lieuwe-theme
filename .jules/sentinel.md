@@ -22,3 +22,8 @@
 **Vulnerability:** Even when REST API and author query parameters are restricted, WordPress 5.5+ core XML sitemaps feature automatically generates a `/wp-sitemap-users-1.xml` file which lists all users, allowing attackers to easily enumerate valid usernames.
 **Learning:** WordPress continually adds new features (like native sitemaps) that may inadvertently expose data previously secured through manual overrides. Security measures must account for these new features that bypass older enumeration protections.
 **Prevention:** Filter `wp_sitemaps_add_provider` to return `false` when the provider name is `users` to completely disable the user sitemap generation while leaving post and taxonomy sitemaps intact.
+
+## 2026-06-15 - [Security Hardening] Prevented User Enumeration via oEmbed API
+**Vulnerability:** Even when REST API endpoints, sitemaps, and author query parameters are restricted, WordPress's core oEmbed API can leak user information (like author name and author URL) in its response data when embedding posts, allowing for user enumeration.
+**Learning:** Security measures must cover all endpoints that return post data, including APIs designed for external embedding, as they can inadvertently leak author metadata.
+**Prevention:** Filter `oembed_response_data` to specifically unset the `author_name` and `author_url` keys from the payload before it is served.
