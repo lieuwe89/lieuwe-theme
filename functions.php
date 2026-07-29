@@ -498,6 +498,16 @@ function lieuwe_block_user_enumeration(): void {
 add_action( 'template_redirect', 'lieuwe_block_user_enumeration' );
 
 /**
+ * Security: Prevent user enumeration via oEmbed API
+ */
+function lieuwe_block_oembed_user_enumeration( $data ) {
+    unset( $data['author_name'] );
+    unset( $data['author_url'] );
+    return $data;
+}
+add_filter( 'oembed_response_data', 'lieuwe_block_oembed_user_enumeration' );
+
+/**
  * Security: Disable user endpoint in REST API for non-authenticated users
  */
 function lieuwe_disable_rest_endpoints( array $endpoints ): array {
