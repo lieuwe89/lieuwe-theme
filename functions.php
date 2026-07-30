@@ -461,7 +461,7 @@ function lieuwe_add_security_headers(): void {
                 "object-src 'none'",
             )
         );
-        header( 'Content-Security-Policy-Report-Only: ' . $csp );
+        header( 'Content-Security-Policy: ' . $csp );
     }
 }
 add_action( 'send_headers', 'lieuwe_add_security_headers' );
