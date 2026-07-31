@@ -2,7 +2,7 @@
 Theme Name: Lieuwe Jongsma Custom Theme
 Author: Lieuwe Jongsma
 Description: Custom portfolio theme for lieuwejongsma.nl — cinematic, editorial, warm.
-Version: 1.19.1
+Version: 1.19.2
 License: GNU General Public License v2 or later
 Text Domain: lieuwe-theme
 */
@@ -461,7 +461,7 @@ p + p {
    spacing below is defensive: empty paragraphs are hidden and author spacers
    capped, so the rhythm reads as intentional whatever the block structure. */
 .home-intro {
-    padding-block: var(--space-xl);
+    padding-block: var(--space-xl) var(--space-lg);
 }
 
 .home-intro p:empty {
@@ -533,7 +533,7 @@ p + p {
 
 /* Lead story + Meanwhile rail */
 .home-lead {
-    padding-block: var(--space-lg) var(--space-xl);
+    padding-block: var(--space-md) var(--space-lg);
 }
 
 .home-lead__grid {
