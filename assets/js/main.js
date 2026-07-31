@@ -74,8 +74,9 @@
   // Homepage: .home-reveal is only added when animating, so no fallback needed.
   const homeRevealTargets = document.querySelectorAll(
     '.home-intro .wp-block-group, .home-intro .wp-block-image, ' +
-    '.home-portfolio__heading, .home-portfolio .portfolio-card, .home-portfolio .home-section-link, ' +
-    '.home-news__heading, .home-news__item, .home-news .home-section-link'
+    '.home-lead__main, .home-rail, ' +
+    '.home-strip__head, .home-strip .strip-card, ' +
+    '.home-foot__block'
   );
   if (homeRevealTargets.length && canReveal) {
     homeRevealTargets.forEach(function (el) { el.classList.add('home-reveal'); });
