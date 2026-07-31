@@ -1,4 +1,6 @@
-<?php get_header(); ?>
+<?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+get_header(); ?>
 
 <main class="error-404 section-dark">
     <div class="container error-404__inner">

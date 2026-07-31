@@ -1,4 +1,6 @@
-<?php get_header(); ?>
+<?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+get_header(); ?>
 
 <main class="search-page">
     <div class="search-page__header section-dark">
