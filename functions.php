@@ -141,6 +141,9 @@ function lieuwe_render_lead_meta_box( WP_Post $post ): void {
 }
 
 function lieuwe_save_lead_meta_box( int $post_id ): void {
+    if ( wp_is_post_revision( $post_id ) ) {
+        return;
+    }
     if ( ! isset( $_POST['lieuwe_lead_meta_box_nonce'] ) || ! wp_verify_nonce( $_POST['lieuwe_lead_meta_box_nonce'], 'lieuwe_lead_meta_box' ) ) {
         return;
     }
