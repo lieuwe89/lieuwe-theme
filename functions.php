@@ -109,6 +109,56 @@ function lieuwe_save_portfolio_meta_box( int $post_id ): void {
 add_action( 'save_post_portfolio_item', 'lieuwe_save_portfolio_meta_box' );
 
 /**
+ * "Homepage lead" flag — posts, portfolio items, and publications.
+ *
+ * front-page.php shows the newest flagged item as the lead story; when
+ * nothing is flagged it falls back to the newest post. Several flags at
+ * once is fine — newest wins, no warning UI.
+ */
+function lieuwe_add_lead_meta_box(): void {
+    add_meta_box(
+        'lieuwe_lead_settings',
+        'Homepage',
+        'lieuwe_render_lead_meta_box',
+        [ 'post', 'portfolio_item', 'publication' ],
+        'side',
+        'default'
+    );
+}
+add_action( 'add_meta_boxes', 'lieuwe_add_lead_meta_box' );
+
+function lieuwe_render_lead_meta_box( WP_Post $post ): void {
+    $lead = get_post_meta( $post->ID, '_lieuwe_lead', true );
+    wp_nonce_field( 'lieuwe_lead_meta_box', 'lieuwe_lead_meta_box_nonce' );
+    ?>
+    <p>
+        <label>
+            <input type="checkbox" name="lieuwe_lead" value="1" <?php checked( $lead, '1' ); ?>>
+            <?php esc_html_e( 'Show as homepage lead', 'lieuwe-theme' ); ?>
+        </label>
+    </p>
+    <?php
+}
+
+function lieuwe_save_lead_meta_box( int $post_id ): void {
+    if ( ! isset( $_POST['lieuwe_lead_meta_box_nonce'] ) || ! wp_verify_nonce( $_POST['lieuwe_lead_meta_box_nonce'], 'lieuwe_lead_meta_box' ) ) {
+        return;
+    }
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+        return;
+    }
+    if ( ! current_user_can( 'edit_post', $post_id ) ) {
+        return;
+    }
+    if ( isset( $_POST['lieuwe_lead'] ) ) {
+        update_post_meta( $post_id, '_lieuwe_lead', '1' );
+    } else {
+        delete_post_meta( $post_id, '_lieuwe_lead' );
+    }
+}
+add_action( 'save_post', 'lieuwe_save_lead_meta_box' );
+
+/**
  * Default copy and image slots for the Services page template.
  */
 function lieuwe_get_services_page_defaults(): array {
