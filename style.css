@@ -531,136 +531,253 @@ p + p {
     text-align: center;
 }
 
-/* Portfolio preview — warmer ochre section */
-.home-portfolio {
-    padding-block: var(--space-xl);
-    background-color: var(--color-warm);
-    color: var(--color-text);
+/* Lead story + Meanwhile rail */
+.home-lead {
+    padding-block: var(--space-lg) var(--space-xl);
 }
 
-.home-portfolio__heading,
-.home-news__heading {
-    font-family: var(--font-display);
-    font-size: clamp(1.5rem, 3vw, 2.5rem);
-    font-weight: 400;
-    margin-bottom: var(--space-lg);
-    color: inherit;
-}
-
-.home-portfolio__grid {
+.home-lead__grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-md);
-    margin-bottom: var(--space-lg);
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-lg);
+    align-items: start;
 }
 
-.home-portfolio__grid .portfolio-card:nth-child(4) {
-    display: none;
+.home-lead__eyebrow {
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    border-top: 2px solid var(--color-text);
+    padding-top: 0.75rem;
+    margin-bottom: var(--space-sm);
 }
 
-.portfolio-card {
+.home-lead__title {
+    font-size: clamp(1.6rem, 3vw, 2.25rem);
+    line-height: 1.15;
+    margin-bottom: var(--space-sm);
+}
+
+.home-lead__title a {
+    color: inherit;
+    transition: color 0.2s ease;
+}
+
+.home-lead__title a:hover {
+    color: var(--color-accent);
+}
+
+.home-lead__image {
     display: block;
-    position: relative;
     overflow: hidden;
     background-color: var(--color-surface);
 }
 
-.portfolio-card__image {
+.home-lead__image img {
+    display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 1 / 1;
-    display: block;
+    max-height: 420px;
     object-fit: cover;
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.portfolio-card:hover .portfolio-card__image {
-    transform: scale(1.04);
+.home-lead__image:hover img {
+    transform: scale(1.03);
 }
 
-/* Titles are always visible — hover-only hid every piece name on touch
-   devices, where a craft portfolio most needs them. The taller gradient
-   keeps them legible over busy photographs. */
-.portfolio-card__title {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 2.75rem var(--space-sm) var(--space-sm);
-    background: linear-gradient(to top, oklch(0% 0 0 / 0.72), oklch(0% 0 0 / 0));
-    color: var(--color-text-light);
-    font-family: var(--font-display);
+.home-lead__excerpt {
+    margin-block: var(--space-sm);
     font-size: 1.0625rem;
-    font-weight: 400;
-    font-style: italic;
+    line-height: 1.7;
+    color: var(--color-muted);
+    max-width: 60ch;
 }
 
-/* News preview */
-.home-news {
-    padding-block: var(--space-xl);
+.home-rail {
+    border-left: 1px solid var(--color-surface);
+    padding-left: var(--space-md);
 }
 
-.home-news__list {
-    margin-bottom: var(--space-lg);
+.home-rail__list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-md);
+}
+
+.home-rail__item {
+    padding-block: 0.85rem;
     border-top: 1px solid var(--color-surface);
 }
 
-.home-news__item {
-    display: flex;
-    align-items: center;
-    gap: var(--space-md);
-    padding-block: var(--space-md);
-    border-bottom: 1px solid var(--color-surface);
+.home-rail__item:first-child {
+    border-top: none;
+    padding-top: 0;
 }
 
-.home-news__thumb {
-    flex-shrink: 0;
+.home-rail__item a {
     display: block;
-    width: 72px;
-    height: 72px;
-    overflow: hidden;
-    background-color: var(--color-surface);
-}
-
-.home-news__thumb img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.home-news__item:hover .home-news__thumb img {
-    transform: scale(1.04);
-}
-
-.home-news__text {
-    flex: 1;
-    display: flex;
-    align-items: baseline;
-    gap: var(--space-md);
-}
-
-.home-news__date {
-    flex-shrink: 0;
-    font-size: 0.6875rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--color-muted);
-    min-width: 130px;
-    font-weight: 400;
-}
-
-.home-news__title {
+    margin-bottom: 0.3rem;
     font-family: var(--font-display);
-    font-size: 1.125rem;
-    font-weight: 400;
+    font-size: 1.0625rem;
     color: var(--color-text);
     transition: color 0.2s ease;
 }
 
-.home-news__title:hover {
+.home-rail__item a:hover {
     color: var(--color-accent);
+}
+
+.home-rail__meta {
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+}
+
+/* Workshop filmstrip */
+.home-strip {
+    padding-block: var(--space-lg);
+    background-color: var(--color-surface);
+}
+
+.home-strip__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: var(--space-md);
+}
+
+.home-strip__head .home-lead__eyebrow {
+    margin-bottom: 0;
+}
+
+.home-strip__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-md);
+}
+
+.strip-card {
+    display: block;
+}
+
+.strip-card__image {
+    display: block;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background-color: var(--color-warm);
+}
+
+.strip-card__image img,
+.strip-card__image video,
+.strip-card__image canvas,
+.strip-card__image .portfolio-card__video-thumb {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.strip-card:hover .strip-card__image img,
+.strip-card:hover .strip-card__image canvas {
+    transform: scale(1.04);
+}
+
+.strip-card__title {
+    display: block;
+    margin-top: 0.6rem;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--color-text);
+}
+
+/* Teaching + Services foot */
+.home-foot {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+/* A lone block (teaching plugin inactive, or no services page) spans full width. */
+.home-foot__block:only-child {
+    grid-column: 1 / -1;
+}
+
+.home-foot__block {
+    position: relative;
+    display: block;
+    padding: var(--space-lg) var(--space-md);
+    min-height: 200px;
+}
+
+.home-foot__block--teaching {
+    background-color: var(--color-accent);
+    color: var(--color-text-light);
+}
+
+.home-foot__block--services {
+    background-color: var(--color-blush);
+    color: var(--color-text);
+}
+
+.home-foot__bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.25;
+}
+
+.home-foot__inner {
+    position: relative;
+    display: block;
+    max-width: 32rem;
+    margin-inline: auto;
+}
+
+.home-foot__eyebrow {
+    display: block;
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.75;
+}
+
+.home-foot__title {
+    display: block;
+    margin: 0.4rem 0 0.75rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2vw, 1.6rem);
+}
+
+.home-foot__link {
+    display: inline-block;
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+}
+
+@media (max-width: 768px) {
+    .home-lead__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .home-rail {
+        border-left: none;
+        padding-left: 0;
+    }
+
+    .home-strip__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .home-foot {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* Shared: section link + empty state */
@@ -685,30 +802,6 @@ p + p {
     font-style: italic;
 }
 
-@media (max-width: 768px) {
-    .home-portfolio__grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .home-portfolio__grid .portfolio-card:nth-child(4) {
-        display: block;
-    }
-
-    .home-news__thumb {
-        width: 56px;
-        height: 56px;
-    }
-
-    .home-news__text {
-        flex-direction: column;
-        gap: var(--space-xs);
-    }
-
-    .home-news__date {
-        min-width: 0;
-    }
-}
-
 /* ==========================================================================
    Homepage scroll-reveal
    JS adds .home-reveal only when motion is allowed, so no-JS users always
@@ -729,10 +822,9 @@ p + p {
 }
 
 /* Gentle stagger within each row */
-.home-portfolio__grid .home-reveal:nth-child(2) { transition-delay: 0.08s; }
-.home-portfolio__grid .home-reveal:nth-child(3) { transition-delay: 0.16s; }
-.home-news__list .home-reveal:nth-child(2) { transition-delay: 0.06s; }
-.home-news__list .home-reveal:nth-child(3) { transition-delay: 0.12s; }
+.home-strip__grid .home-reveal:nth-child(2) { transition-delay: 0.08s; }
+.home-strip__grid .home-reveal:nth-child(3) { transition-delay: 0.16s; }
+.home-strip__grid .home-reveal:nth-child(4) { transition-delay: 0.24s; }
 
 @media (prefers-reduced-motion: reduce) {
     .home-reveal {
@@ -2025,10 +2117,6 @@ p + p {
     :root {
         --space-xl: 5rem;
         --space-lg: 3rem;
-    }
-
-    .home-portfolio__grid {
-        grid-template-columns: repeat(2, 1fr);
     }
 }
 
