@@ -579,18 +579,22 @@ remove_action( 'wp_head', 'wp_generator' );
 add_filter( 'the_generator', '__return_empty_string' );
 
 /**
- * Security: Strip the `?ver=` query string from enqueued styles/scripts.
+ * Security: Strip the `?ver=` query string from CORE-versioned assets only.
  *
  * WordPress appends its own core version to bundled assets (e.g.
  * `wp-includes/...css?ver=7.0`), which leaks the exact WP version for
- * CVE matching. Removing the arg keeps the fingerprint off public asset URLs.
+ * CVE matching. Only that version is stripped: theme/plugin assets keep
+ * their own `?ver=`, which is the sole cache-buster for style.css/main.js —
+ * the server marks static files `immutable` for 30 days, so without a
+ * changing query string, returning visitors keep stale CSS across releases
+ * (this broke the v1.19.0 homepage rollout).
  * Runs at a late priority so it wins over any earlier version filters.
  *
  * @param string $src Asset URL.
  * @return string
  */
 function lieuwe_remove_asset_version( $src ) {
-    if ( is_string( $src ) && str_contains( $src, 'ver=' ) ) {
+    if ( is_string( $src ) && str_contains( $src, 'ver=' . get_bloginfo( 'version' ) ) ) {
         $src = remove_query_arg( 'ver', $src );
     }
     return $src;
