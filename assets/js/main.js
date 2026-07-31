@@ -101,7 +101,6 @@
       var canvas  = document.createElement('canvas');
       canvas.width  = video.videoWidth  || 640;
       canvas.height = video.videoHeight || 480;
-      canvas.className = 'portfolio-card__image';
       try {
         canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
         el.replaceWith(canvas);
