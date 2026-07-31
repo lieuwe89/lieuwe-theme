@@ -125,7 +125,7 @@ $lieuwe_mix_label = static function ( WP_Post $p ): string {
             <?php endif; ?>
             <?php $lead_excerpt = get_the_excerpt( $lead ); ?>
             <?php if ( $lead_excerpt ) : ?>
-                <p class="home-lead__excerpt"><?php echo esc_html( $lead_excerpt ); ?></p>
+                <p class="home-lead__excerpt"><?php echo wp_kses_post( $lead_excerpt ); ?></p>
             <?php endif; ?>
             <a class="home-section-link" href="<?php echo esc_url( $lieuwe_mix_url( $lead ) ); ?>">Read on</a>
         </article>
