@@ -61,6 +61,26 @@ function lieuwe_customizer_register( \WP_Customize_Manager $wp_customize ): void
         ] )
     );
 
+    // Homepage (below-hero)
+    $wp_customize->add_section( 'lieuwe_homepage', [
+        'title'    => 'Homepage',
+        'priority' => 31,
+    ] );
+
+    $wp_customize->add_setting( 'home_teaching_image', [
+        'default'           => 0,
+        'sanitize_callback' => 'absint',
+        'transport'         => 'refresh',
+    ] );
+    $wp_customize->add_control(
+        new \WP_Customize_Media_Control( $wp_customize, 'home_teaching_image', [
+            'label'       => 'Teaching block image',
+            'description' => 'Shown at low opacity behind the Teaching block at the foot of the homepage. Leave empty for plain terracotta.',
+            'section'     => 'lieuwe_homepage',
+            'mime_type'   => 'image',
+        ] )
+    );
+
     // Publications page
     $wp_customize->add_section( 'lieuwe_publications', [
         'title'    => 'Publications page',
@@ -242,4 +262,15 @@ function lieuwe_business_details(): array {
         'btw'   => (string) get_theme_mod( 'business_btw', '' ),
         'email' => (string) get_theme_mod( 'business_email', '' ),
     ] );
+}
+
+/**
+ * Homepage Teaching block background image URL. Empty string when unset.
+ */
+function lieuwe_home_teaching_image_url(): string {
+    $id = (int) get_theme_mod( 'home_teaching_image', 0 );
+    if ( $id <= 0 ) {
+        return '';
+    }
+    return (string) ( wp_get_attachment_image_url( $id, 'large' ) ?: '' );
 }
