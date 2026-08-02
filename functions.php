@@ -640,3 +640,20 @@ function lieuwe_meta_description(): void {
     echo '<meta name="description" content="' . esc_attr( $desc ) . '">' . "\n";
 }
 add_action( 'wp_head', 'lieuwe_meta_description', 1 );
+
+/**
+ * Security: Remove author details from oEmbed responses to prevent user enumeration.
+ *
+ * WordPress oEmbed API returns author name and URL by default, which can be
+ * used to enumerate users even if REST API and query strings are blocked.
+ */
+function lieuwe_remove_oembed_author_data( array $data ): array {
+    if ( isset( $data['author_name'] ) ) {
+        unset( $data['author_name'] );
+    }
+    if ( isset( $data['author_url'] ) ) {
+        unset( $data['author_url'] );
+    }
+    return $data;
+}
+add_filter( 'oembed_response_data', 'lieuwe_remove_oembed_author_data' );
