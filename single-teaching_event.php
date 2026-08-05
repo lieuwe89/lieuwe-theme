@@ -5,6 +5,7 @@
  * @package Lieuwe_Theme
  */
 
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 while ( have_posts() ) :
     the_post();
     $id     = get_the_ID();

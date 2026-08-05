@@ -3,6 +3,7 @@
  * Archive template for the publication CPT — /writing/
  */
 
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 get_header();
 
 $hero_line1 = lieuwe_publications_hero_title_line1();

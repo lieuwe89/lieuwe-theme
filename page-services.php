@@ -5,6 +5,7 @@
  * Assign via WP Admin -> Edit Page -> Page Attributes -> Template.
  * Also loads automatically for a page with the slug "services".
  */
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 get_header(); ?>
 
 <?php while ( have_posts() ) : the_post(); ?>

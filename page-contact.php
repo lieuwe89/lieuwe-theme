@@ -6,6 +6,7 @@
  * Uses identical page structure to page.php — only the form receives
  * special styling via the .contact-page class on <main>.
  */
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 get_header(); ?>
 
 <?php while ( have_posts() ) : the_post(); ?>
