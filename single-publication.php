@@ -4,6 +4,7 @@
  * Renders the publication's hero copy + actions. Optionally auto-opens the reader (?reader=1).
  */
 
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 get_header();
 
 while ( have_posts() ) :

@@ -5,6 +5,7 @@
  * @package Lieuwe_Theme
  */
 
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 get_header();
 
 $signup_state = isset( $_GET['te_signup'] ) ? sanitize_key( wp_unslash( $_GET['te_signup'] ) ) : '';

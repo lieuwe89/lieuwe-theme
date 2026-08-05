@@ -22,3 +22,7 @@
 **Vulnerability:** Even when REST API and author query parameters are restricted, WordPress 5.5+ core XML sitemaps feature automatically generates a `/wp-sitemap-users-1.xml` file which lists all users, allowing attackers to easily enumerate valid usernames.
 **Learning:** WordPress continually adds new features (like native sitemaps) that may inadvertently expose data previously secured through manual overrides. Security measures must account for these new features that bypass older enumeration protections.
 **Prevention:** Filter `wp_sitemaps_add_provider` to return `false` when the provider name is `users` to completely disable the user sitemap generation while leaving post and taxonomy sitemaps intact.
+## 2026-05-20 - [Security Hardening] Prevented Full Path Disclosure in All Template Files
+**Vulnerability:** Several template files (`404.php`, `archive.php`, `footer.php`, etc.) did not check if they were being accessed directly. Accessing these files directly via the browser could trigger fatal errors that reveal the absolute server path (Full Path Disclosure), aiding attackers in mapping the server structure.
+**Learning:** In WordPress themes, every single PHP file that is meant to be loaded within the WordPress context must include an `ABSPATH` check to prevent direct access. It's not enough to only protect `functions.php` or `inc/` files.
+**Prevention:** Added `if ( ! defined( 'ABSPATH' ) ) { exit; }` to all PHP files at the root of the theme that were missing it. Ensure this check is a mandatory part of all new template files created.
