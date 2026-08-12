@@ -551,6 +551,23 @@ function lieuwe_block_user_enumeration(): void {
 add_action( 'template_redirect', 'lieuwe_block_user_enumeration' );
 
 /**
+ * Security: Prevent user enumeration via oEmbed API.
+ *
+ * oEmbed responses by default include `author_name` and `author_url`,
+ * which can leak usernames even when other enumeration methods are blocked.
+ */
+function lieuwe_remove_oembed_author_data( array $data ): array {
+    if ( isset( $data['author_name'] ) ) {
+        unset( $data['author_name'] );
+    }
+    if ( isset( $data['author_url'] ) ) {
+        unset( $data['author_url'] );
+    }
+    return $data;
+}
+add_filter( 'oembed_response_data', 'lieuwe_remove_oembed_author_data' );
+
+/**
  * Security: Disable user endpoint in REST API for non-authenticated users
  */
 function lieuwe_disable_rest_endpoints( array $endpoints ): array {
