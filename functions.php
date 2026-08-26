@@ -573,6 +573,20 @@ function lieuwe_disable_sitemap_users( $provider, $name ) {
 add_filter( 'wp_sitemaps_add_provider', 'lieuwe_disable_sitemap_users', 10, 2 );
 
 /**
+ * Security: Prevent user enumeration via oEmbed responses.
+ */
+function lieuwe_remove_oembed_author_data( $data ) {
+    if ( isset( $data['author_name'] ) ) {
+        unset( $data['author_name'] );
+    }
+    if ( isset( $data['author_url'] ) ) {
+        unset( $data['author_url'] );
+    }
+    return $data;
+}
+add_filter( 'oembed_response_data', 'lieuwe_remove_oembed_author_data', 10, 1 );
+
+/**
  * Security: Remove WordPress version generation to prevent version leakage.
  */
 remove_action( 'wp_head', 'wp_generator' );
