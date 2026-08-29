@@ -1,4 +1,6 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * Single-publication permalink template — /writing/<slug>/
  * Renders the publication's hero copy + actions. Optionally auto-opens the reader (?reader=1).

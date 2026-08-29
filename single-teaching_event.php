@@ -1,4 +1,6 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * Single class — the Book a Spot page (home workshops). Festivals redirect out.
  *
