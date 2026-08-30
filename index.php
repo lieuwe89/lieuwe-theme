@@ -1,3 +1,6 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+?>
 <?php get_header(); ?>
 <main id="primary" class="site-main section-spacing bg-light">
     <div class="container">
