@@ -1,3 +1,6 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+?>
 <?php get_header(); ?>
 
 <main class="error-404 section-dark">
