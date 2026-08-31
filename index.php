@@ -1,4 +1,9 @@
-<?php get_header(); ?>
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly.
+}
+
+get_header(); ?>
 <main id="primary" class="site-main section-spacing bg-light">
     <div class="container">
         <header class="page-header">
