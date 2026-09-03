@@ -1,3 +1,4 @@
+<?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 <footer class="site-footer section-terracotta">
     <div class="site-footer__inner container">
         <div class="site-footer__brand">
