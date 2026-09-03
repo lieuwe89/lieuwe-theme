@@ -1,3 +1,8 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // Exit if accessed directly.
+}
+?>
 <?php if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
 <footer class="site-footer section-terracotta">
     <div class="site-footer__inner container">
