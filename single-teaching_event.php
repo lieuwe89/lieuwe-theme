@@ -2,6 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Single class — the Book a Spot page (home workshops). Festivals redirect out.
  *

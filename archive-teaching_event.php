@@ -1,7 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly.
-}
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Teaching archive — /teaching/ : intro, signup band, schedule.
  *

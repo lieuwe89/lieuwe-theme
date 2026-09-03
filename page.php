@@ -3,6 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
 
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 get_header(); ?>
 
 <?php while ( have_posts() ) : the_post(); ?>

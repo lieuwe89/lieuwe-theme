@@ -1,8 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly.
-}
-
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 get_header(); ?>
 
 <main class="error-404 section-dark">

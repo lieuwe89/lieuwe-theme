@@ -3,6 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
 
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 get_header(); ?>
 <main id="primary" class="site-main section-spacing bg-light">
     <div class="container">
