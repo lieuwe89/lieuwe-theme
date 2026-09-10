@@ -151,8 +151,8 @@ $eyebrow = ( $year_first && $year_last )
                     data-id="<?php echo esc_attr( $slug ); ?>"
                     data-type="<?php echo esc_attr( $type ); ?>"
                     data-year="<?php echo esc_attr( (string) $year ); ?>"
-                    data-has-pdf="<?php echo $has_pdf ? 'true' : 'false'; ?>"
-                    data-allow-download="<?php echo $allow_dl ? 'true' : 'false'; ?>"
+                    data-has-pdf="<?php echo esc_attr( $has_pdf ? 'true' : 'false' ); ?>"
+                    data-allow-download="<?php echo esc_attr( $allow_dl ? 'true' : 'false' ); ?>"
                     data-pdf-url="<?php echo esc_url( $pdf_url ); ?>"
                     data-pages="<?php echo esc_attr( (string) $pages ); ?>"
                     data-author="<?php echo esc_attr( $author ); ?>"
@@ -176,7 +176,7 @@ $eyebrow = ( $year_first && $year_last )
                     <div class="pub-row__type">
                         <span><?php echo esc_html( $type ); ?></span>
                         <span class="pub-row__pages" data-pages-fallback>
-                            <?php echo $pages ? esc_html( $pages . 'pp' ) : '—'; ?>
+                            <?php echo $pages ? esc_html( (string) $pages . 'pp' ) : '—'; ?>
                         </span>
                     </div>
                     <button
@@ -210,7 +210,7 @@ $eyebrow = ( $year_first && $year_last )
                         <?php endif; ?>
                         <dl class="pub-panel__meta">
                             <div><dt>Author</dt><dd><?php echo esc_html( $author ); ?></dd></div>
-                            <div><dt>Length</dt><dd><span data-pages-fallback><?php echo $pages ? esc_html( $pages . ' pages' ) : '—'; ?></span></dd></div>
+                            <div><dt>Length</dt><dd><span data-pages-fallback><?php echo $pages ? esc_html( (string) $pages . ' pages' ) : '—'; ?></span></dd></div>
                         </dl>
                         <div class="pub-panel__actions">
                             <?php if ( $has_pdf ) : ?>
