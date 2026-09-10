@@ -67,7 +67,7 @@ while ( have_posts() ) :
                             <div class="te-spots">
                                 <div class="te-spots__dots" aria-hidden="true">
                                     <?php for ( $i = 0; $i < $total; $i++ ) : ?>
-                                        <span class="te-dot-spot <?php echo $i < $open ? 'is-open' : 'is-taken'; ?>"></span>
+                                        <span class="te-dot-spot <?php echo esc_attr( $i < $open ? 'is-open' : 'is-taken' ); ?>"></span>
                                     <?php endfor; ?>
                                 </div>
                                 <p class="te-spots__label"><strong><?php echo esc_html( (string) $open ); ?> of <?php echo esc_html( (string) $total ); ?> spots</strong> still open</p>

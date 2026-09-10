@@ -137,7 +137,7 @@ $privacy_note = lieuwe_teaching_page_privacy_note();
                         echo '<div class="te-month"><div class="te-month__label">' . esc_html( $month ) . '</div><div class="te-month__events">';
                     endif;
                     ?>
-                    <article class="te-event te-event--<?php echo $is_festival ? 'festival' : 'home'; ?>">
+                    <article class="te-event te-event--<?php echo esc_attr( $is_festival ? 'festival' : 'home' ); ?>">
                         <div class="te-event__thumb">
                             <?php if ( $thumb ) : ?>
                                 <img src="<?php echo esc_url( $thumb ); ?>" alt="">

@@ -26,3 +26,7 @@
 **Vulnerability:** Many core WordPress template files (e.g. `header.php`, `footer.php`, `archive.php`, `single.php`, etc.) were missing the `ABSPATH` check at the beginning of the file.
 **Learning:** Without the `ABSPATH` check, directly accessing these files could lead to a Full Path Disclosure (FPD) vulnerability, as PHP errors might reveal the absolute path to the file on the server.
 **Prevention:** Ensure all PHP entry points and template files include the `if ( ! defined( 'ABSPATH' ) ) { exit; }` check.
+## 2024-05-24 - [Security Hardening] Prevented XSS Vulnerabilities in Template Files
+**Vulnerability:** Several PHP template files (`index.php`, `archive-publication.php`, `archive-teaching_event.php`, `single-teaching_event.php`, `single-publication.php`) outputted variables and function results directly using `echo` without proper escaping, leading to potential Cross-Site Scripting (XSS) vulnerabilities.
+**Learning:** Even internal variables or seemingly safe function outputs (like `get_the_date()`) should always be escaped when printed to the HTML document to follow defense-in-depth principles.
+**Prevention:** Ensured all dynamic outputs in PHP templates use appropriate WordPress escaping functions like `esc_html()` and `esc_attr()`.

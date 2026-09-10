@@ -32,12 +32,12 @@ while ( have_posts() ) :
     $slug     = get_post_field( 'post_name', $post_id );
     ?>
     <main class="pub pub-single"
-          data-auto-open-reader="<?php echo $auto_open ? 'true' : 'false'; ?>"
+          data-auto-open-reader="<?php echo esc_attr( $auto_open ? 'true' : 'false' ); ?>"
           data-id="<?php echo esc_attr( $slug ); ?>"
           data-type="<?php echo esc_attr( $type ); ?>"
           data-year="<?php echo esc_attr( (string) $year ); ?>"
-          data-has-pdf="<?php echo $has_pdf ? 'true' : 'false'; ?>"
-          data-allow-download="<?php echo $allow_dl ? 'true' : 'false'; ?>"
+          data-has-pdf="<?php echo esc_attr( $has_pdf ? 'true' : 'false' ); ?>"
+          data-allow-download="<?php echo esc_attr( $allow_dl ? 'true' : 'false' ); ?>"
           data-pdf-url="<?php echo esc_url( $pdf_url ); ?>"
           data-pages="<?php echo esc_attr( (string) $pages ); ?>"
           data-author="<?php echo esc_attr( $author ); ?>"
