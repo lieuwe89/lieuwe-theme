@@ -26,3 +26,7 @@
 **Vulnerability:** Many core WordPress template files (e.g. `header.php`, `footer.php`, `archive.php`, `single.php`, etc.) were missing the `ABSPATH` check at the beginning of the file.
 **Learning:** Without the `ABSPATH` check, directly accessing these files could lead to a Full Path Disclosure (FPD) vulnerability, as PHP errors might reveal the absolute path to the file on the server.
 **Prevention:** Ensure all PHP entry points and template files include the `if ( ! defined( 'ABSPATH' ) ) { exit; }` check.
+## 2026-05-24 - [Security Hardening] Explicit output escaping added to index.php
+**Vulnerability:** Core WordPress template outputs such as `single_post_title()`, `the_permalink()`, `get_the_date()`, and `the_title()` were being output directly without explicit escaping. This is a common pattern in classic themes that can lead to Cross-Site Scripting (XSS) if data is manipulated or if future functions behave unexpectedly.
+**Learning:** WordPress sanitises many fields on save, but security best practices (late escaping) dictate that all dynamic output should be escaped right before it is rendered (e.g., using `esc_html()` and `esc_url()`).
+**Prevention:** Ensure all PHP outputs are wrapped in appropriate WordPress escaping functions, preferring `echo esc_html( get_the_title() );` over `the_title();`.
