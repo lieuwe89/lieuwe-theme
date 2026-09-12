@@ -26,3 +26,7 @@
 **Vulnerability:** Many core WordPress template files (e.g. `header.php`, `footer.php`, `archive.php`, `single.php`, etc.) were missing the `ABSPATH` check at the beginning of the file.
 **Learning:** Without the `ABSPATH` check, directly accessing these files could lead to a Full Path Disclosure (FPD) vulnerability, as PHP errors might reveal the absolute path to the file on the server.
 **Prevention:** Ensure all PHP entry points and template files include the `if ( ! defined( 'ABSPATH' ) ) { exit; }` check.
+## 2024-05-24 - [HIGH] Fix XSS vulnerability in index.php
+**Vulnerability:** Missing escaping on `get_the_date()` output in `index.php`, which could lead to Cross-Site Scripting (XSS) if the date format is tampered with (e.g. by an administrator or plugin).
+**Learning:** Even WordPress native functions like `get_the_date()` which seem safe can output unescaped strings that are vulnerable if formatting strings are injected or modified via settings.
+**Prevention:** Always explicitly escape dynamic outputs in PHP templates using WordPress escaping functions (e.g., `esc_html()`, `esc_attr()`), even for internal variables or native functions.
