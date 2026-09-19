@@ -30,3 +30,7 @@
 **Vulnerability:** The `get_the_date()` function in `index.php` was output directly without escaping, creating a potential Stored XSS vulnerability if an administrator customized the date format with malicious scripts.
 **Learning:** Even built-in WordPress functions that seem to output safe data (like dates) can be exploited if they rely on user-configurable settings. All dynamic output must be escaped.
 **Prevention:** Always wrap dynamic output, including native functions like `get_the_date()`, with appropriate WordPress escaping functions (e.g., `esc_html()`).
+## 2024-05-20 - Stored XSS in Built-in WordPress Title Functions
+**Vulnerability:** Several built-in WordPress functions (e.g., `single_cat_title()`, `single_tag_title()`, `single_post_title()`) directly echo their values by default. In `archive.php` and `index.php`, these values were echoed directly without escaping, creating a potential Stored XSS vulnerability if a malicious user with sufficient privileges (like an Author or Contributor) inserts malicious HTML/scripts into a category, tag, or post title.
+**Learning:** Even built-in WordPress display functions can be dangerous if they echo raw data directly. You must explicitly tell them to return the data and then manually escape it.
+**Prevention:** For WordPress functions like `single_cat_title()`, always pass `false` or `''` as the appropriate parameter to instruct the function to return the string, and then wrap the output in `esc_html()` before echoing (e.g., `echo esc_html( single_cat_title( '', false ) );`).
