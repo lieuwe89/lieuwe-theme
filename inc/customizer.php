@@ -13,7 +13,7 @@ function lieuwe_theme_mod_default( string $id ): string {
         'pub_hero_title_line1'  => 'Publications',
         'pub_hero_title_line2'  => '',
         'pub_hero_intro'        => 'Catalogues, essays and articles from my work at the museum, the archives and my own study. Most are in Dutch. Click a title to read it here.',
-        'teaching_eyebrow'      => 'Classes & workshops',
+        'teaching_eyebrow'      => '',
         'teaching_title'        => 'Teaching',
         'teaching_intro_p1'     => 'I teach traditional crafts like spoon carving, leatherwork, Japanese lacquerwork, and now and then sandalmaking at festivals, at small workshops I host myself and occasionally on request at schools or businesses.',
         'teaching_intro_p2'     => 'Classes are practical and unhurried. Beginners are welcome, and so are people who’ve been at it longer than I have. Classes are taught in English unless all participants speak Dutch.',

@@ -142,7 +142,7 @@ $eyebrow = ( $year_first && $year_last )
                     $label        = ( 1 === $count ) ? '1 publication' : ( $count . ' publications' );
                     ?>
                     <header class="pub-yearhead" data-year="<?php echo esc_attr( (string) $year ); ?>">
-                        <span class="pub-yearhead__year"><?php echo esc_html( (string) $year ); ?></span>
+                        <h2 class="pub-yearhead__year"><?php echo esc_html( (string) $year ); ?></h2>
                         <span class="pub-yearhead__rule" aria-hidden="true"></span>
                         <span class="pub-yearhead__count"><?php echo esc_html( $label ); ?></span>
                     </header>

@@ -69,8 +69,8 @@ CSS custom properties (defined in `:root` in `style.css`). The palette is a warm
 | `--color-hero-empty` | `oklch(28% 0.018 65)` | Warm dark — fallback for an empty hero |
 | `--color-text` | `oklch(22% 0.012 68)` | Warm dark brown — body text |
 | `--color-text-light` | `oklch(96% 0.012 79)` | Cream — text on terracotta surfaces |
-| `--color-muted` | `oklch(56% 0.014 72)` | Warm medium — secondary text, captions |
-| `--color-accent` | `oklch(55% 0.12 48)` | Terracotta — links, dates, decorative, footer bg |
+| `--color-muted` | `oklch(46% 0.014 72)` | Warm medium — secondary text, captions |
+| `--color-accent` | `oklch(50% 0.12 46)` | Terracotta — links, dates, decorative, footer bg |
 | `--font-display` | Sorts Mill Goudy (serif) | H1–H6, hero title, blockquotes, italic accents |
 | `--font-body` | Jost (geometric sans) | Body, nav, labels |
 

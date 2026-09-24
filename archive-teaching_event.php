@@ -20,7 +20,9 @@ $privacy_note = lieuwe_teaching_page_privacy_note();
     <section class="te-intro">
         <div class="te-container te-intro__grid">
             <div class="te-intro__copy">
-                <p class="te-eyebrow"><?php echo esc_html( lieuwe_teaching_page_eyebrow() ); ?></p>
+                <?php if ( '' !== trim( lieuwe_teaching_page_eyebrow() ) ) : ?>
+                    <p class="te-eyebrow"><?php echo esc_html( lieuwe_teaching_page_eyebrow() ); ?></p>
+                <?php endif; ?>
                 <h1 class="te-intro__title"><?php echo esc_html( lieuwe_teaching_page_title() ); ?></h1>
                 <?php if ( $intro_p1 ) : ?><p class="te-intro__p"><?php echo esc_html( $intro_p1 ); ?></p><?php endif; ?>
                 <?php if ( $intro_p2 ) : ?><p class="te-intro__p"><?php echo esc_html( $intro_p2 ); ?></p><?php endif; ?>
@@ -90,16 +92,18 @@ $privacy_note = lieuwe_teaching_page_privacy_note();
 
     <section class="te-schedule">
         <div class="te-container">
+            <?php $events = lieuwe_teaching_get_upcoming_events(); ?>
             <div class="te-schedule__head">
                 <h2 class="te-schedule__title">Upcoming classes</h2>
+                <?php if ( $events->have_posts() ) : ?>
                 <p class="te-legend">
                     <span class="te-dot te-dot--home" aria-hidden="true"></span> Home workshop
                     <span class="te-dot te-dot--festival" aria-hidden="true"></span> Festival
                 </p>
+                <?php endif; ?>
             </div>
 
             <?php
-            $events = lieuwe_teaching_get_upcoming_events();
             if ( ! $events->have_posts() ) :
                 ?>
                 <div class="te-empty">
@@ -164,7 +168,7 @@ $privacy_note = lieuwe_teaching_page_privacy_note();
                         </div>
                         <div class="te-event__cta">
                             <?php if ( $is_festival ) : ?>
-                                <a class="te-btn te-btn--festival" href="<?php echo esc_url( $ticket ?: home_url( '/contact/' ) ); ?>" target="_blank" rel="noopener">Festival tickets ↗</a>
+                                <a class="te-btn te-btn--festival" href="<?php echo esc_url( $ticket ?: home_url( '/contact/' ) ); ?>" target="_blank" rel="noopener">Festival tickets</a>
                             <?php elseif ( $sold_out ) : ?>
                                 <a class="te-btn te-btn--ghost" href="#te-signup">Join the list</a>
                             <?php else : ?>

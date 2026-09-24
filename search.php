@@ -34,7 +34,7 @@ get_header(); ?>
                     <?php endwhile; ?>
                 </ul>
                 <div class="archive-pagination">
-                    <?php the_posts_pagination( [ 'prev_text' => '&larr;', 'next_text' => '&rarr;' ] ); ?>
+                    <?php the_posts_pagination( [ 'prev_text' => 'Previous', 'next_text' => 'Next' ] ); ?>
                 </div>
             <?php else : ?>
                 <p class="archive-empty">No results found for "<?php echo esc_html( get_search_query() ); ?>".</p>

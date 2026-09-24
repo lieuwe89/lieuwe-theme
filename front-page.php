@@ -267,7 +267,7 @@ $teaching_img = lieuwe_home_teaching_image_url();
             <?php endif; ?>
             <span class="home-foot__inner">
                 <span class="home-foot__eyebrow">Teaching</span>
-                <span class="home-foot__title">Courses &amp; workshops</span>
+                <span class="home-foot__title">Classes and workshops</span>
                 <span class="home-foot__link">See what&rsquo;s coming</span>
             </span>
         </a>

@@ -74,7 +74,7 @@ while ( have_posts() ) :
                         <a class="pub-btn" href="<?php echo esc_url( $pdf_url ); ?>" download>Download PDF</a>
                     <?php endif; ?>
                 <?php endif; ?>
-                <a class="pub-btn" href="<?php echo esc_url( get_post_type_archive_link( 'publication' ) ); ?>">All writing →</a>
+                <a class="pub-btn" href="<?php echo esc_url( get_post_type_archive_link( 'publication' ) ); ?>">All publications</a>
             </div>
         </article>
     </main>

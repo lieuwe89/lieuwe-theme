@@ -1,0 +1,280 @@
+/* ==========================================================================
+   Portfolio Canvas — theme skin
+   The plugin prints a standalone page with its own dark UI-kit styles in an
+   inline <style> AFTER wp_head, so every rule here is prefixed with `html body`
+   (or `html:root` for tokens) to win on specificity without !important.
+   Keeps the plugin's drag canvas and card tilt; swaps the skin for the site's
+   linen / Goudy / Jost system.
+   ========================================================================== */
+
+html:root {
+    --bg: var(--color-bg);
+    --card: transparent;
+    --card-hover: transparent;
+    --border: transparent;
+    --border-hover: transparent;
+    --text1: var(--color-text);
+    --text3: var(--color-muted);
+    --radius: 0;
+}
+
+html body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+}
+
+/* No white vignette */
+html body #viewport::after {
+    content: none;
+}
+
+/* ── Cards: photo + caption, like a mounted print ── */
+html body .card {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    transition: opacity 0.5s ease;
+}
+
+html body .card:hover {
+    transform: rotate(var(--r, 0deg));
+    box-shadow: none;
+}
+
+html body .card-img img,
+html body .card-img video {
+    background: var(--color-surface);
+}
+
+html body .card-info {
+    padding: 10px 2px 0;
+    gap: 2px;
+}
+
+html body .card .cat,
+html body .card .year {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--color-muted);
+}
+
+html body .card .title {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--color-text);
+    transition: color 0.2s ease;
+}
+
+html body .card:hover .title {
+    color: var(--color-accent);
+}
+
+html body .card-colour .colour-cat {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--color-text-light);
+    opacity: 0.8;
+}
+
+html body .card-colour .colour-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: 0;
+    color: var(--color-text-light);
+}
+
+html body .card-instagram .ig-body {
+    background: var(--color-accent);
+}
+
+html body .card-instagram .ig-label {
+    font-family: var(--font-body);
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    font-size: 14px;
+    color: var(--color-text-light);
+}
+
+html body .card-play {
+    background: var(--color-bg);
+    color: var(--color-text);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+html body .card:hover .card-play {
+    background: var(--color-bg);
+    transform: none;
+}
+
+/* ── Header: same shape as the site header ── */
+html body #header {
+    align-items: center;
+    height: var(--nav-height);
+    padding: 0 var(--space-md);
+    background: var(--color-bg);
+    box-shadow: 0 1px 0 var(--color-surface);
+    pointer-events: all;
+}
+
+html body #header .logo {
+    display: none;
+}
+
+html body #header .subline {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+    color: var(--color-text);
+}
+
+html body #header .logo-link:hover {
+    opacity: 1;
+    color: var(--color-accent);
+}
+
+/* The plugin hard-codes a "Home" link before the menu; the menu has its own. */
+html body #header .nav > a:first-child:not(:only-child) {
+    display: none;
+}
+
+html body #header .nav {
+    gap: var(--space-md);
+    list-style: none;
+}
+
+html body #header .nav li {
+    list-style: none;
+}
+
+html body #header .nav a,
+html body #header .nav a:first-child {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-text);
+}
+
+html body #header .nav a:hover,
+html body #header .nav .current-menu-item > a {
+    color: var(--color-accent);
+}
+
+@media (max-width: 768px) {
+    html body #header .nav {
+        max-width: 62vw;
+        overflow-x: auto;
+        white-space: nowrap;
+        scrollbar-width: none;
+    }
+}
+
+/* ── Hint: a plain caption, not a floating pill ── */
+html body #hint {
+    background: none;
+    border: 0;
+    border-radius: 0;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    padding: 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 15px;
+    color: var(--color-muted);
+}
+
+/* ── Overlay: a linen sheet, no heavy shadow or bounce ── */
+html body #overlay.open {
+    background: color-mix(in oklch, var(--color-text) 55%, transparent);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+html body #overlay-panel {
+    border-radius: 0;
+    background: var(--color-bg);
+    border: 0;
+    box-shadow: 0 24px 60px color-mix(in oklch, var(--color-text) 35%, transparent);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.22s ease;
+}
+
+html body #overlay-img,
+html body #overlay-gallery-img {
+    background: var(--color-surface);
+}
+
+html body #overlay-info {
+    border-top: 0;
+    padding: 20px 24px 26px;
+}
+
+html body #overlay-cat,
+html body #overlay-year {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--color-muted);
+}
+
+html body #overlay-title {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: var(--color-text);
+}
+
+html body #overlay-desc {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--color-text);
+}
+
+html body #overlay-close {
+    color: var(--color-text-light);
+    font-size: 18px;
+}
+
+html body #overlay-close:hover {
+    color: var(--color-text-light);
+    background: color-mix(in oklch, var(--color-text) 40%, transparent);
+}
+
+html body .gallery-nav {
+    background: var(--color-bg);
+    color: var(--color-text);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+html body .gallery-nav:hover {
+    background: var(--color-bg);
+    color: var(--color-accent);
+    transform: translateY(-50%);
+}
+
+html body #overlay-gallery-counter {
+    background: var(--color-bg);
+    color: var(--color-text);
+    border-radius: 0;
+}
+
+html body #empty-state,
+html body #empty-state strong {
+    color: var(--color-muted);
+}

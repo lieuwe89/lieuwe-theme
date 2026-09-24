@@ -60,16 +60,17 @@ get_header(); ?>
                             </div>
 
                             <div class="service__text">
-                                <?php if ( '' !== trim( $service['number'] ) ) : ?>
-                                    <span class="service__num"><?php echo esc_html( $service['number'] ); ?></span>
-                                <?php endif; ?>
-
                                 <?php if ( '' !== trim( $service['tagline'] ) ) : ?>
                                     <p class="service__tagline"><?php echo esc_html( $service['tagline'] ); ?></p>
                                 <?php endif; ?>
 
                                 <?php if ( '' !== trim( $service['title'] ) ) : ?>
-                                    <h2 class="service__title"><?php echo esc_html( $service['title'] ); ?></h2>
+                                    <h2 class="service__title">
+                                        <?php if ( '' !== trim( $service['number'] ) ) : ?>
+                                            <span class="service__num"><?php echo esc_html( $service['number'] ); ?>.</span>
+                                        <?php endif; ?>
+                                        <?php echo esc_html( $service['title'] ); ?>
+                                    </h2>
                                 <?php endif; ?>
 
                                 <?php if ( '' !== trim( $service['body'] ) ) : ?>
@@ -88,15 +89,6 @@ get_header(); ?>
                     <?php endforeach; ?>
                 </div>
 
-                <?php if ( '' !== trim( $services_page['coda'] ) || '' !== trim( $services_page['coda_mark'] ) ) : ?>
-                    <div class="services-coda">
-                        <?php if ( '' !== trim( $services_page['coda_mark'] ) ) : ?>
-                            <span class="services-coda__mark"><?php echo esc_html( $services_page['coda_mark'] ); ?></span>
-                        <?php endif; ?>
-
-                        <?php echo wp_kses_post( $services_page['coda'] ); ?>
-                    </div>
-                <?php endif; ?>
             </div>
         </div>
     </main>

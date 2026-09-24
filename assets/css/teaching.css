@@ -8,7 +8,7 @@
     --te-rust-hover:      color-mix(in oklch, var(--color-accent), black 22%);
     --te-border:          color-mix(in oklch, var(--color-text) 16%, var(--color-bg));
     --te-border-soft:     color-mix(in oklch, var(--color-text) 9%, var(--color-bg));
-    --te-faint:           color-mix(in oklch, var(--color-muted) 78%, var(--color-bg));
+    --te-faint:           var(--color-muted);
     --te-forest-border:   color-mix(in oklch, var(--color-forest) 55%, var(--color-bg));
     --te-tag-rust-border: color-mix(in oklch, var(--color-accent) 50%, var(--color-bg));
     --te-dot-empty:       color-mix(in oklch, var(--color-warm), var(--color-text) 18%);
@@ -18,14 +18,14 @@
 }
 
 .te { background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); }
-.te-container { max-width: 1060px; margin: 0 auto; padding: 0 28px; }
+.te-container { max-width: var(--max-width-wide); margin: 0 auto; padding: 0 var(--space-md); }
 .visually-hidden {
     position: absolute !important; width: 1px; height: 1px;
     padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;
 }
 .te-eyebrow {
-    font: 700 13px/1 var(--font-body); letter-spacing: 0.18em;
-    text-transform: uppercase; color: var(--color-accent); margin: 0 0 18px;
+    font: italic 400 18px/1.3 var(--font-display);
+    color: var(--color-accent); margin: 0 0 18px;
 }
 
 /* Buttons --------------------------------------------------------------- */
@@ -107,7 +107,7 @@
 .te-dot--festival { background: var(--color-forest); margin-left: 12px; }
 
 .te-month { display: grid; grid-template-columns: 120px minmax(0,1fr); gap: 24px; border-bottom: 1px solid var(--te-border); }
-.te-month__label { font: 700 13px/1.4 var(--font-body); letter-spacing: 0.16em; text-transform: uppercase; color: var(--te-faint); padding-top: 32px; }
+.te-month__label { font: italic 400 18px/1.4 var(--font-display); color: var(--color-muted); padding-top: 32px; }
 .te-month__events { display: flex; flex-direction: column; }
 
 .te-event { display: grid; grid-template-columns: 124px minmax(0,1fr) auto; gap: 26px; align-items: center; padding: 28px 0; border-top: 1px solid var(--te-border-soft); }
@@ -119,7 +119,7 @@
 .te-event__meta { font: 400 14px/1.4 var(--font-body); color: var(--color-muted); margin: 0 0 8px; }
 .te-event__blurb { font: 400 17px/1.55 var(--font-body); color: var(--color-text); max-width: 52ch; margin: 0; }
 
-.te-tag { font: 700 11.5px/1 var(--font-body); letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; border: 1px solid; }
+.te-tag { font: 400 13px/1 var(--font-body); padding: 5px 10px; border-radius: 2px; border: 1px solid; }
 .te-tag--home { color: var(--color-accent); border-color: var(--te-tag-rust-border); }
 .te-tag--festival { color: var(--color-forest); border-color: var(--te-forest-border); }
 .te-tag--full { color: var(--color-muted); border-color: var(--te-border); }

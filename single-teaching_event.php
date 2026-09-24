@@ -41,7 +41,7 @@ while ( have_posts() ) :
     ?>
     <main class="te te-book">
         <div class="te-container">
-            <a class="te-book__back" href="<?php echo esc_url( $archive_url ); ?>">← Back to all classes</a>
+            <a class="te-book__back" href="<?php echo esc_url( $archive_url ); ?>">All classes</a>
             <header class="te-book__head">
                 <p class="te-eyebrow">Book a spot</p>
                 <h1 class="te-book__title"><?php the_title(); ?></h1>

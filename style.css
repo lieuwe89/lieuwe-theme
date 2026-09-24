@@ -2,7 +2,7 @@
 Theme Name: Lieuwe Jongsma Custom Theme
 Author: Lieuwe Jongsma
 Description: Custom portfolio theme for lieuwejongsma.nl — cinematic, editorial, warm.
-Version: 1.21.0
+Version: 1.22.0
 License: GNU General Public License v2 or later
 Text Domain: lieuwe-theme
 */
@@ -83,7 +83,7 @@ Text Domain: lieuwe-theme
     --color-text:       oklch(22% 0.012 68);   /* warm dark brown */
     --color-text-light: oklch(96% 0.012 79);   /* cream — for text on dark surfaces */
     --color-muted:      oklch(46% 0.014 72);   /* warm medium — 46% L meets WCAG AA (>=4.5:1) on all light surfaces */
-    --color-accent:     oklch(55% 0.12 48);    /* terracotta */
+    --color-accent:     oklch(50% 0.12 46);    /* terracotta — 50% L keeps text >=4.5:1 on every surface, incl. ochre */
     --color-forest:     oklch(48% 0.055 145);  /* festival green (handoff #56633f) */
 
     --font-display: 'Sorts Mill Goudy', Georgia, serif;
@@ -358,14 +358,17 @@ p + p {
         align-items: center;
         justify-content: center;
         opacity: 0;
+        visibility: hidden; /* closed menu leaves the tab order, not just transparent */
         pointer-events: none;
-        transition: opacity 0.3s ease;
+        transition: opacity 0.3s ease, visibility 0s linear 0.3s;
         z-index: 99;
     }
 
     .site-nav.is-open {
         opacity: 1;
+        visibility: visible;
         pointer-events: auto;
+        transition: opacity 0.3s ease, visibility 0s linear 0s;
     }
 
     .site-nav__list {
@@ -444,12 +447,13 @@ p + p {
 
 .hero__tagline {
     margin-top: var(--space-sm);
-    font-family: var(--font-body);
-    font-size: clamp(0.75rem, 1.5vw, 0.9375rem);
-    font-weight: 300;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 2vw, 1.4rem);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    text-transform: none;
     color: oklch(96% 0.012 79 / 0.7);
+    font-style: italic;
 }
 
 /* ==========================================================================
@@ -473,25 +477,25 @@ p + p {
 }
 
 .home-intro .wp-block-group {
-    align-items: center;
-    text-align: center;
+    align-items: flex-start;
+    text-align: left;
 }
 
 .home-intro h1,
 .home-intro h2 {
     max-width: 22ch;
-    margin-inline: auto;
+    margin-inline: 0;
     font-size: clamp(2rem, 4.2vw, 3rem);
     line-height: 1.1;
 }
 
 .home-intro p {
     max-width: 54ch;
-    margin-inline: auto;
+    margin-inline: 0;
     font-size: 1.25rem;
     line-height: 1.7;
     color: var(--color-text);
-    text-align: center;
+    text-align: left;
 }
 
 .home-intro ul {
@@ -544,13 +548,16 @@ p + p {
 }
 
 .home-lead__eyebrow {
-    font-size: 0.6875rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    font-size: 1rem;
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--color-accent);
     border-top: 2px solid var(--color-text);
     padding-top: 0.75rem;
     margin-bottom: var(--space-sm);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
 }
 
 .home-lead__title {
@@ -581,10 +588,6 @@ p + p {
     max-height: 420px;
     object-fit: cover;
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.home-lead__image:hover img {
-    transform: scale(1.03);
 }
 
 .home-lead__excerpt {
@@ -630,10 +633,13 @@ p + p {
 }
 
 .home-rail__meta {
-    font-size: 0.6875rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    font-size: 0.95rem;
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--color-muted);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
 }
 
 /* Workshop filmstrip */
@@ -681,11 +687,6 @@ p + p {
     transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.strip-card:hover .strip-card__image img,
-.strip-card:hover .strip-card__image canvas {
-    transform: scale(1.04);
-}
-
 .strip-card__title {
     display: block;
     margin-top: 0.6rem;
@@ -697,7 +698,7 @@ p + p {
 /* Teaching + Services foot */
 .home-foot {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 7fr 5fr;
 }
 
 /* A lone block (teaching plugin inactive, or no services page) spans full width. */
@@ -718,8 +719,12 @@ p + p {
 }
 
 .home-foot__block--services {
-    background-color: var(--color-blush);
+    background-color: var(--color-bg);
     color: var(--color-text);
+}
+
+.home-foot__block--services .home-foot__link {
+    color: var(--color-accent);
 }
 
 .home-foot__bg {
@@ -734,15 +739,17 @@ p + p {
     position: relative;
     display: block;
     max-width: 32rem;
-    margin-inline: auto;
 }
 
 .home-foot__eyebrow {
     display: block;
-    font-size: 0.6875rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    font-size: 1rem;
+    letter-spacing: 0;
+    text-transform: none;
     opacity: 0.75;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
 }
 
 .home-foot__title {
@@ -754,11 +761,12 @@ p + p {
 
 .home-foot__link {
     display: inline-block;
-    font-size: 0.6875rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    font-size: 0.9375rem;
+    letter-spacing: 0;
+    text-transform: none;
     border-bottom: 1px solid currentColor;
     padding-bottom: 2px;
+    font-family: var(--font-body);
 }
 
 @media (max-width: 768px) {
@@ -783,14 +791,15 @@ p + p {
 /* Shared: section link + empty state */
 .home-section-link {
     display: inline-block;
-    font-size: 0.6875rem;
+    font-size: 0.9375rem;
     font-weight: 400;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--color-accent);
     border-bottom: 1px solid currentColor;
     padding-bottom: 2px;
     transition: opacity 0.2s ease;
+    font-family: var(--font-body);
 }
 
 .home-section-link:hover {
@@ -887,12 +896,13 @@ p + p {
 .back-link {
     display: inline-block;
     margin-top: var(--space-lg);
-    font-size: 0.6875rem;
+    font-size: 0.9375rem;
     font-weight: 400;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--color-muted);
     transition: color 0.2s ease;
+    font-family: var(--font-body);
 }
 
 .back-link:hover {
@@ -1188,112 +1198,118 @@ p + p {
     color: var(--color-text);
 }
 
-/* --- Staggered rows --- */
+/* --- Ledger: year, date in the margin, title + dek, small plate --- */
 
-.news-rows {
-    padding-block: var(--space-md);
+.news-ledger {
+    max-width: 960px;
+    padding-block: var(--space-lg) var(--space-xl);
 }
 
-.news-row {
+.news-year {
     display: flex;
-    align-items: stretch;
+    align-items: baseline;
+    gap: var(--space-sm);
+    margin: var(--space-lg) 0 0;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    color: var(--color-accent);
+}
+
+.news-year:first-child {
+    margin-top: 0;
+}
+
+.news-year::after {
+    content: "";
+    flex: 1;
+    border-top: 1px solid var(--color-warm);
+}
+
+.news-entry {
+    display: grid;
+    grid-template-columns: 8.5rem 1fr 9rem;
+    gap: var(--space-md);
+    align-items: start;
+    padding-block: var(--space-md);
     border-bottom: 1px solid var(--color-surface);
 }
 
-.news-row--reverse {
-    flex-direction: row-reverse;
+.news-entry__date {
+    padding-top: 0.35rem;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--color-muted);
 }
 
-.news-row__img {
-    display: block;
-    width: 55%;
-    flex-shrink: 0;
-    height: auto;
-    max-height: 500px;
-    object-fit: cover;
+.news-entry__body h3 {
+    margin: 0;
+    font-size: inherit;
 }
 
-.news-row__img-placeholder {
-    width: 55%;
-    flex-shrink: 0;
-    height: 300px;
-    background: var(--color-surface);
-}
-
-.news-row__body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 0.625rem;
-    padding: 2.5rem 3rem;
-}
-
-.news-row__date {
-    font-size: 0.6875rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--color-accent);
-    font-weight: 400;
-}
-
-.news-row__title {
+.news-entry__title {
     display: block;
     font-family: var(--font-display);
-    font-size: 1.375rem;
+    font-size: 1.5rem;
     font-weight: 400;
+    line-height: 1.25;
     color: var(--color-text);
-    line-height: 1.35;
     transition: color 0.2s ease;
 }
 
-.news-row:hover .news-row__title {
+.news-entry__title:hover {
     color: var(--color-accent);
 }
 
-.news-row__link {
+.news-entry__dek {
+    margin-top: 0.5rem;
+    max-width: 60ch;
+    color: var(--color-muted);
+    line-height: 1.6;
+}
+
+.news-entry__plate img {
     display: block;
-    font-size: 0.6875rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--color-accent);
-    font-weight: 400;
-}
-
-@media (max-width: 1024px) {
-    .news-row__img,
-    .news-row__img-placeholder {
-        width: 50%;
-    }
-
-    .news-row__body {
-        padding: 1.75rem 2rem;
-    }
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
 }
 
 @media (max-width: 768px) {
-    .news-row,
-    .news-row--reverse {
-        flex-direction: column;
+    .news-entry {
+        grid-template-columns: 1fr 5.5rem;
+        gap: var(--space-xs) var(--space-sm);
     }
 
-    .news-row__img {
-        width: 100%;
-        max-height: none;
+    .news-entry__date {
+        grid-column: 1 / -1;
+        padding-top: 0;
     }
 
-    .news-row__img-placeholder {
-        width: 100%;
-        height: 200px;
+    .news-entry__title {
+        font-size: 1.25rem;
     }
+}
 
-    .news-row__body {
-        padding: 1.25rem 1rem;
-    }
+/* Block-editor buttons: WordPress defaults to a charcoal pill; use the site's
+   plain terracotta button instead. */
+.entry-content .wp-block-button__link {
+    display: inline-block;
+    padding: 0.85rem 1.75rem;
+    border-radius: 0;
+    background-color: var(--color-accent);
+    color: var(--color-text-light);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
 
-    .news-row__title {
-        font-size: 1.125rem;
-    }
+.entry-content .wp-block-button__link:hover {
+    background-color: var(--color-text);
+    color: var(--color-text-light);
 }
 
 /* ==========================================================================
@@ -1323,12 +1339,14 @@ p + p {
 
 .single-post__date {
     display: block;
-    font-size: 0.6875rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    font-size: 1rem;
+    letter-spacing: 0;
+    text-transform: none;
     color: var(--color-accent);
     font-weight: 400;
     margin-bottom: var(--space-sm);
+    font-family: var(--font-display);
+    font-style: italic;
 }
 
 .single-post__title {
@@ -1403,28 +1421,6 @@ p + p {
     overflow: hidden;
 }
 
-.services-page .static-page__header::after {
-    content: "";
-    position: absolute;
-    left: var(--space-md);
-    bottom: calc(var(--space-xl) - 1px);
-    width: 80px;
-    height: 1px;
-    background: var(--color-accent);
-    opacity: 0.6;
-}
-
-.services-page .static-page__title {
-    font-size: 7rem;
-    letter-spacing: 0;
-    line-height: 0.95;
-}
-
-.services-page .static-page__title em {
-    color: var(--color-accent);
-    font-style: italic;
-}
-
 .services-page .static-page__subtitle {
     max-width: 38ch;
     margin-top: var(--space-md);
@@ -1446,7 +1442,7 @@ p + p {
 
 .service {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 5fr 7fr;
     column-gap: var(--space-lg);
     row-gap: var(--space-md);
     position: relative;
@@ -1456,35 +1452,11 @@ p + p {
 .service:not(:last-child)::before {
     content: "";
     position: absolute;
-    right: 8%;
+    right: 0;
     bottom: 0;
-    left: 8%;
+    left: 0;
     height: 1px;
     background: var(--color-surface);
-}
-
-.service:not(:last-child)::after {
-    content: "\2042";
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    z-index: 1;
-    padding: 0 1.4rem;
-    transform: translate(-50%, 50%);
-    background: var(--color-bg);
-    color: var(--color-accent);
-    font-family: var(--font-display);
-    font-size: 1.4rem;
-    font-style: italic;
-    line-height: 1;
-}
-
-.service:nth-child(even) .service__media {
-    order: 2;
-}
-
-.service:nth-child(even) .service__text {
-    order: 1;
 }
 
 .service__media {
@@ -1518,20 +1490,14 @@ p + p {
 .service__text {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding-block: var(--space-sm);
+    justify-content: flex-start;
+    padding-block: 0;
 }
 
 .service__num {
-    display: block;
-    margin: 0 0 var(--space-xs);
+    margin-right: 0.35em;
     color: var(--color-accent);
-    font-family: var(--font-display);
-    font-size: 8rem;
     font-style: italic;
-    font-weight: 400;
-    letter-spacing: 0;
-    line-height: 0.85;
 }
 
 .service__tagline {
@@ -1564,8 +1530,7 @@ p + p {
 
 .service__pullquote {
     margin: var(--space-md) 0 0;
-    padding: var(--space-sm) 0 0 var(--space-md);
-    border-left: 2px solid var(--color-accent);
+    padding: 0;
     color: var(--color-text);
     font-family: var(--font-display);
     font-size: 1.45rem;
@@ -1575,42 +1540,25 @@ p + p {
 
 .service__pullquote p {
     margin: 0;
+    max-width: 30ch;
 }
 
-.services-coda {
-    padding-block: var(--space-lg) var(--space-xl);
-    color: var(--color-muted);
-    font-family: var(--font-display);
-    font-size: 1rem;
-    font-style: italic;
-    text-align: center;
-}
-
-.services-coda__mark {
-    display: block;
-    margin-bottom: var(--space-xs);
+/* Hanging quotation marks: the text stays on the column edge. */
+.service__pullquote p::before {
+    content: "\201C";
+    margin-left: -0.42em;
     color: var(--color-accent);
-    font-size: 1.6rem;
-    letter-spacing: 0;
+}
+
+.service__pullquote p::after {
+    content: "\201D";
+    color: var(--color-accent);
 }
 
 @media (max-width: 900px) {
-    .services-page .static-page__title {
-        font-size: 5rem;
-    }
-
     .service {
         grid-template-columns: 1fr;
         padding-block: var(--space-lg);
-    }
-
-    .service:nth-child(even) .service__media,
-    .service:nth-child(even) .service__text {
-        order: initial;
-    }
-
-    .service__num {
-        font-size: 5rem;
     }
 
     .service__title {
@@ -1619,10 +1567,6 @@ p + p {
 }
 
 @media (max-width: 600px) {
-    .services-page .static-page__title {
-        font-size: 3.5rem;
-    }
-
     .services-page .static-page__subtitle {
         font-size: 1.15rem;
     }
@@ -1663,10 +1607,10 @@ p + p {
     padding: 1.75rem 0 !important;
     box-sizing: border-box !important;
     font-family: var(--font-body) !important;
-    font-size: 0.6875rem !important;
+    font-size: 0.875rem !important;
     font-weight: 400 !important;
-    letter-spacing: 0.14em !important;
-    text-transform: uppercase !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
     color: var(--color-muted) !important;
     cursor: text !important;
     margin: 0 !important;
@@ -1762,10 +1706,10 @@ p + p {
     display: inline-block !important;
     padding: 1rem 3rem !important;
     font-family: var(--font-body) !important;
-    font-size: 0.75rem !important;
+    font-size: 0.9375rem !important;
     font-weight: 400;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    text-transform: none;
     color: var(--color-bg) !important;
     background: var(--color-text) !important;
     border: none !important;
@@ -1863,24 +1807,31 @@ p + p {
     gap: var(--space-md);
 }
 
-.error-404__number {
-    font-family: var(--font-display);
-    font-size: clamp(6rem, 20vw, 16rem);
-    font-weight: 400;
-    color: var(--color-text);
-    line-height: 1;
-    opacity: 0.12;
+.error-404__title {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1.05;
 }
 
 .error-404__message {
+    max-width: 48ch;
     font-size: 1.25rem;
     color: var(--color-text);
-    margin-top: calc(-1 * var(--space-xl));
+}
+
+.error-404__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm) var(--space-md);
 }
 
 /* ==========================================================================
    Footer
    ========================================================================== */
+
+/* The home page ends on a colour block; no linen gap before the footer. */
+.home .site-footer {
+    margin-top: 0;
+}
 
 .site-footer {
     padding-block: var(--space-lg);

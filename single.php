@@ -31,7 +31,7 @@ get_header(); ?>
 
             <footer class="single-post__footer">
                 <a href="<?php echo esc_url( get_permalink( get_option( 'page_for_posts' ) ) ); ?>" class="back-link">
-                    &larr; All news
+                    All news
                 </a>
             </footer>
         </div>

@@ -25,8 +25,10 @@ function lieuwe_setup(): void {
     ] );
 
     register_nav_menus( [
-        'primary' => 'Primary Menu',
-        'footer'  => 'Footer Menu',
+        'primary'       => 'Primary Menu',
+        'footer'        => 'Footer Menu',
+        // Read by the Portfolio Canvas plugin's own header.
+        'portfolio_nav' => 'Portfolio Page Menu',
     ] );
 }
 add_action( 'after_setup_theme', 'lieuwe_setup' );
@@ -43,6 +45,16 @@ function lieuwe_enqueue_assets(): void {
         [],
         $version
     );
+
+    // Portfolio Canvas plugin page: reskin its dark UI to the site's system.
+    if ( is_singular( 'page' ) && 'portfolio-canvas' === get_page_template_slug() ) {
+        wp_enqueue_style(
+            'lieuwe-portfolio-canvas',
+            get_template_directory_uri() . '/assets/css/portfolio-canvas.css',
+            [ 'lieuwe-theme' ],
+            $version
+        );
+    }
 
     wp_enqueue_script(
         'lieuwe-main',
@@ -649,3 +661,19 @@ function lieuwe_meta_description(): void {
     echo '<meta name="description" content="' . esc_attr( $desc ) . '">' . "\n";
 }
 add_action( 'wp_head', 'lieuwe_meta_description', 1 );
+
+/**
+ * Auto-excerpts end in a plain ellipsis, not WordPress's "[…]".
+ */
+add_filter( 'excerpt_more', static fn() => '…' );
+
+/**
+ * One name for the teaching section: the plugin's CPT label ("Classes")
+ * would otherwise title the archive tab differently from the nav and h1.
+ */
+add_filter( 'document_title_parts', static function ( array $parts ): array {
+    if ( is_post_type_archive( 'teaching_event' ) ) {
+        $parts['title'] = 'Teaching';
+    }
+    return $parts;
+} );
