@@ -742,7 +742,6 @@
     .pub-chips {
         overflow-x: auto;
         flex-wrap: nowrap;
-        scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
         margin: 0 -32px;
