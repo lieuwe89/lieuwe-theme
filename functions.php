@@ -47,7 +47,8 @@ function lieuwe_enqueue_assets(): void {
     );
 
     // Portfolio Canvas plugin page: reskin its dark UI to the site's system.
-    if ( is_singular( 'page' ) && 'portfolio-canvas' === get_page_template_slug() ) {
+    // Queried object, not global $post: the plugin template loops over items before wp_head.
+    if ( is_singular( 'page' ) && 'portfolio-canvas' === get_page_template_slug( get_queried_object_id() ) ) {
         wp_enqueue_style(
             'lieuwe-portfolio-canvas',
             get_template_directory_uri() . '/assets/css/portfolio-canvas.css',
