@@ -18,7 +18,7 @@ get_header(); ?>
         <div class="static-page__header section-dark">
             <div class="container">
                 <h1 class="static-page__title">
-                    <?php echo esc_html( get_the_title() ); ?><em>.</em>
+                    <?php echo esc_html( get_the_title() ); ?>
                 </h1>
 
                 <?php if ( '' !== trim( $services_page['subtitle'] ) ) : ?>

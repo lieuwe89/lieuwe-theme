@@ -58,7 +58,7 @@
     letter-spacing: 0.005em;
 }
 .pub-hero__line1 { display: block; }
-.pub-hero__line2 { display: block; font-style: italic; color: rgba(60,40,20,0.55); }
+.pub-hero__line2 { display: block; }
 .pub-hero__intro {
     font: 400 19px/1.55 var(--pub-font-display);
     color: var(--pub-text-body);

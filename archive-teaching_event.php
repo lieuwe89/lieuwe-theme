@@ -103,10 +103,9 @@ $privacy_note = lieuwe_teaching_page_privacy_note();
             if ( ! $events->have_posts() ) :
                 ?>
                 <div class="te-empty">
-                    <div class="te-empty__glyph" aria-hidden="true">🪚</div>
                     <h3 class="te-empty__title">Nothing on the calendar right now</h3>
                     <p class="te-empty__text">New classes go up through the year. Leave your email above and I'll let you know as soon as the next dates are set.</p>
-                    <a class="te-link" href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">Or get in touch →</a>
+                    <a class="te-link" href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">Or get in touch</a>
                 </div>
                 <?php
             else :
