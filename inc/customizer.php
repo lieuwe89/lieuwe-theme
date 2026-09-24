@@ -10,17 +10,17 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function lieuwe_theme_mod_default( string $id ): string {
     static $defaults = [
-        'pub_hero_title_line1'  => 'Here are some of',
-        'pub_hero_title_line2'  => 'my recent publications',
-        'pub_hero_intro'        => 'Catalogues, essays, one slow monograph. Written across museum residencies, magazine commissions, and the bench. Click a title to open it — pages render in place.',
+        'pub_hero_title_line1'  => 'Publications',
+        'pub_hero_title_line2'  => '',
+        'pub_hero_intro'        => 'Catalogues, essays and articles from my work at the museum, the archives and my own study. Most are in Dutch. Click a title to read it here.',
         'teaching_eyebrow'      => 'Classes & workshops',
         'teaching_title'        => 'Teaching',
-        'teaching_intro_p1'     => 'I teach traditional crafts — spoon carving, leatherwork, Japanese lacquerwork, and now and then sandalmaking — at festivals, at the archives, and at small workshops I host myself.',
-        'teaching_intro_p2'     => 'Classes are practical and unhurried. Beginners are welcome, and so are people who have been at it longer than I have.',
+        'teaching_intro_p1'     => 'I teach traditional crafts like spoon carving, leatherwork, Japanese lacquerwork, and now and then sandalmaking at festivals, at small workshops I host myself and occasionally on request at schools or businesses.',
+        'teaching_intro_p2'     => 'Classes are practical and unhurried. Beginners are welcome, and so are people who’ve been at it longer than I have. Classes are taught in English unless all participants speak Dutch.',
         'teaching_hero_caption' => '',
         'signup_heading'        => 'Hear about new classes',
-        'signup_intro'          => 'New dates go up through the year. Leave your email and I will let you know when the next ones are set — no more than a handful of messages a year.',
-        'teaching_privacy_note' => 'Your details are only used to contact you about classes. Nothing else.',
+        'signup_intro'          => 'New dates go up through the year and I don’t always plan far ahead. Leave your email and I’ll let you know when the next ones are set — no more than a handful of messages a year.',
+        'teaching_privacy_note' => 'I only use your address to tell you about classes.',
     ];
     return $defaults[ $id ] ?? '';
 }
