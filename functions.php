@@ -166,48 +166,48 @@ add_action( 'save_post', 'lieuwe_save_lead_meta_box' );
  */
 function lieuwe_get_services_page_defaults(): array {
     return [
-        'subtitle'  => 'Four things I am occasionally asked to do, beyond making spoons and shelving boxes.',
+        'subtitle'  => 'Four things I’m occasionally asked to do',
         'intro'     => 'Once in a while people ask whether I’m available for things outside of my day job at the archives. The honest answer is: sometimes, yes. Below are the four kinds of work I’m asked to do most often — what they tend to look like in practice, and how I usually approach them.' . "\n\n" . 'If any of this is useful to you, <a href="' . esc_url( home_url( '/contact/' ) ) . '">send me a note</a>. I try to reply within a week, and I’ll say so plainly if it isn’t the right fit.',
-        'coda_mark' => '⁂',
-        'coda'      => 'Otherwise — thank you for reading this far.',
+        'coda_mark' => '',
+        'coda'      => '',
         'services'  => [
             'moderator'  => [
                 'number'    => 'I',
-                'tagline'   => 'Of conferences, panels, and the occasional symposium.',
+                'tagline'   => '',
                 'title'     => 'Event moderator',
-                'body'      => 'I moderate conferences, panels, and symposia. Most of them sit in the worlds of heritage, archives, and craft, though I’ve ended up at adjacent events too — on data, regional history, and once a long evening on permaculture.' . "\n\n" . 'What I bring is preparation. I read everything in advance, I sit with the speakers beforehand if there’s time, and I write a fresh set of questions rather than recycle the ones already in the programme. I work in Dutch and in English.',
-                'pullquote' => 'I’m happiest at events where something is actually at stake, however small — less so at the kind that exist mainly to be photographed.',
-                'caption'   => 'Optional caption.',
+                'body'      => 'I moderate conferences, panels, and symposia. Most of them sit in the worlds of heritage, archives, and craft, though I’ve ended up at adjacent events too — on data, regional history, and once a long evening on permaculture.' . "\n\n" . 'I prepare a lot and improvise happily. I read everything in advance, I sit with the speakers beforehand if there’s time, and I write a fresh set of questions rather than recycle the ones already in the programme. I work in Dutch and in English.' . "\n\n" . 'I’m happiest at events where something is actually at stake, however small; less so at the kind that exist mainly to be photographed.',
+                'pullquote' => '',
+                'caption'   => '',
                 'image_url' => '',
                 'image_alt' => 'Event moderator',
             ],
             'speaker'    => [
                 'number'    => 'II',
-                'tagline'   => 'Of archives, craft, and the corners where they overlap.',
+                'tagline'   => '',
                 'title'     => 'Public speaker',
-                'body'      => 'I give talks about the work I actually do: archives and information management, the philosophy of craft, regional history, and the odd corners where those three overlap.' . "\n\n" . 'The most-requested talks at the moment are about the role of archives in an age of generative AI, about teaching crafts that aren’t (yet) on the verge of disappearing, and about the digital lives of regional collections. I write each talk for the room it’s going into.',
-                'pullquote' => 'I’d rather show up with the right thirty minutes than the same forty I gave somewhere else last month.',
-                'caption'   => 'Optional caption.',
+                'body'      => 'I give talks about the work I actually do: archives and information management, the philosophy of craft, regional history, and the odd corners where those three overlap.' . "\n\n" . 'The most-requested talks at the moment are about the role Groningen played in colonialism and slavery; pigments and paints in 17th century Groningen; the role of archives in an age of AI; and about the digital lives of regional collections. I write each talk for the room it’s going into.',
+                'pullquote' => 'I’d rather show up with the right forty minutes than the same hour and a half I gave somewhere else last month.',
+                'caption'   => '',
                 'image_url' => '',
                 'image_alt' => 'Public speaker',
             ],
             'educator'   => [
                 'number'    => 'III',
-                'tagline'   => 'Of spoons, leather, urushi, and patience.',
+                'tagline'   => '',
                 'title'     => 'Educator',
-                'body'      => 'I teach traditional crafts — spoon carving, leatherwork, Japanese lacquerwork (urushi), and now and then sandalmaking. I teach at festivals like Spoonfest and Von Hand, at the Groninger Archieven, and at smaller workshops I host myself.' . "\n\n" . 'My classes are practical and unhurried. Beginners are welcome, and so are people who’ve been at it longer than I have. For organisations or schools wanting something more tailored — a multi-day course, a series of evenings, a single deep day — I’m happy to design a curriculum from scratch.',
-                'pullquote' => 'I’d rather you finish one thing well than start three you don’t know what to do with.',
-                'caption'   => 'Optional caption.',
+                'body'      => 'I teach traditional crafts — spoon carving, leatherwork, Japanese lacquerwork (urushi), and now and then sandalmaking. I teach at festivals like Spoonfest, Von Hand and Spoon Burn, and, when I have time, at smaller workshops I host myself.' . "\n\n" . 'My classes are practical and unhurried. Beginners are welcome, and so are people who’ve been at it longer than I have. For organisations or schools wanting something more tailored — a multi-day course, a series of evenings, a single deep day — I’m happy to design a curriculum from scratch. Something else you’d like a workshop in? Ask.' . "\n\n" . 'Finishing one thing well beats starting three you don’t know what to do with.',
+                'pullquote' => '',
+                'caption'   => '',
                 'image_url' => '',
                 'image_alt' => 'Educator',
             ],
             'consultant' => [
                 'number'    => 'IV',
-                'tagline'   => 'Of data, policy, and the unglamorous middle.',
+                'tagline'   => '',
                 'title'     => 'Consultant',
-                'body'      => 'I advise organisations on digital innovation, collection data, and information management. By day I lead the Information and Advisory services department at the Groninger Archieven, which is also where most of my thinking on these subjects gets tested against reality.' . "\n\n" . 'Outside of that day job, the consulting I take on tends to be small and well-defined: a strategy that needs a second pair of eyes, a data migration that needs a plan, a policy that needs to actually work for the people stuck applying it.',
-                'pullquote' => 'Most useful in the unglamorous middle of the work — where strategy meets a spreadsheet, or where a good idea has to survive its first contact with the org chart.',
-                'caption'   => 'Optional caption.',
+                'body'      => 'I advise organisations on digital innovation, collection data, and information management. By day I lead the Information and Advisory Services department at the Groninger Archieven, which is also where most of my thinking on these subjects gets tested against reality.' . "\n\n" . 'Outside of that day job, the consulting I take on tends to be small and well-defined: a strategy that needs a second pair of eyes, a digital finding aid that needs a plan, a policy that needs to actually work for the people stuck applying it.' . "\n\n" . 'I’ve also worked in museums: I curated exhibitions at the Groninger Museum (<em>Bitterzoet Erfgoed</em> was the first), acquired new pieces and described collections. So I know both sides of the collection-data problem: the story a museum wants to tell, and the systems that have to hold it.' . "\n\n" . 'I’m most useful in the middle of the work, where strategy meets a spreadsheet.',
+                'pullquote' => '',
+                'caption'   => '',
                 'image_url' => '',
                 'image_alt' => 'Consultant',
             ],
@@ -619,7 +619,16 @@ function lieuwe_meta_description(): void {
         $id  = get_queried_object_id();
         $raw = has_excerpt( $id )
             ? get_the_excerpt( $id )
-            : (string) get_post_field( 'post_content', $id );
+            : strip_shortcodes( (string) get_post_field( 'post_content', $id ) );
+        // Content-less templates keep their copy in meta.
+        if ( '' === trim( wp_strip_all_tags( $raw ) ) ) {
+            $post = get_post( $id );
+            if ( 'publication' === $post->post_type ) {
+                $raw = (string) get_post_meta( $id, '_pub_abstract', true );
+            } elseif ( lieuwe_is_services_page_post( $post ) ) {
+                $raw = lieuwe_get_services_page_data( $id )['intro'];
+            }
+        }
         // Clean before trimming: strip tags, decode entities, then normalise
         // whitespace (incl. &nbsp; / U+00A0) so the description never starts
         // with a stray space or shows raw entities. Trim on a word boundary.

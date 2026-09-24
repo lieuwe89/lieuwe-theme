@@ -33,18 +33,22 @@ if ( $query->have_posts() ) {
     }
 }
 $eyebrow = ( $year_first && $year_last )
-    ? sprintf( 'Writing — %d to %s', $year_first, ( $year_last >= (int) gmdate( 'Y' ) ) ? 'today' : (string) $year_last )
-    : 'Writing';
+    ? sprintf( '%d–%s', $year_first, ( $year_last >= (int) gmdate( 'Y' ) ) ? 'today' : (string) $year_last )
+    : '';
 ?>
 
 <main class="pub" id="pub" data-total="<?php echo esc_attr( (string) $total ); ?>" data-with-pdf="<?php echo esc_attr( (string) $with_pdf ); ?>">
 
     <section class="pub-hero">
         <div class="pub-container">
-            <p class="pub-hero__eyebrow"><?php echo esc_html( strtoupper( $eyebrow ) ); ?></p>
+            <?php if ( $eyebrow ) : ?>
+                <p class="pub-hero__eyebrow"><?php echo esc_html( strtoupper( $eyebrow ) ); ?></p>
+            <?php endif; ?>
             <h1 class="pub-hero__title">
                 <span class="pub-hero__line1"><?php echo esc_html( $hero_line1 ); ?></span>
-                <span class="pub-hero__line2"><?php echo esc_html( $hero_line2 ); ?></span>
+                <?php if ( '' !== trim( $hero_line2 ) ) : ?>
+                    <span class="pub-hero__line2"><?php echo esc_html( $hero_line2 ); ?></span>
+                <?php endif; ?>
             </h1>
             <?php if ( $hero_intro ) : ?>
                 <p class="pub-hero__intro"><?php echo esc_html( $hero_intro ); ?></p>
@@ -88,7 +92,6 @@ $eyebrow = ( $year_first && $year_last )
             </div>
             <div class="pub-filterbar__status" aria-live="polite">
                 <span class="pub-status__count"><?php echo esc_html( $total ); ?> of <?php echo esc_html( $total ); ?> publications</span>
-                <span class="pub-status__detail"><?php echo esc_html( $with_pdf ); ?> with PDF · <?php echo esc_html( $total - $with_pdf ); ?> placeholder</span>
             </div>
             <p class="pub-noresults" hidden>
                 <em>No publications match. Try clearing the filter or search.</em>
@@ -203,8 +206,8 @@ $eyebrow = ( $year_first && $year_last )
                         <p class="pub-panel__caption" data-spread-caption hidden></p>
                     </div>
                     <div class="pub-panel__body">
-                        <p class="pub-panel__eyebrow">ABSTRACT</p>
                         <?php if ( $abstract ) : ?>
+                            <p class="pub-panel__eyebrow">ABSTRACT</p>
                             <p class="pub-panel__abstract"><?php echo esc_html( $abstract ); ?></p>
                         <?php endif; ?>
                         <dl class="pub-panel__meta">

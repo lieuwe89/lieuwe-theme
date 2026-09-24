@@ -59,7 +59,9 @@ while ( have_posts() ) :
                 <div><dt>Published by</dt><dd><?php echo esc_html( $venue ); ?></dd></div>
                 <div><dt>Year</dt><dd><?php echo esc_html( (string) $year ); ?></dd></div>
                 <div><dt>Author</dt><dd><?php echo esc_html( $author ); ?></dd></div>
-                <div><dt>Pages</dt><dd><?php echo $pages ? esc_html( (string) $pages ) : '—'; ?></dd></div>
+                <?php if ( $pages ) : ?>
+                    <div><dt>Pages</dt><dd><?php echo esc_html( (string) $pages ); ?></dd></div>
+                <?php endif; ?>
             </dl>
             <div class="pub-single__actions">
                 <?php if ( $has_pdf ) : ?>

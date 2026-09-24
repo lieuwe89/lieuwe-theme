@@ -12,8 +12,10 @@ while ( have_posts() ) :
     $ticket = (string) get_post_meta( $id, '_te_ticket_url', true );
 
     // Festivals don't have a booking page — send visitors to the ticket link.
+    // Not wp_safe_redirect(): the ticket host is external by design, and the
+    // safe variant falls back to /wp-admin/ (a login wall) for unknown hosts.
     if ( 'festival' === $type && $ticket ) {
-        wp_safe_redirect( $ticket, 302 );
+        wp_redirect( esc_url_raw( $ticket ), 302 );
         exit;
     }
 

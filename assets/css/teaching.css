@@ -11,7 +11,6 @@
     --te-faint:           color-mix(in oklch, var(--color-muted) 78%, var(--color-bg));
     --te-forest-border:   color-mix(in oklch, var(--color-forest) 55%, var(--color-bg));
     --te-tag-rust-border: color-mix(in oklch, var(--color-accent) 50%, var(--color-bg));
-    --te-empty-border:    color-mix(in oklch, var(--color-text) 22%, var(--color-bg));
     --te-dot-empty:       color-mix(in oklch, var(--color-warm), var(--color-text) 18%);
     --te-scrim:           rgba(40, 30, 20, 0.55);
     --te-chip-bg:         color-mix(in oklch, var(--color-warm) 60%, var(--color-bg));
@@ -125,10 +124,9 @@
 .te-tag--festival { color: var(--color-forest); border-color: var(--te-forest-border); }
 .te-tag--full { color: var(--color-muted); border-color: var(--te-border); }
 
-.te-empty { border: 1px dashed var(--te-empty-border); border-radius: 6px; padding: 64px; text-align: center; margin-top: 24px; }
-.te-empty__glyph { font-size: 32px; margin-bottom: 12px; }
+.te-empty { margin-top: 24px; }
 .te-empty__title { font: 400 26px/1.1 var(--font-display); margin: 0 0 10px; }
-.te-empty__text { font: 400 17px/1.6 var(--font-display); color: var(--color-muted); max-width: 42ch; margin: 0 auto 16px; }
+.te-empty__text { font: 400 17px/1.6 var(--font-display); color: var(--color-muted); max-width: 42ch; margin: 0 0 16px; }
 .te-link { color: var(--color-accent); text-decoration: none; font: 400 15px var(--font-body); }
 .te-link:hover { color: var(--te-rust-hover); }
 
