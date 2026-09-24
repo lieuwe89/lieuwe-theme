@@ -494,10 +494,10 @@
     function metaGrid(pub) {
         var grid = el('dl', 'pub-modal__sidebar-meta');
         var rows = [
-            [ 'Published by', pub.venue  || '—' ],
-            [ 'Year',         pub.year   || '—' ],
-            [ 'Author',       pub.author || '—' ],
-            [ 'Pages',        pub.pages  || '—' ],
+            [ 'Published by', pub.venue  || '' ],
+            [ 'Year',         pub.year   || '' ],
+            [ 'Author',       pub.author || '' ],
+            [ 'Pages',        pub.pages  || '' ],
         ];
         rows.forEach(function (row) {
             var d  = el('div',  null);

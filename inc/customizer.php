@@ -19,7 +19,7 @@ function lieuwe_theme_mod_default( string $id ): string {
         'teaching_intro_p2'     => 'Classes are practical and unhurried. Beginners are welcome, and so are people who’ve been at it longer than I have. Classes are taught in English unless all participants speak Dutch.',
         'teaching_hero_caption' => '',
         'signup_heading'        => 'Hear about new classes',
-        'signup_intro'          => 'New dates go up through the year and I don’t always plan far ahead. Leave your email and I’ll let you know when the next ones are set — no more than a handful of messages a year.',
+        'signup_intro'          => 'New dates go up through the year and I don’t always plan far ahead. Leave your email and I’ll let you know when the next ones are set. No more than a handful of messages a year.',
         'teaching_privacy_note' => 'I only use your address to tell you about classes.',
     ];
     return $defaults[ $id ] ?? '';

@@ -120,7 +120,7 @@ $lieuwe_mix_label = static function ( WP_Post $p ): string {
 <section class="home-lead section-light">
     <div class="container home-lead__grid">
         <article class="home-lead__main">
-            <p class="home-lead__eyebrow">Latest — <?php echo esc_html( get_the_date( 'j F Y', $lead ) ); ?></p>
+            <p class="home-lead__eyebrow">Latest, <?php echo esc_html( get_the_date( 'j F Y', $lead ) ); ?></p>
             <h2 class="home-lead__title">
                 <a href="<?php echo esc_url( $lieuwe_mix_url( $lead ) ); ?>"><?php echo esc_html( get_the_title( $lead ) ); ?></a>
             </h2>

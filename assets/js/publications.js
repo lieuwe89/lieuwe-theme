@@ -387,8 +387,8 @@
                         row.setAttribute('data-pages', String(result.totalPages));
                         var rowPages   = row.querySelector('.pub-row__pages');
                         var panelPages = panel.querySelector('.pub-panel__meta dd [data-pages-fallback]');
-                        if (rowPages   && rowPages.textContent.trim() === '—')   { rowPages.textContent   = result.totalPages + 'pp'; }
-                        if (panelPages && panelPages.textContent.trim() === '—') { panelPages.textContent = result.totalPages + ' pages'; }
+                        if (rowPages   && rowPages.textContent.trim() === '')   { rowPages.textContent   = result.totalPages + 'pp'; }
+                        if (panelPages && panelPages.textContent.trim() === '') { panelPages.textContent = result.totalPages + ' pages'; }
                     }
                 })
                 .catch(function (err) {
@@ -449,7 +449,7 @@
 
     function showLoadError(mount, err) {
         var existing = mount.querySelector('.pub-panel__placeholder, .pub-panel__spread-inner');
-        var msg = (err && /failed to load/i.test(err.message)) ? 'PDF preview unavailable — download the PDF to read.' : 'This PDF could not load.';
+        var msg = (err && /failed to load/i.test(err.message)) ? 'PDF preview unavailable. Download the PDF to read it.' : 'This PDF could not load.';
         var note = document.createElement('div');
         note.className = 'pub-panel__placeholder pub-panel__placeholder--error';
         note.style.width  = '220px';

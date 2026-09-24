@@ -113,7 +113,7 @@
         footer.appendChild(ok);
         var hint = document.createElement('span');
         hint.className = 'te-modal__hint';
-        hint.textContent = 'No spam — just class dates.';
+        hint.textContent = 'No spam, just class dates.';
         footer.appendChild(hint);
         card.appendChild(footer);
 
@@ -170,7 +170,7 @@
                 } else {
                     showFormError(form, (res && res.data && res.data.message) || 'Something went wrong. Please try again.');
                 }
-            }).catch(function () { showFormError(form, 'Network error — please try again.'); });
+            }).catch(function () { showFormError(form, 'Network error. Please try again.'); });
         });
     }
 
@@ -190,7 +190,7 @@
                 } else {
                     showFormError(form, (res && res.data && res.data.message) || 'Something went wrong. Please try again.');
                 }
-            }).catch(function () { showFormError(form, 'Network error — please try again.'); });
+            }).catch(function () { showFormError(form, 'Network error. Please try again.'); });
         });
     }
 
@@ -217,7 +217,7 @@
         box.appendChild(h);
 
         var p = document.createElement('p');
-        p.textContent = "Thanks — I've noted your request" + (classTitle ? ' for ' + classTitle : '')
+        p.textContent = "Thanks, I've noted your request" + (classTitle ? ' for ' + classTitle : '')
             + '. I hold spots by hand and will be in touch by email to confirm.';
         box.appendChild(p);
 

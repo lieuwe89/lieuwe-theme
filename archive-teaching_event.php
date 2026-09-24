@@ -53,7 +53,7 @@ $privacy_note = lieuwe_teaching_page_privacy_note();
                     </div>
                 <?php else : ?>
                     <?php if ( 'err' === $signup_state ) : ?>
-                        <p class="te-form-error" role="alert">Hmm, that didn't go through — please try again.</p>
+                        <p class="te-form-error" role="alert">Hmm, that didn't go through. Please try again.</p>
                     <?php endif; ?>
                     <form class="te-signup" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" novalidate>
                         <input type="hidden" name="action" value="lieuwe_teaching_signup">

@@ -29,7 +29,7 @@ There is no build step — edits to PHP/CSS/JS take effect immediately on page r
 
 ## Architecture
 
-Classic WordPress template hierarchy. All styles are in `style.css` (no preprocessor). One vanilla JS file (`assets/js/main.js`) handles the nav toggle, the header scroll state, and IntersectionObserver scroll-reveal on the homepage and services pages.
+Classic WordPress template hierarchy. All styles are in `style.css` (no preprocessor). One vanilla JS file (`assets/js/main.js`) handles the nav toggle and the header scroll state. (Scroll-reveal was removed in v1.21.0; content shows immediately.)
 
 **Template → content type mapping:**
 

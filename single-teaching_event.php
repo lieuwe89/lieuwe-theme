@@ -84,7 +84,7 @@ while ( have_posts() ) :
                         <div class="te-confirm" role="status">
                             <div class="te-confirm__check" aria-hidden="true">✓</div>
                             <h2 class="te-confirm__title">Spot requested.</h2>
-                            <p>Thanks — I've noted your request for <strong><?php the_title(); ?></strong>. I hold spots by hand and will be in touch by email to confirm.</p>
+                            <p>Thanks, I've noted your request for <strong><?php the_title(); ?></strong>. I hold spots by hand and will be in touch by email to confirm.</p>
                             <div class="te-confirm__actions">
                                 <a class="te-btn te-btn--primary" href="<?php echo esc_url( $archive_url ); ?>">Back to all classes</a>
                                 <a class="te-btn" href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">Get in touch</a>
@@ -98,7 +98,7 @@ while ( have_posts() ) :
                         </div>
                     <?php else : ?>
                         <?php if ( 'err' === $booked_state ) : ?>
-                            <p class="te-form-error" role="alert">Hmm, that didn't go through — please try again.</p>
+                            <p class="te-form-error" role="alert">Hmm, that didn't go through. Please try again.</p>
                         <?php endif; ?>
                         <h2 class="te-book__formtitle">Request your spot</h2>
                         <p class="te-book__formintro">Spots are held by hand, so this sends a request rather than an instant booking. I'll confirm by email.</p>

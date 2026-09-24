@@ -49,7 +49,7 @@
     gap: 56px; align-items: center;
 }
 .te-intro__title { font: 400 clamp(44px,6vw,58px)/1.05 var(--font-display); letter-spacing: -0.01em; margin: 0 0 24px; }
-.te-intro__p { font: 400 19px/1.65 var(--font-display); color: var(--color-text); max-width: 52ch; margin: 0 0 16px; }
+.te-intro__p { font: 400 17px/1.65 var(--font-body); color: var(--color-text); max-width: 52ch; margin: 0 0 16px; }
 .te-intro__figure { margin: 0; }
 .te-intro__img { width: 100%; height: 400px; object-fit: cover; border-radius: 6px; display: block; }
 .te-intro__img--empty { background: var(--color-warm); }
@@ -63,7 +63,7 @@
 }
 .te-band__grid { display: grid; grid-template-columns: minmax(0,0.85fr) minmax(0,1.15fr); gap: 48px; align-items: start; }
 .te-band__heading { font: 400 32px/1.1 var(--font-display); margin: 0 0 14px; }
-.te-band__intro { font: 400 17px/1.6 var(--font-display); color: var(--color-text); max-width: 46ch; margin: 0; }
+.te-band__intro { font: 400 17px/1.6 var(--font-body); color: var(--color-text); max-width: 46ch; margin: 0; }
 
 .te-signup__row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
 .te-field { display: grid; gap: 6px; font: 700 13px/1 var(--font-body); letter-spacing: 0.04em; color: var(--te-faint); }
@@ -91,7 +91,7 @@
 .te-form-error { font: 400 14px var(--font-body); color: var(--color-accent); margin: 0 0 12px; }
 .te-confirm-inline {
     background: var(--te-card); border: 1px solid var(--te-border); border-radius: 5px;
-    padding: 18px 20px; font: 400 16px/1.5 var(--font-display); color: var(--color-text);
+    padding: 18px 20px; font: 400 16px/1.5 var(--font-body); color: var(--color-text);
 }
 
 /* Schedule -------------------------------------------------------------- */
@@ -117,7 +117,7 @@
 .te-event__titlerow { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
 .te-event__title { font: 400 24px/1.1 var(--font-display); margin: 0; }
 .te-event__meta { font: 400 14px/1.4 var(--font-body); color: var(--color-muted); margin: 0 0 8px; }
-.te-event__blurb { font: 400 17px/1.55 var(--font-display); color: var(--color-text); max-width: 52ch; margin: 0; }
+.te-event__blurb { font: 400 17px/1.55 var(--font-body); color: var(--color-text); max-width: 52ch; margin: 0; }
 
 .te-tag { font: 700 11.5px/1 var(--font-body); letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; border: 1px solid; }
 .te-tag--home { color: var(--color-accent); border-color: var(--te-tag-rust-border); }
@@ -126,7 +126,7 @@
 
 .te-empty { margin-top: 24px; }
 .te-empty__title { font: 400 26px/1.1 var(--font-display); margin: 0 0 10px; }
-.te-empty__text { font: 400 17px/1.6 var(--font-display); color: var(--color-muted); max-width: 42ch; margin: 0 0 16px; }
+.te-empty__text { font: 400 17px/1.6 var(--font-body); color: var(--color-muted); max-width: 42ch; margin: 0 0 16px; }
 .te-link { color: var(--color-accent); text-decoration: none; font: 400 15px var(--font-body); }
 .te-link:hover { color: var(--te-rust-hover); }
 
@@ -156,7 +156,7 @@
 .te-summary__blurb { font: italic 400 16px/1.55 var(--font-display); color: var(--color-muted); margin: 16px 0 0; }
 
 .te-book__formtitle { font: 400 28px/1.1 var(--font-display); margin: 0 0 8px; }
-.te-book__formintro { font: 400 16px/1.6 var(--font-display); color: var(--color-muted); max-width: 52ch; margin: 0 0 24px; }
+.te-book__formintro { font: 400 16px/1.6 var(--font-body); color: var(--color-muted); max-width: 52ch; margin: 0 0 24px; }
 .te-booking .te-field { margin-bottom: 18px; }
 .te-book__row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .te-booking select {
@@ -168,12 +168,12 @@
 .te-book__hint { font: 400 13px var(--font-body); color: var(--te-faint); }
 
 .te-book__full { background: var(--te-card); border: 1px solid var(--te-border); border-radius: 5px; padding: 32px; }
-.te-book__full p { font: 400 16px/1.6 var(--font-display); color: var(--color-muted); margin: 8px 0 20px; }
+.te-book__full p { font: 400 16px/1.6 var(--font-body); color: var(--color-muted); margin: 8px 0 20px; }
 
 .te-confirm { background: var(--te-card); border: 1px solid var(--te-border); border-radius: 5px; padding: 36px; }
 .te-confirm__check { width: 46px; height: 46px; border-radius: 999px; background: var(--color-accent); color: var(--color-text-light); display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 18px; }
 .te-confirm__title { font: 400 31px/1.1 var(--font-display); margin: 0 0 12px; }
-.te-confirm p { font: 400 17px/1.6 var(--font-display); color: var(--color-text); margin: 0 0 20px; }
+.te-confirm p { font: 400 17px/1.6 var(--font-body); color: var(--color-text); margin: 0 0 20px; }
 .te-confirm__actions { display: flex; gap: 12px; flex-wrap: wrap; }
 
 /* Popup modal (built by teaching.js) ------------------------------------ */
@@ -189,7 +189,7 @@
 .te-modal__close:hover { background: var(--color-surface); }
 .te-modal__check { width: 52px; height: 52px; border-radius: 999px; background: var(--color-accent); color: var(--color-text-light); display: flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 18px; }
 .te-modal__title { font: 400 31px/1.1 var(--font-display); margin: 0 0 12px; }
-.te-modal__text { font: 400 17px/1.6 var(--font-display); color: var(--color-text); margin: 0 0 18px; }
+.te-modal__text { font: 400 17px/1.6 var(--font-body); color: var(--color-text); margin: 0 0 18px; }
 .te-modal__email { font-family: var(--font-body); font-weight: 600; }
 .te-modal__chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 20px; }
 .te-chip { font: 400 13px var(--font-body); background: var(--te-chip-bg); border: 1px solid var(--te-chip-border); border-radius: 999px; padding: 5px 12px; }

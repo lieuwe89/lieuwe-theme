@@ -167,7 +167,7 @@ add_action( 'save_post', 'lieuwe_save_lead_meta_box' );
 function lieuwe_get_services_page_defaults(): array {
     return [
         'subtitle'  => 'Four things I’m occasionally asked to do',
-        'intro'     => 'Once in a while people ask whether I’m available for things outside of my day job at the archives. The honest answer is: sometimes, yes. Below are the four kinds of work I’m asked to do most often — what they tend to look like in practice, and how I usually approach them.' . "\n\n" . 'If any of this is useful to you, <a href="' . esc_url( home_url( '/contact/' ) ) . '">send me a note</a>. I try to reply within a week, and I’ll say so plainly if it isn’t the right fit.',
+        'intro'     => 'Once in a while people ask whether I’m available for things outside of my day job at the archives. The honest answer is: sometimes, yes. Below are the four kinds of work I’m asked to do most often: what they tend to look like in practice, and how I usually approach them.' . "\n\n" . 'If any of this is useful to you, <a href="' . esc_url( home_url( '/contact/' ) ) . '">send me a note</a>. I try to reply within a week, and I’ll say so plainly if it isn’t the right fit.',
         'coda_mark' => '',
         'coda'      => '',
         'services'  => [
@@ -175,7 +175,7 @@ function lieuwe_get_services_page_defaults(): array {
                 'number'    => 'I',
                 'tagline'   => '',
                 'title'     => 'Event moderator',
-                'body'      => 'I moderate conferences, panels, and symposia. Most of them sit in the worlds of heritage, archives, and craft, though I’ve ended up at adjacent events too — on data, regional history, and once a long evening on permaculture.' . "\n\n" . 'I prepare a lot and improvise happily. I read everything in advance, I sit with the speakers beforehand if there’s time, and I write a fresh set of questions rather than recycle the ones already in the programme. I work in Dutch and in English.' . "\n\n" . 'I’m happiest at events where something is actually at stake, however small; less so at the kind that exist mainly to be photographed.',
+                'body'      => 'I moderate conferences, panels, and symposia. Most of them sit in the worlds of heritage, archives, and craft, though I’ve ended up at adjacent events too: on data, regional history, and once a long evening on permaculture.' . "\n\n" . 'I prepare a lot and improvise happily. I read everything in advance, I sit with the speakers beforehand if there’s time, and I write a fresh set of questions rather than recycle the ones already in the programme. I work in Dutch and in English.' . "\n\n" . 'I’m happiest at events where something is actually at stake, however small; less so at the kind that exist mainly to be photographed.',
                 'pullquote' => '',
                 'caption'   => '',
                 'image_url' => '',
@@ -195,7 +195,7 @@ function lieuwe_get_services_page_defaults(): array {
                 'number'    => 'III',
                 'tagline'   => '',
                 'title'     => 'Educator',
-                'body'      => 'I teach traditional crafts — spoon carving, leatherwork, Japanese lacquerwork (urushi), and now and then sandalmaking. I teach at festivals like Spoonfest, Von Hand and Spoon Burn, and, when I have time, at smaller workshops I host myself.' . "\n\n" . 'My classes are practical and unhurried. Beginners are welcome, and so are people who’ve been at it longer than I have. For organisations or schools wanting something more tailored — a multi-day course, a series of evenings, a single deep day — I’m happy to design a curriculum from scratch. Something else you’d like a workshop in? Ask.' . "\n\n" . 'Finishing one thing well beats starting three you don’t know what to do with.',
+                'body'      => 'I teach traditional crafts: spoon carving, leatherwork, Japanese lacquerwork (urushi), and now and then sandalmaking. I teach at festivals like Spoonfest, Von Hand and Spoon Burn, and, when I have time, at smaller workshops I host myself.' . "\n\n" . 'My classes are practical and unhurried. Beginners are welcome, and so are people who’ve been at it longer than I have. For organisations or schools wanting something more tailored (a multi-day course, a series of evenings, a single deep day), I’m happy to design a curriculum from scratch. Something else you’d like a workshop in? Ask.' . "\n\n" . 'Finishing one thing well beats starting three you don’t know what to do with.',
                 'pullquote' => '',
                 'caption'   => '',
                 'image_url' => '',

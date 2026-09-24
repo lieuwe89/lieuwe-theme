@@ -2,7 +2,7 @@
 Theme Name: Lieuwe Jongsma Custom Theme
 Author: Lieuwe Jongsma
 Description: Custom portfolio theme for lieuwejongsma.nl — cinematic, editorial, warm.
-Version: 1.20.1
+Version: 1.21.0
 License: GNU General Public License v2 or later
 Text Domain: lieuwe-theme
 */
@@ -797,37 +797,6 @@ p + p {
     opacity: 0.65;
 }
 
-/* ==========================================================================
-   Homepage scroll-reveal
-   JS adds .home-reveal only when motion is allowed, so no-JS users always
-   see content. Mirrors the services-page reveal.
-   ========================================================================== */
-
-.home-reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition:
-        opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.home-reveal.is-visible {
-    opacity: 1;
-    transform: none;
-}
-
-/* Gentle stagger within each row */
-.home-strip__grid .home-reveal:nth-child(2) { transition-delay: 0.08s; }
-.home-strip__grid .home-reveal:nth-child(3) { transition-delay: 0.16s; }
-.home-strip__grid .home-reveal:nth-child(4) { transition-delay: 0.24s; }
-
-@media (prefers-reduced-motion: reduce) {
-    .home-reveal {
-        opacity: 1;
-        transform: none;
-        transition: none;
-    }
-}
 
 /* ==========================================================================
    Portfolio Archive
@@ -1484,27 +1453,6 @@ p + p {
     padding-block: var(--space-xl);
 }
 
-.services-page.has-service-reveal .service {
-    opacity: 0;
-    transform: translateY(28px);
-    transition:
-        opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.services-page.has-service-reveal .service:nth-child(odd) {
-    transform: translate(-32px, 28px);
-}
-
-.services-page.has-service-reveal .service:nth-child(even) {
-    transform: translate(32px, 28px);
-}
-
-.services-page.has-service-reveal .service.is-visible {
-    opacity: 1;
-    transform: translate(0, 0);
-}
-
 .service:not(:last-child)::before {
     content: "";
     position: absolute;
@@ -1661,15 +1609,6 @@ p + p {
         order: initial;
     }
 
-    .services-page.has-service-reveal .service:nth-child(odd),
-    .services-page.has-service-reveal .service:nth-child(even) {
-        transform: translate(0, 28px);
-    }
-
-    .services-page.has-service-reveal .service.is-visible {
-        transform: translate(0, 0);
-    }
-
     .service__num {
         font-size: 5rem;
     }
@@ -1694,16 +1633,6 @@ p + p {
 
     .service__pullquote {
         font-size: 1.2rem;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .services-page.has-service-reveal .service,
-    .services-page.has-service-reveal .service:nth-child(odd),
-    .services-page.has-service-reveal .service:nth-child(even) {
-        opacity: 1;
-        transform: none;
-        transition: none;
     }
 }
 

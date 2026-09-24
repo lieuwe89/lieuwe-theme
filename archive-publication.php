@@ -179,7 +179,7 @@ $eyebrow = ( $year_first && $year_last )
                     <div class="pub-row__type">
                         <span><?php echo esc_html( $type ); ?></span>
                         <span class="pub-row__pages" data-pages-fallback>
-                            <?php echo $pages ? esc_html( $pages . 'pp' ) : '—'; ?>
+                            <?php echo $pages ? esc_html( $pages . 'pp' ) : ''; ?>
                         </span>
                     </div>
                     <button
@@ -213,7 +213,7 @@ $eyebrow = ( $year_first && $year_last )
                         <?php endif; ?>
                         <dl class="pub-panel__meta">
                             <div><dt>Author</dt><dd><?php echo esc_html( $author ); ?></dd></div>
-                            <div><dt>Length</dt><dd><span data-pages-fallback><?php echo $pages ? esc_html( $pages . ' pages' ) : '—'; ?></span></dd></div>
+                            <div><dt>Length</dt><dd><span data-pages-fallback><?php echo $pages ? esc_html( $pages . ' pages' ) : ''; ?></span></dd></div>
                         </dl>
                         <div class="pub-panel__actions">
                             <?php if ( $has_pdf ) : ?>
@@ -222,7 +222,7 @@ $eyebrow = ( $year_first && $year_last )
                                     <a class="pub-btn" href="<?php echo esc_url( $pdf_url ); ?>" download>Download PDF</a>
                                 <?php endif; ?>
                             <?php else : ?>
-                                <button type="button" class="pub-btn pub-btn--disabled" disabled>Open in reader — soon</button>
+                                <button type="button" class="pub-btn pub-btn--disabled" disabled>Reader coming soon</button>
                             <?php endif; ?>
                             <button type="button" class="pub-btn" data-action="copy-permalink">Copy permalink</button>
                         </div>
