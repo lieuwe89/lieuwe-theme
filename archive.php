@@ -12,9 +12,11 @@ get_header(); ?>
             <h1 class="news-archive__title">
                 <?php
                 if ( is_category() ) {
-                    single_cat_title();
+                    // Security: Escape title to prevent Stored XSS
+                    echo esc_html( single_cat_title( '', false ) );
                 } elseif ( is_tag() ) {
-                    single_tag_title();
+                    // Security: Escape title to prevent Stored XSS
+                    echo esc_html( single_tag_title( '', false ) );
                 } else {
                     echo 'News';
                 }
