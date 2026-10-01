@@ -8,7 +8,7 @@ get_header(); ?>
 <main id="primary" class="site-main section-spacing bg-light">
     <div class="container">
         <header class="page-header">
-            <h1 class="page-title"><?php single_post_title(); ?></h1>
+            <h1 class="page-title"><?php echo esc_html( single_post_title( '', false ) ); ?></h1>
         </header>
 
         <?php if ( have_posts() ) : ?>
