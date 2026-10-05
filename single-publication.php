@@ -52,7 +52,7 @@ while ( have_posts() ) :
 
         <article class="pub-single__article pub-container">
             <p class="pub-single__eyebrow"><?php echo esc_html( strtoupper( trim( $type . ' · ' . $year, ' ·' ) ) ); ?></p>
-            <h1 class="pub-single__title"><?php the_title(); ?></h1>
+            <h1 class="pub-single__title"><?php echo esc_html( get_the_title() ); ?></h1>
             <?php if ( $subtitle ) : ?>
                 <p class="pub-single__subtitle"><?php echo esc_html( $subtitle ); ?></p>
             <?php endif; ?>
