@@ -150,7 +150,7 @@ $privacy_note = lieuwe_teaching_page_privacy_note();
                         </div>
                         <div class="te-event__body">
                             <div class="te-event__titlerow">
-                                <h3 class="te-event__title"><?php the_title(); ?></h3>
+                                <h3 class="te-event__title"><?php echo esc_html( get_the_title() ); ?></h3>
                                 <?php if ( $sold_out ) : ?>
                                     <span class="te-tag te-tag--full">Fully booked</span>
                                 <?php elseif ( $is_festival ) : ?>
