@@ -170,7 +170,7 @@ $eyebrow = ( $year_first && $year_last )
                     data-search="<?php echo esc_attr( $search_blob ); ?>"
                     style="--pub-paper: <?php echo esc_attr( $paper ); ?>; --pub-accent-ink: <?php echo esc_attr( $accent ); ?>;">
                     <div class="pub-row__main">
-                        <h3 class="pub-row__title"><?php the_title(); ?></h3>
+                        <h3 class="pub-row__title"><?php echo esc_html( get_the_title() ); ?></h3>
                         <?php if ( $subtitle ) : ?>
                             <p class="pub-row__subtitle"><?php echo esc_html( $subtitle ); ?></p>
                         <?php endif; ?>

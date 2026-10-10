@@ -22,7 +22,7 @@ get_header(); ?>
                 <time class="single-post__date" datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>">
                     <?php echo esc_html( get_the_date( 'j F Y' ) ); ?>
                 </time>
-                <h1 class="single-post__title"><?php the_title(); ?></h1>
+                <h1 class="single-post__title"><?php echo esc_html( get_the_title() ); ?></h1>
             </header>
 
             <div class="entry-content">
