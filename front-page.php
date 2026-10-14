@@ -231,7 +231,7 @@ if ( $remaining > 0 ) {
                             <?php endif; ?>
                         <?php endif; ?>
                     </span>
-                    <span class="strip-card__title"><?php the_title(); ?></span>
+                    <span class="strip-card__title"><?php echo esc_html( get_the_title() ); ?></span>
                 </a>
             <?php endforeach; ?>
             <?php wp_reset_postdata(); ?>

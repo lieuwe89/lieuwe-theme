@@ -37,7 +37,7 @@ get_header(); ?>
                                 <?php echo esc_html( get_the_date( 'j F' ) ); ?>
                             </time>
                             <div class="news-entry__body">
-                                <h3><a href="<?php the_permalink(); ?>" class="news-entry__title"><?php the_title(); ?></a></h3>
+                                <h3><a href="<?php the_permalink(); ?>" class="news-entry__title"><?php echo esc_html( get_the_title() ); ?></a></h3>
                                 <p class="news-entry__dek"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 24, '…' ) ); ?></p>
                             </div>
                             <?php if ( has_post_thumbnail() ) : ?>

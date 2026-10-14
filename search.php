@@ -26,7 +26,7 @@ get_header(); ?>
                             </time>
                             <div class="news-list__body">
                                 <a href="<?php the_permalink(); ?>" class="news-list__title">
-                                    <?php the_title(); ?>
+                                    <?php echo esc_html( get_the_title() ); ?>
                                 </a>
                                 <p class="news-list__excerpt"><?php the_excerpt(); ?></p>
                             </div>
