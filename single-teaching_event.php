@@ -44,7 +44,7 @@ while ( have_posts() ) :
             <a class="te-book__back" href="<?php echo esc_url( $archive_url ); ?>">All classes</a>
             <header class="te-book__head">
                 <p class="te-eyebrow">Book a spot</p>
-                <h1 class="te-book__title"><?php the_title(); ?></h1>
+                <h1 class="te-book__title"><?php echo esc_html( get_the_title() ); ?></h1>
             </header>
 
             <div class="te-book__grid">
@@ -84,7 +84,7 @@ while ( have_posts() ) :
                         <div class="te-confirm" role="status">
                             <div class="te-confirm__check" aria-hidden="true">✓</div>
                             <h2 class="te-confirm__title">Spot requested.</h2>
-                            <p>Thanks, I've noted your request for <strong><?php the_title(); ?></strong>. I hold spots by hand and will be in touch by email to confirm.</p>
+                            <p>Thanks, I've noted your request for <strong><?php echo esc_html( get_the_title() ); ?></strong>. I hold spots by hand and will be in touch by email to confirm.</p>
                             <div class="te-confirm__actions">
                                 <a class="te-btn te-btn--primary" href="<?php echo esc_url( $archive_url ); ?>">Back to all classes</a>
                                 <a class="te-btn" href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">Get in touch</a>
