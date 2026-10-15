@@ -16,7 +16,7 @@ get_header(); ?>
                 <?php while ( have_posts() ) : the_post(); ?>
                     <li class="post-item">
                         <span class="post-item-date"><?php echo esc_html( get_the_date() ); ?></span>
-                        <h2 class="post-item-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+                        <h2 class="post-item-title"><a href="<?php the_permalink(); ?>"><?php echo esc_html( get_the_title() ); ?></a></h2>
                         <div class="post-item-excerpt text-muted"><?php the_excerpt(); ?></div>
                     </li>
                 <?php endwhile; ?>
